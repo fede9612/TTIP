@@ -4,7 +4,7 @@ Este repositorio abarca una aplicación para presentar como trabajo final para l
 
 ## Tema
 #### Directorio de pymes con control de stock.
-En esta directorio podrás buscar y obtener información según el rubro de pymes que selecciones. Además las pequeñas empresas podrán llevar un manejo de su stock. 
+En este directorio podrás buscar y obtener información según el rubro de pymes que selecciones. Además las pequeñas empresas podrán llevar un manejo de su stock. 
 
 ## Tecnologías
 ### Listado de tecnologías utilizadas en este proyecto.
