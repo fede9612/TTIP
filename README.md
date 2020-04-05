@@ -9,5 +9,7 @@ En este directorio podrás buscar y obtener información según el rubro de pyme
 ## Tecnologías
 ### Listado de tecnologías utilizadas en este proyecto.
 * React
-* Tailwind
 * Mongodb
+
+### Listado de frameworks utilizadas en este proyecto.
+* Tailwind
