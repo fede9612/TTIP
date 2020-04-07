@@ -1,0 +1,35 @@
+{
+  "name": "TTIP",
+  "version": "1.0.0",
+  "description": "Trabajo Final de la carrera Tecnicatura Universitaria en programación Informática",
+  "main": "app.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fede9612/TTIP.git"
+  },
+  "keywords": [
+    "js",
+    "tutorial",
+    "node"
+  ],
+  "author": "fede9612",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/fede9612/TTIP/issues"
+  },
+  "homepage": "https://github.com/fede9612/TTIP/blob/master/README.md",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "mongodb": "^3.2.3",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "jest": "^24.7.1"
+  }
+}
