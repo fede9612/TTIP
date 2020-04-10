@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+require('./src/producto');
 
 mongoose.set("useNewUrlParser", true);
 mongoose.set("useUnifiedTopology", true);
