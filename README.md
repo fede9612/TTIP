@@ -13,3 +13,4 @@ En este directorio podrás buscar y obtener información según el rubro de pyme
 
 ### Listado de frameworks utilizadas en este proyecto.
 * Tailwind
+* Mongoose
