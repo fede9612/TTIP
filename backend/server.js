@@ -25,4 +25,12 @@ app.post("/producto", (req, res, next)=>{
     })
 })
 
+app.get("/productos", (req, res, next)=>{
+    //const ProductoModel = mongoose.model('producto');
+    producto.find( function (err, productos) {
+        if (err) return next(err);
+        res.json(productos);
+    })
+})
+
 app.listen(8080, ()=> console.log("Server iniciado"));
