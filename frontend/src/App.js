@@ -13,6 +13,12 @@ class App extends Component {
         nombre: '',
         precio: 0,
         cantidad: 0
+      },
+      editProductoData: {
+        id: '',
+        nombre: '',
+        precio: 0,
+        cantidad: 0
       }
     }
   }
