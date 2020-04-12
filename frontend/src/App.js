@@ -68,8 +68,8 @@ render(){
 
       <Button color="primary" onClick={this.toggleNuevoProductoModel.bind(this)}>Agregar Producto</Button>
       <Modal isOpen={this.state.nuevoProductoModal} toggle={this.toggleNuevoProductoModel.bind(this)}>
-        <ModalHeader toggle={this.toggleNuevoProductoModel.bind(this)}>Agregar Producto</ModalHeader>
-        <ModalBody>
+        <ModalHeader className="bg-indigo-500" toggle={this.toggleNuevoProductoModel.bind(this)}>Agregar Producto</ModalHeader>
+        <ModalBody className="bg-indigo-500">
           <FormGroup>
             <Label for="Nombre">Nombre: </Label>
             <Input id="nombre" value={this.state.productoData.nombre} onChange={(event) =>  {
@@ -95,9 +95,9 @@ render(){
             }}/>
           </FormGroup>
         </ModalBody>
-        <ModalFooter>
-          <Button color="primary" onClick={this.agregarProducto.bind(this)}>Agregar</Button>{' '}
-          <Button color="secondary" onClick={this.toggleNuevoProductoModel.bind(this)}>Cancel</Button>
+        <ModalFooter className="bg-indigo-500">
+          <button className="bg-blue-700 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded-full" onClick={this.agregarProducto.bind(this)}>Agregar</button>
+          <button className="bg-gray-700 hover:bg-black text-white font-bold py-2 px-4 rounded-full" onClick={this.toggleNuevoProductoModel.bind(this)}>Cancel</button>
         </ModalFooter>
       </Modal>
 
