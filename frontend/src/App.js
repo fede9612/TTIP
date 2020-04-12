@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import './styles/app.css';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Input, FormGroup, Label } from 'reactstrap';
 
 class App extends Component {
   constructor(props){
     super(props)
     this.state = {
-      productos: []
+      productos: [],
+      nuevoProductoModal: false,
+      productoData: {
+        nombre: '',
+        precio: 0,
+        cantidad: 0
+      }
     }
   }
 
@@ -14,9 +21,26 @@ componentWillMount() {
     axios.get('http://localhost:8080/productos')
         .then((res) => {
           this.setState({productos : res.data})
-        })
+        })     
+}
 
-        
+toggleNuevoProductoModel(){
+  this.setState({
+    nuevoProductoModal: ! this.state.nuevoProductoModal
+  });
+}
+
+agregarProducto() {
+  axios.post('http://localhost:8080/producto', this.state.productoData).then((res) => {
+    let { productos } = this.state
+    productos.push(res.data);
+    this.setState({ productos, nuevoProductoModal: false,  
+      productoData: {
+        nombre: '',
+        precio: 0,
+        cantidad: 0
+      } });
+  });
 }
 
 render(){ 
@@ -40,7 +64,43 @@ render(){
   });
 
   return (
-    <div className="container mx-auto">
+    <div>
+
+      <Button color="primary" onClick={this.toggleNuevoProductoModel.bind(this)}>Agregar Producto</Button>
+      <Modal isOpen={this.state.nuevoProductoModal} toggle={this.toggleNuevoProductoModel.bind(this)}>
+        <ModalHeader toggle={this.toggleNuevoProductoModel.bind(this)}>Agregar Producto</ModalHeader>
+        <ModalBody>
+          <FormGroup>
+            <Label for="Nombre">Nombre: </Label>
+            <Input id="nombre" value={this.state.productoData.nombre} onChange={(event) =>  {
+              let { productoData } = this.state;
+              productoData.nombre = event.target.value;
+              this.setState({productoData})
+            }}/>
+          </FormGroup>
+          <FormGroup>
+            <Label for="Precio">Precio: </Label>
+            <Input id="precio" value={this.state.productoData.precio} onChange={(event) =>  {
+              let { productoData } = this.state;
+              productoData.precio = event.target.value;
+              this.setState({productoData})
+            }}/>
+          </FormGroup>
+          <FormGroup>
+            <Label for="Cantidad">Cantidad: </Label>
+            <Input id="cantidad" value={this.state.productoData.cantidad} onChange={(event) =>  {
+              let { productoData } = this.state;
+              productoData.cantidad = event.target.value;
+              this.setState({productoData})
+            }}/>
+          </FormGroup>
+        </ModalBody>
+        <ModalFooter>
+          <Button color="primary" onClick={this.agregarProducto.bind(this)}>Agregar</Button>{' '}
+          <Button color="secondary" onClick={this.toggleNuevoProductoModel.bind(this)}>Cancel</Button>
+        </ModalFooter>
+      </Modal>
+
       <table className="table">
         <thead>
           <tr>
@@ -53,7 +113,6 @@ render(){
           
         <tbody>
           {listProductos}
-          {console.log(this.state.productos)}
         </tbody>
       </table>
     </div>
