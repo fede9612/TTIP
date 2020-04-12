@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require("body-parser");
+var cors = require('cors');
 const mongoose = require('mongoose');
 const producto = require('./src/producto');
 
@@ -11,7 +12,7 @@ mongoose.connect("mongodb://localhost/anydirec",()=>{
 });
 
 const app = express();
-
+app.use(cors());
 app.use(bodyParser.json());
 app.get("/", (req, res)=>{
     res.send("Hola mundo");
@@ -22,6 +23,14 @@ app.post("/producto", (req, res, next)=>{
     producto.create(req.body, function (err, post) {
         if (err) return next(err);
         res.json(post);
+    })
+})
+
+app.get("/productos", (req, res, next)=>{
+    //const ProductoModel = mongoose.model('producto');
+    producto.find( function (err, productos) {
+        if (err) return next(err);
+        res.json(productos);
     })
 })
 
