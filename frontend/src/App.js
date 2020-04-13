@@ -86,45 +86,49 @@ editarProductoModalData(producto){
 render(){ 
   let listProductos = this.state.productos.map((prod) => {
     return(
-      <tr>
-        <td>{prod._id}</td>
-        <td>{prod.nombre}</td>
-        <td>{prod.precio}</td>
-        <td>{prod.cantidad}</td>
-        <td>
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-2"
-                  onClick={this.editarProductoModalData.bind(this, prod)}
-          >
-            Editar
-          </button>
-          <button className="bg-red-700 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
-            Eliminar
-          </button>
-        </td>
-      </tr>
+      <button className="w-full sm:w-1/2 md:w-1/3 lg:w-1/3 xl:w-1/4 mb-2 mr-2 text-left bg-gray-100 hover:bg-gray-300" 
+      onClick={this.editarProductoModalData.bind(this, prod)}>
+      <div>
+        <div>
+      <div className="border-r border-b border-l border-t border-gray-700 lg:border-t lg:border-gray-700 rounded-b lg:rounded-b-none lg:rounded-r p-2 flex flex-col justify-between leading-normal">
+        <div>
+          <p className="text-sm text-gray-600 flex items-center">
+            <svg className="fill-current text-gray-500 w-3 h-3 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+              <path d="M4 8V6a6 6 0 1 1 12 0v2h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-8c0-1.1.9-2 2-2h1zm5 6.73V17h2v-2.27a2 2 0 1 0-2 0zM7 6v2h6V6a3 3 0 0 0-6 0z" />
+            </svg>
+            Producto
+          </p>
+          <div className="text-gray-900 font-bold text-xl mb-2">{prod.nombre}</div>
+        </div>
+          <spam className="text-gray-700 text-base">Precio: <spam>{prod.precio}</spam></spam>
+          <spam className="text-gray-700 text-base">Cantidad: <spam>{prod.cantidad}</spam></spam>
+        <div className="flex items-center">
+          
+          <div className="text-xs">
+            <spam className="text-gray-900 leading-none">Empresa</spam>
+            <br></br>
+            <spam className="text-gray-600">Nombre empresa</spam>
+          </div>
+        </div>
+      </div>
+    </div>
+      
+      </div>
+      </button>
     )
   });
 
   return (
-    <div>
-
+    <div className="bg-indigo-200">
+      
       {this.renderNuevoProductoModal()}
       {this.renderEditarProductoModal()}
-
-      <table className="table">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Nombre</th>
-            <th>Precio</th>
-            <th>Cantidad</th>
-          </tr>
-        </thead>
+      <Button color="primary" onClick={this.toggleNuevoProductoModel.bind(this)}>Agregar Producto</Button>
+      <div className="flex flex-wrap justify-center">
           
-        <tbody>
-          {listProductos}
-        </tbody>
-      </table>
+            {listProductos}
+            
+      </div>
     </div>
        
     );
@@ -133,7 +137,6 @@ render(){
   renderNuevoProductoModal() {
     return(
       <div>
-      <Button color="primary" onClick={this.toggleNuevoProductoModel.bind(this)}>Agregar Producto</Button>
         <Modal isOpen={this.state.nuevoProductoModal} toggle={this.toggleNuevoProductoModel.bind(this)}>
           <ModalHeader className="bg-indigo-500" toggle={this.toggleNuevoProductoModel.bind(this)}>Agregar Producto</ModalHeader>
           <ModalBody className="bg-indigo-500">
