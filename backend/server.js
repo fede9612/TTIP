@@ -19,15 +19,20 @@ app.get("/", (req, res)=>{
 })
 
 app.post("/producto", (req, res, next)=>{
-    //const ProductoModel = mongoose.model('producto');
     producto.create(req.body, function (err, post) {
         if (err) return next(err);
         res.json(post);
     })
 })
 
+app.put("/producto/:id", (req, res, next)=>{
+    producto.findByIdAndUpdate(req.params.id, req.body, function (err, producto) {
+        if (err) return next(err);
+        res.json(producto);
+    })
+})
+
 app.get("/productos", (req, res, next)=>{
-    //const ProductoModel = mongoose.model('producto');
     producto.find( function (err, productos) {
         if (err) return next(err);
         res.json(productos);
