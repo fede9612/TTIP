@@ -32,6 +32,18 @@ app.put("/producto/:id", (req, res, next)=>{
     })
 })
 
+app.get("/producto/:nombre", (req, res, next)=>{
+    nom = req.params.nombre;
+    producto.find({"nombre":{ $regex: '(?i).*' + nom + '.*(?-i)' }},function(err, producto) {
+        if(err){
+            return next(err)
+        }
+        else{
+            res.json(producto)
+        }
+    })
+})
+
 app.get("/productos", (req, res, next)=>{
     producto.find( function (err, productos) {
         if (err) return next(err);
