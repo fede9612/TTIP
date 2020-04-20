@@ -11,13 +11,26 @@ class BuscarProductos extends Component{
         super(props);
 
         this.state = {
-            productos: [],
+            productos: [], //Estos son los productos que trae para el list del input
+            productosBuscado: [],
             nombreProducto: ''
         }
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleSubmit(event){
+        this.buscarProductoSubmit()
+        event.preventDefault();
+    }
+
+    buscarProductoSubmit(){
+        axios.get('http://localhost:8080/producto/' + this.state.nombreProducto)
+        .then((res) => {
+          this.setState({productosBuscado : res.data, nombreProducto:''})
+        })
     }
 
     buscar(nombreDelProducto){
-        console.log(nombreDelProducto);
         this.setState({
             nombreProducto: nombreDelProducto
         })
@@ -39,19 +52,35 @@ class BuscarProductos extends Component{
             );
         });
 
+        let mostrarProductosBuscado = this.state.productosBuscado.map((prod) => {
+            return(
+                <div>
+                    <p>{prod.nombre}</p>
+                </div>
+            );
+        });
+
         return(
-            <body className="color-fondo">
-            <div className="container">
-                <form>
-                <p>Buscar</p>
-                <input list="productos" autoComplete="off"
-                onChange={(ev)=>{this.buscar(ev.target.value)}}
+            
+            <form onSubmit={this.handleSubmit}>
+                <div className="w-full max-w-xs flex items-center border-b border-b-2 border-teal-500 py-2">
+                <input 
+                    className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" 
+                    type="text" placeholder="Buscar productos"
+                    list="productos" autoComplete="off"
+                    value={this.state.nombreProducto}
+                    onChange={(ev)=>{this.buscar(ev.target.value)}}
                 />   
                 {mostrarProductosList}
-                <button type="submit">Buscar</button>
-                </form>
-            </div>
-            </body>
+                <button 
+                    className="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 rounded"
+                    type="submit">
+                    Buscar
+                </button>
+                </div>
+                {mostrarProductosBuscado}
+            </form>
+            
         );
     }
 }
