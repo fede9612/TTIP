@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Input } from 'reactstrap';
+import '../index.css'
+import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios';
 
 
@@ -26,25 +28,30 @@ class BuscarProductos extends Component{
     }
 
     render(){
-        let mostrarProductos = this.state.productos.map((prod) => {
+        let mostrarProductosList = this.state.productos.map((prod) => {
             return(
                 <div>
-                    <p>{prod.nombre}</p>
+                    <datalist id="productos">
+                        <option value={prod.nombre} />
+                        )}
+                    </datalist>
                 </div>
             );
         });
 
         return(
-            <div>
+            <body className="color-fondo">
+            <div className="container">
                 <form>
                 <p>Buscar</p>
-                <input 
+                <input list="productos" autoComplete="off"
                 onChange={(ev)=>{this.buscar(ev.target.value)}}
-                />
+                />   
+                {mostrarProductosList}
                 <button type="submit">Buscar</button>
                 </form>
-                {mostrarProductos}
             </div>
+            </body>
         );
     }
 }
