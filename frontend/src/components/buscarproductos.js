@@ -26,7 +26,7 @@ class BuscarProductos extends Component{
     buscarProductoSubmit(){
         axios.get('http://localhost:8080/producto/' + this.state.nombreProducto)
         .then((res) => {
-          this.setState({productosBuscado : res.data, nombreProducto:''})
+          this.setState({productosBuscado : res.data, nombreProducto:'', productos: []})
         })
     }
 
@@ -44,10 +44,7 @@ class BuscarProductos extends Component{
         let mostrarProductosList = this.state.productos.map((prod) => {
             return(
                 <div>
-                    <datalist id="productos">
-                        <option value={prod.nombre} />
-                        )}
-                    </datalist>
+                    <option value={prod.nombre} />
                 </div>
             );
         });
@@ -91,8 +88,10 @@ class BuscarProductos extends Component{
                     list="productos" autoComplete="off"
                     value={this.state.nombreProducto}
                     onChange={(ev)=>{this.buscar(ev.target.value)}}
-                />   
-                {mostrarProductosList}
+                /> 
+                <datalist id="productos">
+                    {mostrarProductosList}
+                </datalist>  
                 <button 
                     className="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 rounded"
                     type="submit">
