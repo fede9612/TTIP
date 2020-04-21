@@ -54,16 +54,37 @@ class BuscarProductos extends Component{
 
         let mostrarProductosBuscado = this.state.productosBuscado.map((prod) => {
             return(
-                <div>
-                    <p>{prod.nombre}</p>
+                <div className="mt-2">
+                <div className="border-r border-b border-l border-t border-gray-700 lg:border-t lg:border-gray-700 rounded-b lg:rounded-b-none lg:rounded-r p-2 flex flex-col justify-between leading-normal">
+                  <div>
+                    <p className="text-sm text-gray-600 flex items-center">
+                      <svg className="fill-current text-gray-500 w-3 h-3 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                        <path d="M4 8V6a6 6 0 1 1 12 0v2h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-8c0-1.1.9-2 2-2h1zm5 6.73V17h2v-2.27a2 2 0 1 0-2 0zM7 6v2h6V6a3 3 0 0 0-6 0z" />
+                      </svg>
+                      Producto
+                    </p>
+                    <div className="text-gray-900 font-bold text-xl mb-2">{prod.nombre}</div>
+                  </div>
+                    <spam className="text-gray-700 text-base">Precio: <spam>{prod.precio}</spam></spam>
+                    <spam className="text-gray-700 text-base">Cantidad: <spam>{prod.cantidad}</spam></spam>
+                  <div className="flex items-center">
+                    
+                    <div className="text-xs">
+                      <spam className="text-gray-900 leading-none">Empresa</spam>
+                      <br></br>
+                      <spam className="text-gray-600">Nombre empresa</spam>
+                    </div>
+                  </div>
                 </div>
+              </div>
             );
         });
 
         return(
-            
+            <div>
+            <div className="flex flex-wrap justify-center">
             <form onSubmit={this.handleSubmit}>
-                <div className="w-full max-w-xs flex items-center border-b border-b-2 border-teal-500 py-2">
+                <div className="items-center w-full max-w-xs flex items-center border-b border-b-2 border-teal-500 py-2">
                 <input 
                     className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" 
                     type="text" placeholder="Buscar productos"
@@ -78,9 +99,12 @@ class BuscarProductos extends Component{
                     Buscar
                 </button>
                 </div>
-                {mostrarProductosBuscado}
             </form>
-            
+            </div>
+            <div className="ancho-cuerpo">    
+                {mostrarProductosBuscado}
+            </div>
+            </div>
         );
     }
 }
