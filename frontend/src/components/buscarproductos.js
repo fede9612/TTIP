@@ -3,6 +3,7 @@ import { Input } from 'reactstrap';
 import '../index.css'
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios';
+import MapaTools from '../components/mapaTools'
 
 
 class BuscarProductos extends Component{
@@ -40,6 +41,11 @@ class BuscarProductos extends Component{
         })     
     }
 
+    calculateDistance(){
+      let mapa = new MapaTools()
+      return mapa.calculateDistance();
+    }
+
     render(){
         let mostrarProductosList = this.state.productos.map((prod) => {
             return(
@@ -67,9 +73,9 @@ class BuscarProductos extends Component{
                   <div className="flex items-center">
                     
                     <div className="text-xs">
-                      <spam className="text-gray-900 leading-none">Empresa</spam>
-                      <br></br>
                       <spam className="text-gray-600">Nombre empresa</spam>
+                      <br></br>
+                      <spam className="text-green-700">Distancia: {this.calculateDistance()} KM</spam>
                     </div>
                   </div>
                 </div>
