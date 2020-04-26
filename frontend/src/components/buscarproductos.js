@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { Input } from 'reactstrap';
 import '../index.css'
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios';
 import MapaTools from '../components/mapaTools'
-
 
 class BuscarProductos extends Component{
 
@@ -14,9 +12,18 @@ class BuscarProductos extends Component{
         this.state = {
             productos: [], //Estos son los productos que trae para el list del input
             productosBuscado: [],
-            nombreProducto: ''
+            nombreProducto: '',
+            latitude: null,
+            longitude: null,
+            userAddres: null
         }
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.getLocation = this.getLocation.bind(this);
+        this.getCordinates = this.getCordinates.bind(this);
+    }
+
+    componentWillMount(){
+      this.getLocation();
     }
 
     handleSubmit(event){
@@ -43,7 +50,22 @@ class BuscarProductos extends Component{
 
     calculateDistance(){
       let mapa = new MapaTools()
-      return mapa.calculateDistance();
+      return mapa.calculateDistance(this.state.latitude, this.state.longitude);
+    }
+
+    getLocation(){
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(this.getCordinates);
+      } else {
+        alert("Geolocation is not supported by this browser.");
+      }
+    }
+
+    getCordinates(position){
+      this.setState({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude
+      })
     }
 
     render(){

@@ -1,11 +1,9 @@
 class MapTools {
 
 
-     calculateDistance() {
+     calculateDistance(lat1, lon1) {
 
         // http://www.movable-type.co.uk/scripts/latlong.html
-        const lat1 = -34.161386;
-        const lon1 = -59.783477;
       
         const lat2 = -34.162473;
         const lon2 = -59.783724;
