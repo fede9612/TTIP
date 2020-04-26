@@ -5,7 +5,6 @@ var cors = require('cors');
 const mongoose = require('mongoose');
 const producto = require('./src/models/producto');
 const local = require('./src/models/local');
-const localController = require('./src/controller/local.js')
 
 mongoose.set("useNewUrlParser", true);
 mongoose.set("useUnifiedTopology", true);
@@ -19,9 +18,6 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 app.use(require('./src/routes'));
-app.get("/", (req, res)=>{
-    res.send("Hola mundo");
-})
 
 app.post("/producto", (req, res, next)=>{
     producto.create(req.body, function (err, post) {
@@ -62,7 +58,5 @@ app.get("/productos", (req, res, next)=>{
         res.json(productos);
     })
 })
-
-router.route('/productoos').get(localController.getPorductosLocal);
 
 app.listen(8080, ()=> console.log("Server iniciado"));
