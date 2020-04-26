@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 var cors = require('cors');
 const mongoose = require('mongoose');
 const producto = require('./src/producto');
+const local = require('./src/local');
 
 mongoose.set("useNewUrlParser", true);
 mongoose.set("useUnifiedTopology", true);
@@ -20,6 +21,13 @@ app.get("/", (req, res)=>{
 
 app.post("/producto", (req, res, next)=>{
     producto.create(req.body, function (err, post) {
+        if (err) return next(err);
+        res.json(post);
+    })
+})
+
+app.post("/local", (req, res, next)=>{
+    local.create(req.body, function (err, post) {
         if (err) return next(err);
         res.json(post);
     })
