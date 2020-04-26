@@ -1,9 +1,11 @@
 const express = require('express');
+var router = require('express-promise-router')();
 const bodyParser = require("body-parser");
 var cors = require('cors');
 const mongoose = require('mongoose');
-const producto = require('./src/producto');
-const local = require('./src/local');
+const producto = require('./src/models/producto');
+const local = require('./src/models/local');
+const localController = require('./src/controller/local.js')
 
 mongoose.set("useNewUrlParser", true);
 mongoose.set("useUnifiedTopology", true);
@@ -13,8 +15,10 @@ mongoose.connect("mongodb://localhost/anydirec",()=>{
 });
 
 const app = express();
+
 app.use(cors());
 app.use(bodyParser.json());
+app.use(require('./src/routes'));
 app.get("/", (req, res)=>{
     res.send("Hola mundo");
 })
@@ -31,7 +35,7 @@ app.post("/local", (req, res, next)=>{
         if (err) return next(err);
         res.json(post);
     })
-})
+}) 
 
 app.put("/producto/:id", (req, res, next)=>{
     producto.findByIdAndUpdate(req.params.id, req.body, function (err, producto) {
@@ -58,5 +62,7 @@ app.get("/productos", (req, res, next)=>{
         res.json(productos);
     })
 })
+
+router.route('/productoos').get(localController.getPorductosLocal);
 
 app.listen(8080, ()=> console.log("Server iniciado"));
