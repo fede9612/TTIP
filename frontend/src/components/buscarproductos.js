@@ -15,7 +15,9 @@ class BuscarProductos extends Component{
             nombreProducto: '',
             latitude: null,
             longitude: null,
-            userAddres: null
+            userAddres: null,
+            local: null,
+            locales: []
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.getLocation = this.getLocation.bind(this);
@@ -27,15 +29,15 @@ class BuscarProductos extends Component{
     }
 
     handleSubmit(event){
-        this.buscarProductoSubmit()
-        event.preventDefault();
+      event.preventDefault();
+      this.buscarProductoSubmit();
     }
 
-    buscarProductoSubmit(){
+   buscarProductoSubmit(){
         axios.get('http://localhost:8080/producto/' + this.state.nombreProducto)
         .then((res) => {
           this.setState({productosBuscado : res.data, nombreProducto:'', productos: []})
-        })
+        });
     }
 
     buscar(nombreDelProducto){
@@ -48,9 +50,9 @@ class BuscarProductos extends Component{
         })     
     }
 
-    calculateDistance(){
+    calculateDistance(latLocal, longLocal){  
       let mapa = new MapaTools()
-      return mapa.calculateDistance(this.state.latitude, this.state.longitude);
+      return mapa.calculateDistance(this.state.latitude, this.state.longitude, latLocal, longLocal);
     }
 
     getLocation(){
@@ -76,7 +78,7 @@ class BuscarProductos extends Component{
                 </div>
             );
         });
-
+        
         let mostrarProductosBuscado = this.state.productosBuscado.map((prod) => {
             return(
                 <div className="mt-2">
@@ -97,7 +99,8 @@ class BuscarProductos extends Component{
                     <div className="text-xs">
                       <spam className="text-gray-600">Nombre empresa</spam>
                       <br></br>
-                      <spam className="text-green-700">Distancia: {this.calculateDistance()} KM</spam>
+                      
+                      <spam className="text-green-700">Distancia: {this.calculateDistance(prod.local.latitud, prod.local.longitud)} KM</spam>
                     </div>
                   </div>
                 </div>

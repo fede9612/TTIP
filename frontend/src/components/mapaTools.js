@@ -1,12 +1,9 @@
 class MapTools {
 
 
-     calculateDistance(lat1, lon1) {
+     calculateDistance(lat1, lon1, lat2, lon2) {
 
         // http://www.movable-type.co.uk/scripts/latlong.html
-      
-        const lat2 = -34.162473;
-        const lon2 = -59.783724;
       
         const R = 6371e3; // earth radius in meters
         const φ1 = lat1 * (Math.PI / 180);
