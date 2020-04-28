@@ -22,6 +22,7 @@ class BuscarProductos extends Component{
         this.handleSubmit = this.handleSubmit.bind(this);
         this.getLocation = this.getLocation.bind(this);
         this.getCordinates = this.getCordinates.bind(this);
+        this.calculateDistance = this.calculateDistance.bind(this);
     }
 
     componentWillMount(){
@@ -70,6 +71,18 @@ class BuscarProductos extends Component{
       })
     }
 
+    listaOrdenadaDeProductos(){
+      let self = this;
+      let listOrdenada = this.state.productosBuscado.sort(function(a,b){
+        if(self.calculateDistance(a.local.latitud, a.local.longitud) < self.calculateDistance(b.local.latitud, b.local.longitud)){
+          return a - b;
+        }else{
+          return b - a;
+        }
+      });
+      return listOrdenada;
+    }
+
     render(){
         let mostrarProductosList = this.state.productos.map((prod) => {
             return(
@@ -78,8 +91,8 @@ class BuscarProductos extends Component{
                 </div>
             );
         });
-        
-        let mostrarProductosBuscado = this.state.productosBuscado.map((prod) => {
+       
+        let mostrarProductosBuscado = this.listaOrdenadaDeProductos().map((prod) => {
             return(
                 <div className="mt-2">
                 <div className="border-r border-b border-l border-t border-gray-700 lg:border-t lg:border-gray-700 rounded-b lg:rounded-b-none lg:rounded-r p-2 flex flex-col justify-between leading-normal">
