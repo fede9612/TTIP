@@ -1,4 +1,3 @@
-const Local = require('../models/local');
 const Producto = require('../models/producto');
 
 module.exports = {
@@ -12,6 +11,14 @@ module.exports = {
         const {nombre} = req.params;
         const producto = await Producto.find({"nombre":{ $regex: '(?i).*' + nombre + '.*(?-i)' }}).populate('local');
         return res.send(producto)
+    },
+
+    actualizar: async (req, res, next) => {
+        const {idProducto} = req.params
+        Producto.findByIdAndUpdate(idProducto, req.body, function (err, producto) {
+            if (err) return next(err);
+            return res.json(producto);
+        })
     }
 
 };

@@ -15,14 +15,11 @@ class BuscarProductos extends Component{
             nombreProducto: '',
             latitude: null,
             longitude: null,
-            userAddres: null,
-            local: null,
-            locales: []
+            local: null
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.getLocation = this.getLocation.bind(this);
         this.getCordinates = this.getCordinates.bind(this);
-        this.calculateDistance = this.calculateDistance.bind(this);
     }
 
     componentWillMount(){
@@ -60,7 +57,7 @@ class BuscarProductos extends Component{
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(this.getCordinates);
       } else {
-        alert("Geolocation is not supported by this browser.");
+        alert("La geolocalización no es soportada por su navegador.");
       }
     }
 
@@ -110,7 +107,7 @@ class BuscarProductos extends Component{
                   <div className="flex items-center">
                     
                     <div className="text-xs">
-                      <spam className="text-gray-600">Nombre empresa</spam>
+                    <spam className="text-gray-600">Empresa: {prod.local.nombre} </spam>
                       <br></br>
                       
                       <spam className="text-green-700">Distancia: {this.calculateDistance(prod.local.latitud, prod.local.longitud)} KM</spam>

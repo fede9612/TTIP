@@ -1,10 +1,7 @@
 const express = require('express');
-var router = require('express-promise-router')();
 const bodyParser = require("body-parser");
 var cors = require('cors');
 const mongoose = require('mongoose');
-const producto = require('./src/models/producto');
-const local = require('./src/models/local');
 
 mongoose.set("useNewUrlParser", true);
 mongoose.set("useUnifiedTopology", true);
@@ -19,25 +16,5 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(require('./src/routes'));
 
-app.post("/producto", (req, res, next)=>{
-    producto.create(req.body, function (err, post) {
-        if (err) return next(err);
-        res.json(post);
-    })
-})
-
-app.put("/producto/:id", (req, res, next)=>{
-    producto.findByIdAndUpdate(req.params.id, req.body, function (err, producto) {
-        if (err) return next(err);
-        res.json(producto);
-    })
-})
-
-app.get("/productos", (req, res, next)=>{
-    producto.find( function (err, productos) {
-        if (err) return next(err);
-        res.json(productos);
-    })
-})
 
 app.listen(8080, ()=> console.log("Server iniciado"));
