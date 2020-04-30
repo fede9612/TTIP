@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import '../index.css'
+import '../styles/fonts.css'
 import 'bootstrap/dist/css/bootstrap.css';
+import imgSearch from '../styles/img/search.svg' 
 import axios from 'axios';
 import MapaTools from '../components/mapaTools'
 
@@ -120,28 +122,38 @@ class BuscarProductos extends Component{
 
         return(
             <div>
-            <div className="flex flex-wrap justify-center">
-            <form onSubmit={this.handleSubmit}>
-                <div className="items-center w-full max-w-xs flex items-center border-b border-b-2 border-teal-500 py-2">
-                <input 
-                    className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" 
-                    type="text" placeholder="Buscar productos"
-                    list="productos" autoComplete="off"
-                    value={this.state.nombreProducto}
-                    onChange={(ev)=>{this.buscar(ev.target.value)}}
-                /> 
-                <datalist id="productos">
-                    {mostrarProductosList}
-                </datalist>  
-                <button 
-                    className="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 rounded"
-                    type="submit">
-                    Buscar
-                </button>
+            <div className="flex flex-wrap justify-center bg-green-200">
+                <div className="p-6 mx-auto max-w-4xl flex justify-center items-center">
+                  <div className="flex-2"> 
+                    <h2>¿Estás buscando un producto y no sabes donde encontrarlo?</h2> 
+                  </div>
+                    <img className="imgSearch" src={imgSearch}></img>
                 </div>
+                <div className="flex justify-center w-full">
+                  <h3>Te ayudamos con ello</h3>    
+                </div>
+            <form onSubmit={this.handleSubmit}>
+                <div className="items-center w-full max-w-xs flex border-b border-b-2 border-teal-500 py-2">
+                  <input 
+                      className="appearance-none bg-transparent border-none w-full text-black mr-3 py-1 px-2 leading-tight focus:outline-none" 
+                      type="text" placeholder="Buscar productos                    2"
+                      list="productos" autoComplete="off"
+                      value={this.state.nombreProducto}
+                      onChange={(ev)=>{this.buscar(ev.target.value)}}
+                  /> 
+                  <datalist id="productos">
+                      {mostrarProductosList}
+                  </datalist>  
+                  <button 
+                      className="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 rounded"
+                      type="submit">
+                      Buscar
+                  </button>
+                </div>
+                <div className="mb-6"></div>
             </form>
             </div>
-            <div className="ancho-cuerpo">    
+            <div className="ancho-cuerpo mb-2">    
                 {mostrarProductosBuscado}
             </div>
             </div>
