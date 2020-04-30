@@ -29,7 +29,7 @@ module.exports = {
         await nuevoProducto.save();
         local.productos.push(nuevoProducto);
         await local.save();
-        res.status(201).json(nuevoProducto);
+        return res.status(201).json(nuevoProducto);
     },
     
 };

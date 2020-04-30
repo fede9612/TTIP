@@ -74,9 +74,9 @@ class BuscarProductos extends Component{
       let self = this;
       let listOrdenada = this.state.productosBuscado.sort(function(a,b){
         if(self.calculateDistance(a.local.latitud, a.local.longitud) < self.calculateDistance(b.local.latitud, b.local.longitud)){
-          return a - b;
+          return -1;
         }else{
-          return b - a;
+          return 1;
         }
       });
       return listOrdenada;
