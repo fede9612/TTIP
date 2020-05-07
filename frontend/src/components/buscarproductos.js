@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import imgSearch from '../styles/img/search.svg' 
 import axios from 'axios';
 import MapaTools from '../components/mapaTools'
+import Navegacion from '../components/navegacion'
 
 class BuscarProductos extends Component{
 
@@ -122,6 +123,11 @@ class BuscarProductos extends Component{
 
         return(
             <div>
+          <React.StrictMode>
+    
+            <Navegacion />
+          
+         </React.StrictMode>
             <div className="flex flex-wrap justify-center bg-green-200">
                 <div className="p-6 mx-auto max-w-4xl flex justify-center items-center">
                   <div className="flex-2"> 
