@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import imgSearch from '../styles/img/search.svg' 
 import axios from 'axios';
 import MapaTools from '../components/mapaTools'
+import Navegacion from '../components/navegacion'
 
 class BuscarProductos extends Component{
 
