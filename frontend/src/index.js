@@ -9,7 +9,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 ReactDOM.render(
   <React.StrictMode>
-    <BuscarProductos/>
+    <Navegacion />
   </React.StrictMode>,
   document.getElementById('root')
 );

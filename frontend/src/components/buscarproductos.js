@@ -123,11 +123,6 @@ class BuscarProductos extends Component{
 
         return(
             <div>
-          <React.StrictMode>
-    
-            <Navegacion />
-          
-         </React.StrictMode>
             <div className="flex flex-wrap justify-center bg-green-200">
                 <div className="p-6 mx-auto max-w-4xl flex justify-center items-center">
                   <div className="flex-2"> 
