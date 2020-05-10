@@ -18,5 +18,6 @@ router.route('/producto/:idProducto').put(Producto.actualizar);
 
 //consultas del usuario
 router.route('/usuario').post(Usuario.nuevoUsuario);
+router.route('/usuario/:idUsuario/empresa').post(Usuario.nuevoEmpresaUsuario);
 
 module.exports = router;

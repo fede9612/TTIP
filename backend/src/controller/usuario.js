@@ -1,5 +1,6 @@
 const Local = require('../models/local');
 const Producto = require('../models/producto');
+const Empresa = require('../models/empresa');
 const Usuario = require('../models/usuario');
 
 module.exports = {
@@ -9,6 +10,15 @@ module.exports = {
         await usuario.save();
         res.status(201).json(usuario);
     },
-
     
+    nuevoEmpresaUsuario: async (req, res, next) =>{
+        const {idUsuario} = req.params;
+        const nuevoEmpresa = new Empresa(req.body);
+        const usuario = await Usuario.findById(idUsuario);
+        nuevoEmpresa.usuario = usuario;
+        await nuevoEmpresa.save();
+        usuario.empresas.push(nuevoEmpresa);
+        await usuario.save();
+        res.status(201).json(nuevoEmpresa);
+    }
 };
