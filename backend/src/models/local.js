@@ -14,7 +14,9 @@ let localSchema = new mongoose.Schema({
     longitud: {
         type: Number
     },
-    productos: [{ type: Schema.Types.ObjectId, ref: 'producto' }]
+    empresa: { type: Schema.Types.ObjectId, ref: 'empresa' },
+    productos: [{ type: Schema.Types.ObjectId, ref: 'producto' }],
+    carritosDePedido: [{type: Schema.Types.ObjectId, ref: 'carritoEmpresa'}]
 });
 
 module.exports = mongoose.model('local', localSchema);
