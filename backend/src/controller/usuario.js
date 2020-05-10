@@ -1,5 +1,4 @@
 const Local = require('../models/local');
-const Producto = require('../models/producto');
 const Empresa = require('../models/empresa');
 const Usuario = require('../models/usuario');
 

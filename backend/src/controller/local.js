@@ -3,12 +3,6 @@ const Producto = require('../models/producto');
 
 module.exports = {
 
-    nuevoLocal: async (req, res, next) =>{
-        const local = new Local(req.body);
-        await local.save();
-        res.status(201).json(local);
-    },
-
     getById: async (req, res, next) =>{
         const {idLocal} = req.params;
         const local = await Local.findById(idLocal);
