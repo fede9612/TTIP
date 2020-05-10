@@ -2,6 +2,7 @@ const express = require('express');
 const router = new express.Router;
 const Local = require('./controller/local');
 const Producto = require('./controller/producto');
+const Usuario = require('./controller/usuario');
 router.get('/',(req,res)=>res.send('ok'));
 
 //consultas de local
@@ -14,5 +15,8 @@ router.route('/local/:idLocal/productos').get(Local.getPorductosLocal);
 router.route('/producto/productos').get(Producto.getPorductos);
 router.route('/producto/:nombre').get(Producto.getProducto);
 router.route('/producto/:idProducto').put(Producto.actualizar);
+
+//consultas del usuario
+router.route('/usuario').post(Usuario.nuevoUsuario);
 
 module.exports = router;
