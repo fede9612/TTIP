@@ -1,11 +1,12 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const empresaSchema = require('./empresa').empresaSchema;
 
 let usuarioSchema = new mongoose.Schema({
     mail: {
         type: String 
     },
-    empresas: [{type: Schema.Types.ObjectId, ref: 'empresa'}],
+    empresa: empresaSchema,
     carritosDePedido: [{type: Schema.Types.ObjectId, ref: 'carritoUsuario'}]
 });
 

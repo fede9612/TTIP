@@ -1,5 +1,5 @@
 const Local = require('../models/local');
-const Empresa = require('../models/empresa');
+const Empresa = require('../models/empresa').Empresa;
 const Usuario = require('../models/usuario');
 
 module.exports = {
@@ -14,9 +14,7 @@ module.exports = {
         const {idUsuario} = req.params;
         const nuevoEmpresa = new Empresa(req.body);
         const usuario = await Usuario.findById(idUsuario);
-        nuevoEmpresa.usuario = usuario;
-        await nuevoEmpresa.save();
-        usuario.empresas.push(nuevoEmpresa);
+        usuario.empresa = nuevoEmpresa;
         await usuario.save();
         res.status(201).json(nuevoEmpresa);
     }

@@ -8,8 +8,8 @@ let empresaSchema = new mongoose.Schema({
     cuit: {
         type: Number
     },
-    usuario: { type: Schema.Types.ObjectId, ref: 'usuario' },
     locales: [{type: Schema.Types.ObjectId, ref: 'local'}]
 });
 
-module.exports = mongoose.model('empresa', empresaSchema);
+const Empresa = mongoose.model('empresa', empresaSchema);
+module.exports = { empresaSchema, Empresa};
