@@ -8,6 +8,7 @@ let empresaSchema = new mongoose.Schema({
     cuit: {
         type: Number
     },
+    usuario: { type: Schema.Types.ObjectId, ref: 'usuario' },
     locales: [{type: Schema.Types.ObjectId, ref: 'local'}]
 });
 

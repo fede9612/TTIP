@@ -14,6 +14,8 @@ module.exports = {
         const {idUsuario} = req.params;
         const nuevoEmpresa = new Empresa(req.body);
         const usuario = await Usuario.findById(idUsuario);
+        nuevoEmpresa.usuario = usuario;
+        await nuevoEmpresa.save();
         usuario.empresa = nuevoEmpresa;
         await usuario.save();
         res.status(201).json(nuevoEmpresa);
