@@ -9,6 +9,19 @@ module.exports = {
         await usuario.save();
         res.status(201).json(usuario);
     },
+
+    getUsuario: async (req, res, next) =>{
+        const {idUsuario} = req.params;
+        const usuario = await Usuario.findById(idUsuario);
+        res.status(201).json(usuario);
+    },
+
+    getEmpresa: async (req, res, next) =>{
+        const {idUsuario} = req.params;
+        const usuario = await Usuario.findById(idUsuario);
+        const empresa = await Empresa.findById(usuario.empresa);
+        res.send(empresa);
+    },
     
     nuevoEmpresaUsuario: async (req, res, next) =>{
         const {idUsuario} = req.params;
