@@ -1,32 +1,53 @@
 import React, { Component } from 'react';
+import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios';
 
 class EmpresaPanel extends Component{
 
     constructor(props){
         super(props);
-        this.state = { empresa: false };
+        this.state = { 
+            empresa: false,
+            locales: [] 
+        };
     }
 
     componentDidMount(){
-        this.consultarEmpresa();    
+        this.consultarEmpresa(); 
     }
 
     consultarEmpresa(){
         //Acá tengo que pasar el usuario una vez que tenga el login
         axios.get('http://localhost:8080/usuario/5ebb37c7fb5efb104fc5b6cb/empresa')
         .then((res) => {
-          this.setState({empresa : res.data});
+          this.setState({empresa : res.data, locales: res.data.locales});
         });
     }
     
     render(){
-        return(
-            <div className="container mt-2">
+        let localesList = this.state.locales.map((local) => {
+            return(
                 <div>
-                    <h4>Empresa</h4>
-                    <p>{ this.state.empresa.nombre }</p>
+                    <p>{local.nombre}</p>
+                    <span>Carrito de compra</span> <span>Productos</span>
                 </div>
+            );
+        });
+
+        return(
+            
+            <div className="container">
+                <div class="flex flex-wrap">
+                    <div class="w-full lg:w-1/4 ">
+                        <h4>Empresa</h4>
+                        <p>{ this.state.empresa.nombre }</p>
+                    </div>
+                    <div class="w-full lg:w-3/4">
+                        <h5>Sucursales</h5>
+                        {localesList}
+                    </div>
+                </div>    
+             
             </div>        
         )
     }

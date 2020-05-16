@@ -19,7 +19,7 @@ module.exports = {
     getEmpresa: async (req, res, next) =>{
         const {idUsuario} = req.params;
         const usuario = await Usuario.findById(idUsuario);
-        const empresa = await Empresa.findById(usuario.empresa);
+        const empresa = await Empresa.findById(usuario.empresa).populate('locales');
         res.send(empresa);
     },
     
