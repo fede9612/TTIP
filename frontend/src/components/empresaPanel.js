@@ -38,10 +38,12 @@ class EmpresaPanel extends Component{
                 <div class="flex flex-wrap">
                     <div class="w-full lg:w-1/4 ">
                         <h4>Empresa</h4>
+                        <hr className="w-4/5 mt-1"></hr>
                         <p>{ this.state.empresa.nombre }</p>
                     </div>
                     <div class="w-full lg:w-3/4">
-                        <h5>Sucursales</h5>
+                        <h4>Sucursales</h4>
+                        <hr className="w-4/5 mt-1"></hr>
                         {localesList}
                     </div>
                 </div>    
