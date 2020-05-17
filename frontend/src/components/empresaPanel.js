@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios';
+import LocalRow from './localRow';
 
 class EmpresaPanel extends Component{
 
@@ -27,16 +28,13 @@ class EmpresaPanel extends Component{
     render(){
         let localesList = this.state.locales.map((local) => {
             return(
-                <div>
-                    <p>{local.nombre}</p>
-                    <span>Carrito de compra</span> <span>Productos</span>
-                </div>
+                <LocalRow local={local} />
             );
         });
 
         return(
             
-            <div className="container">
+            <div className="container mt-2">
                 <div class="flex flex-wrap">
                     <div class="w-full lg:w-1/4 ">
                         <h4>Empresa</h4>
