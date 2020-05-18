@@ -14,6 +14,7 @@ class EmpresaPanel extends Component{
             localModal: false
         };
         this.handlerLocalModal = this.handlerLocalModal.bind(this);
+        this.agregarLocal = this.agregarLocal.bind(this);
     }
 
     componentDidMount(){
@@ -31,6 +32,12 @@ class EmpresaPanel extends Component{
           this.setState({empresa : res.data, locales: res.data.locales});
         });
     }
+
+    agregarLocal(local){
+        let {locales} = this.state;
+        locales.push(local);
+        this.setState({locales: locales})
+    }
     
     render(){
         let localesList = this.state.locales.map((local) => {
@@ -40,8 +47,7 @@ class EmpresaPanel extends Component{
         });
         let localModal;
         if(this.state.localModal){
-             localModal = <LocalModal handlerClick={this.handlerLocalModal}/>
-             
+             localModal = <LocalModal handlerClick={this.handlerLocalModal} consultarEmpresa={this.agregarLocal} empresa={this.state.empresa}/> 
         }
 
         return(

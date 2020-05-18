@@ -1,14 +1,22 @@
 import React, { Component } from "react";
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Input, FormGroup, Label } from 'reactstrap';
+import axios from 'axios';
 
 class LocalModal extends Component{
 
     constructor(props){
         super(props);
         this.state = {
+            local:{
+                nombre: "",
+                productos: [],
+                carritosDePedidos: []
+            },
+            empresa: props.empresa,
             modal: true
         };
         this.toggle = this.toggle.bind(this);
+        this.agregarLocal = this.agregarLocal.bind(this);
     }
 
     toggle(){
@@ -16,18 +24,29 @@ class LocalModal extends Component{
         this.props.handlerClick();
     }
 
+    agregarLocal(){
+        axios.post('http://localhost:8080/empresa/'+ this.state.empresa._id +'/local', this.state.local)
+        .then((res) => {this.props.consultarEmpresa(res.data)})
+        .then(this.toggle());
+    }
+
     render(){
         return(
             <div>
-                <Modal isOpen={this.state.modal} onClick={this.toggle}>
-                <ModalHeader toggle={this.toggle}>Modal title</ModalHeader>
-        <ModalBody>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </ModalBody>
-        <ModalFooter>
-          <Button color="primary" onClick={this.toggle}>Do Something</Button>{' '}
-          <Button color="secondary" onClick={this.toggle}>Cancel</Button>
-        </ModalFooter>
+                <Modal isOpen={this.state.modal}>
+                    <ModalHeader className="bg-teal-500">Nueva sucursal</ModalHeader>
+                    <ModalBody className="bg-teal-500">
+                        <Label for="Nombre">Nombre: </Label>
+                        <Input id="nombre" value={this.state.local.nombre} onChange={(event) =>  {
+                            let { local } = this.state;
+                            local.nombre = event.target.value;
+                            this.setState({local})
+                        }}/>
+                    </ModalBody>
+                    <ModalFooter className="bg-teal-500">
+                    <Button color="primary" onClick={this.agregarLocal}>Agregar</Button>
+                    <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+                    </ModalFooter>
                 </Modal>
             </div>
         )
