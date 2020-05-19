@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
 import BuscarProductos from './buscarproductos';
 import EmpresaPanel from './empresaPanel';
 import Productos from "../App";
+import ProductosPanel from './productosPanel';
 
 class Navegacion extends Component{
 
@@ -38,9 +39,6 @@ class Navegacion extends Component{
                         <Link to="/buscarproductos" onClick={this.toggleMenu.bind(this)} class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
                             Buscar productos
                         </Link>
-                        <Link to="/productos" onClick={this.toggleMenu.bind(this)} class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
-                            Productos
-                        </Link>
                         <Link to="/empresaPanel" onClick={this.toggleMenu.bind(this)} class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
                             Empresa
                         </Link>
@@ -57,9 +55,7 @@ class Navegacion extends Component{
                         <Route path="/buscarproductos">
                             <BuscarProductos />
                         </Route>
-                        <Route path="/productos">
-                            <Productos />
-                        </Route>
+                        <Route path="/productos/:id" component={ProductosPanel}/>
                         <Route path="/empresaPanel">
                             <EmpresaPanel />
                         </Route>
