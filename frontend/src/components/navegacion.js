@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
-import BuscarProductos from "./buscarproductos";
+import BuscarProductos from './buscarproductos';
+import EmpresaPanel from './empresaPanel';
 import Productos from "../App";
 
 class Navegacion extends Component{
@@ -40,9 +41,9 @@ class Navegacion extends Component{
                         <Link to="/productos" onClick={this.toggleMenu.bind(this)} class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
                             Productos
                         </Link>
-                        <a href="#responsive-header" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
-                            Locales
-                        </a>
+                        <Link to="/empresaPanel" onClick={this.toggleMenu.bind(this)} class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
+                            Empresa
+                        </Link>
                         <a href="#responsive-header" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white">
                             Carrito
                         </a>
@@ -58,6 +59,9 @@ class Navegacion extends Component{
                         </Route>
                         <Route path="/productos">
                             <Productos />
+                        </Route>
+                        <Route path="/empresaPanel">
+                            <EmpresaPanel />
                         </Route>
                     </Switch>
                 </div>
