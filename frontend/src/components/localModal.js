@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Input, FormGroup, Label } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Input, Label } from 'reactstrap';
 import axios from 'axios';
 
 class LocalModal extends Component{
@@ -51,8 +51,8 @@ class LocalModal extends Component{
                         }}/>
                     </ModalBody>
                     <ModalFooter className="bg-teal-500">
-                    <Button color="primary" onClick={this.agregarLocal}>Agregar</Button>
-                    <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+                    <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full" onClick={this.agregarLocal}>Agregar</button>
+                    <button className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full" onClick={this.toggle}>Cancel</button>
                     </ModalFooter>
                 </Modal>
             </div>

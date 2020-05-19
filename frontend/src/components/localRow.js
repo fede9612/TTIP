@@ -12,7 +12,7 @@ class LocalRow extends Component{
     render(){
         return(
             <div className="mt-2 w-full lg:w-4/5">
-                <div className="border-r border-b border-l border-t border-gray-700 lg:border-t lg:border-gray-700 rounded-b lg:rounded-b-none lg:rounded-r p-2 flex flex-col justify-between leading-normal">
+                <div className="border-r border-b border-l border-t border-gray-500 rounded-t rounded-b p-2 flex flex-col justify-between leading-normal">
                   <div>
                     <div className="text-gray-900 font-bold text-xl mb-2">{this.state.local.nombre}</div>
                   </div>
