@@ -14,6 +14,10 @@ let productoSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
+    oculto: {
+        type: Boolean,
+        default: false
+    },
     local: {type: Schema.Types.ObjectId, ref: 'local'}
 });
 

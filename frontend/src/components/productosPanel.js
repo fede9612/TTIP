@@ -51,7 +51,9 @@ class ProductosPanel extends Component{
         if(Array.isArray(this.state.productos) && this.state.productos.length){
             productosList = this.state.productos.map((producto) => {
                 return(
+                    <div className="w-1/3 inline-block">
                     <ProductoRow producto={producto} />
+                    </div>
                 );
             });
         }else{
@@ -63,11 +65,7 @@ class ProductosPanel extends Component{
         }
         let productoModal;
         if(this.state.productoModal){
-             productoModal = (
-                <div className="mr-8">
-                    <ProductoModal handlerClick={this.handlerProductoModal} agregarProducto={this.agregarProducto} local={this.state.local}/> 
-                </div>
-             )
+             productoModal = <ProductoModal handlerClick={this.handlerProductoModal} agregarProducto={this.agregarProducto} local={this.state.local}/> 
         }
 
         return(
@@ -88,7 +86,7 @@ class ProductosPanel extends Component{
                             {productoModal}
                         </div>
                         <hr className="mt-1"></hr>
-                        <div className="w-full lg:flex lg:w-10/12 md:flex md:w-10/12">
+                        <div className="w-full">
                             {productosList}
                         </div>
                     </div>
