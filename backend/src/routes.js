@@ -15,6 +15,7 @@ router.route('/local/:idLocal/productos').get(Local.getPorductosLocal);
 router.route('/producto/productos').get(Producto.getPorductos);
 router.route('/producto/:nombre').get(Producto.getProducto);
 router.route('/producto/:idProducto').put(Producto.actualizar);
+router.route('/producto/:idProducto').delete(Producto.eliminar);
 
 //consultas del usuario
 router.route('/usuario').post(Usuario.nuevoUsuario);

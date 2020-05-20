@@ -16,6 +16,7 @@ class ProductosPanel extends Component{
         };
         this.handlerProductoModal = this.handlerProductoModal.bind(this);
         this.agregarProducto = this.agregarProducto.bind(this);
+        this.consultarProductos = this.consultarProductos.bind(this);
     }
 
     componentDidMount(){
@@ -52,7 +53,7 @@ class ProductosPanel extends Component{
             productosList = this.state.productos.map((producto) => {
                 return(
                     <div className="w-1/3 inline-block">
-                    <ProductoRow producto={producto} />
+                    <ProductoRow producto={producto} consultarProductos={this.consultarProductos}/>
                     </div>
                 );
             });
