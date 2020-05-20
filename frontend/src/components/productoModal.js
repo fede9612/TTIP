@@ -26,7 +26,7 @@ class ProductoModal extends Component{
 
     agregarProducto(){
         axios.post('http://localhost:8080/local/'+ this.state.local._id +'/producto', this.state.producto)
-        .then((res) => {this.props.agregarProducto(res.data)})
+        .then(this.props.agregarProducto(this.state.producto))
         .then(this.toggle());
     }
 

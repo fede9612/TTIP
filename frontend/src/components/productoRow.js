@@ -24,8 +24,8 @@ class ProductoRow extends Component{
     }
 
     eliminarProducto(){
-        axios.delete('http://localhost:8080/producto/'+ this.state.producto._id)
-        .then(this.props.consultarProductos());
+        axios.delete('http://localhost:8080/local/'+ this.props.local._id + '/' + this.state.producto._id)
+        .then(this.props.eliminarProducto(this.state.producto));
     }
 
     render(){

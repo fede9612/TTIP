@@ -16,7 +16,7 @@ class ProductosPanel extends Component{
         };
         this.handlerProductoModal = this.handlerProductoModal.bind(this);
         this.agregarProducto = this.agregarProducto.bind(this);
-        this.consultarProductos = this.consultarProductos.bind(this);
+        this.eliminarProducto = this.eliminarProducto.bind(this);
     }
 
     componentDidMount(){
@@ -44,7 +44,19 @@ class ProductosPanel extends Component{
     agregarProducto(producto){
         let {productos} = this.state;
         productos.push(producto);
+        console.log(productos);
         this.setState({productos: productos})
+    }
+
+    eliminarProducto(producto){
+        let {productos} = this.state;
+        let productosActualizados = [];
+        productos.map((prod) => {
+            if(prod._id != producto._id){
+                productosActualizados.push(prod);
+            }
+        });
+        this.setState({productos: productosActualizados});
     }
 
     render(){
@@ -52,8 +64,8 @@ class ProductosPanel extends Component{
         if(Array.isArray(this.state.productos) && this.state.productos.length){
             productosList = this.state.productos.map((producto) => {
                 return(
-                    <div className="w-1/3 inline-block">
-                    <ProductoRow producto={producto} consultarProductos={this.consultarProductos}/>
+                    <div key={producto._id} className="w-1/3 inline-block">
+                    <ProductoRow producto={producto} local={this.state.local} eliminarProducto={this.eliminarProducto}/>
                     </div>
                 );
             });

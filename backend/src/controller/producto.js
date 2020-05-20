@@ -19,14 +19,6 @@ module.exports = {
             if (err) return next(err);
             return res.json(producto);
         })
-    },
-
-    eliminar: async (req, res, next) => {
-        const {idProducto} = req.params
-        Producto.findByIdAndDelete(idProducto, function (err, producto) {
-            if (err) return next(err);
-            return res.send(201);
-        }).exec();
     }
 
 };
