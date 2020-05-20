@@ -47,7 +47,7 @@ class EmpresaPanel extends Component{
         });
         let localModal;
         if(this.state.localModal){
-             localModal = <LocalModal handlerClick={this.handlerLocalModal} consultarEmpresa={this.agregarLocal} empresa={this.state.empresa}/> 
+             localModal = <LocalModal handlerClick={this.handlerLocalModal} consultarEmpresa={this.agregarLocal} empresa={this.state.empresa}/>     
         }
 
         return(
@@ -64,8 +64,10 @@ class EmpresaPanel extends Component{
                             <button className="bg-green-500 hover:bg-green-700 text-white font-bold px-2 ml-2 h-7 border-b-4 border-l-4 border-t-4 border-r-4 rounded-full"
                                     onClick={this.handlerLocalModal}>
                                 Agregar                
-                            {localModal}
                             </button>
+                        </div>
+                        <div className="flex">
+                            {localModal}
                         </div>
                         <hr className="w-4/5 mt-1"></hr>
                         {localesList}

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Link, Switch, Route } from "react-router-dom";
-import ProductosPanel from "./productosPanel";
+import { Link } from "react-router-dom";
 
 
 class LocalRow extends Component{
