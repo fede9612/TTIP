@@ -3,4 +3,5 @@ node_js:
 - '8'
 script:
 - cd backend/
+- npm install
 - npm test
