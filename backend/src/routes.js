@@ -10,6 +10,7 @@ router.get('/',(req,res)=>res.send('ok'));
 router.route('/local/:idLocal').get(Local.getById);
 router.route('/local/:idLocal/producto').post(Local.nuevoProductoLocal);
 router.route('/local/:idLocal/productos').get(Local.getPorductosLocal);
+router.route('/local/:idLocal/:idProducto').delete(Local.eliminarProductoLocal);
 
 //consultas del producto
 router.route('/producto/productos').get(Producto.getPorductos);

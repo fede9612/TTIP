@@ -10,7 +10,7 @@ module.exports = {
         nuevoLocal.empresa = empresa;
         await nuevoLocal.save();
         empresa.locales.push(nuevoLocal);
-        await empresa.save();
-        res.status(201).json(nuevoLocal);
+        await empresa.update();
+        res.status(201);
     }
 };

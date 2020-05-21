@@ -23,7 +23,25 @@ module.exports = {
         await nuevoProducto.save();
         local.productos.push(nuevoProducto);
         await local.save();
-        return res.status(201).json(nuevoProducto);
+        res.status(201);
     },
-    
+
+    eliminarProductoLocal: async (req, res, next) =>{
+        const {idLocal} = req.params;
+        const local = await Local.findById(idLocal);
+        const {idProducto} = req.params;
+        const productoObtenido = await Producto.findById(idProducto);
+        let productos = [];
+        local.productos.map((producto) => {
+            if(producto._id != productoObtenido.id){
+                productos.push(producto);
+            }
+        });
+        local.productos = productos;
+        await local.save();
+        await Producto.findByIdAndDelete(idProducto, function (err, producto) {
+            if (err) return next(err);
+            return res.sendStatus(201);
+        }).exec();
+    }
 };
