@@ -6,4 +6,5 @@ script:
 - npm install
 - npm install jest
 - npm install @shelf/jest-mongodb
+- npm start
 - npm test
