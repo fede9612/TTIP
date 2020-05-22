@@ -64,5 +64,11 @@ module.exports = {
             return res.sendStatus(201);
         })
         
+    },
+
+    getPedidos: async (req, res, next) =>{
+        const {idLocal} = req.params;
+        const local = await Local.findById(idLocal).populate('carritosDePedido');
+        return res.send(local.carritosDePedido);
     }
 };

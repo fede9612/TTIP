@@ -12,6 +12,7 @@ router.route('/local/:idLocal/producto').post(Local.nuevoProductoLocal);
 router.route('/local/:idLocal/productos').get(Local.getPorductosLocal);
 router.route('/local/:idLocal/:idProducto').delete(Local.eliminarProductoLocal);
 router.route('/local/:idLocal/:idUsuario/pedido').post(Local.nuevoPedidoLocal);
+router.route('/local/:idLocal/pedidos').get(Local.getPedidos);
 
 //consultas del producto
 router.route('/producto/productos').get(Producto.getPorductos);

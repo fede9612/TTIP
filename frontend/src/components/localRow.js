@@ -19,7 +19,7 @@ class LocalRow extends Component{
                   <div>
                     <div className="text-gray-900 font-bold text-xl mb-2">{this.state.local.nombre}</div>
                   </div>
-                    <spam className="text-gray-700 text-base">Pedidos pendientes: <spam>{this.state.local.carritosDePedido.length}</spam></spam>
+                    <spam className="text-gray-700 text-base">Pedidos pendientes: <spam>{this.state.local.carritosDePedido.length} </spam><Link to={"/pedidos/"+this.state.local._id}>Ver</Link></spam>
                     <spam className="text-gray-700 text-base">Productos en stock: <spam>{this.state.local.productos.length} </spam><Link to={"/productos/"+this.state.local._id}>Ver</Link></spam>
                   <div className="flex items-center">
                     
