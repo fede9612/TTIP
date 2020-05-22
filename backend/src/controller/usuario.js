@@ -1,6 +1,5 @@
-const Local = require('../models/local');
 const Empresa = require('../models/empresa').Empresa;
-const Usuario = require('../models/usuario');
+const Usuario = require('../models/usuario').Usuario;
 
 module.exports = {
 

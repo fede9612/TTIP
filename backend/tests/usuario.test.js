@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Usuario = require('../src/models/usuario');
+const Usuario = require('../src/models/usuario').Usuario;
 const usuarioData = { mail:'pepe@gmail.com' };
 
 describe('Producto Model Test', () => {
