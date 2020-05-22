@@ -17,4 +17,6 @@ app.use(bodyParser.json());
 app.use(require('./src/routes'));
 
 
-app.listen(8080, ()=> console.log("Server iniciado"));
+let server = app.listen(8080, ()=> console.log("Server iniciado"));
+
+module.exports = server; 
