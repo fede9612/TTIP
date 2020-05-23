@@ -1,13 +1,17 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-var ProductoSchema = require('producto');
-var UsurioSchema = require('usuario')
+var ProductoSchema = require('../models/producto').productoSchema;
+var UsuarioSchema = require('../models/usuario').usuarioSchema;
 
 let carritoEmpresaSchema = new mongoose.Schema({
-    sucursal: { type: Schema.Types.ObjectId, ref: 'local' },
-    pedidos: { ProductoSchema },
-    usuarioDelPedido: { UsurioSchema }, 
-    montoDelPedido: { type: Number }
+    local: { type: Schema.Types.ObjectId, ref: 'local' },
+    pedidos: [ ProductoSchema ],
+    usuarioDelPedido:  UsuarioSchema,
+    pendiente: {
+        type: Boolean,
+        default: true 
+    }
 });
 
-module.exports = mongoose.model('carritoEmpresa', carritoEmpresaSchema);
+const CarritoEmpresa = mongoose.model('carritoEmpresa', carritoEmpresaSchema);
+module.exports = { carritoEmpresaSchema, CarritoEmpresa };

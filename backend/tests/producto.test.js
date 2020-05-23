@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Producto = require('../src/models/producto');
+const Producto = require('../src/models/producto').Producto;
 const Local = require('../src/models/local');
 const productoData = { nombre: 'Cocacola', precio: 20, cantidad: 50}
 const productoData2 = { nombre: 'Pepsi', precio: 15, cantidad: 50}

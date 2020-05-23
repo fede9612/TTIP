@@ -1,5 +1,7 @@
 const Local = require('../models/local');
-const Producto = require('../models/producto');
+const Producto = require('../models/producto').Producto;
+const CarritoEmpresa = require('../models/carritoEmpresa').CarritoEmpresa;
+const Usuario = require('../models/usuario').Usuario;
 
 module.exports = {
 
@@ -43,5 +45,30 @@ module.exports = {
             if (err) return next(err);
             return res.sendStatus(201);
         }).exec();
+    },
+
+    nuevoPedidoLocal: async (req, res, next) =>{
+        const {idLocal} = req.params;
+        let productos = req.body;
+        const {idUsuario} = req.params;
+        const local = await Local.findById(idLocal);
+        const usuario = await Usuario.findById(idUsuario);
+        const pedido = new CarritoEmpresa();
+        pedido.local = local;
+        pedido.pedidos = productos;
+        pedido.usuarioDelPedido = usuario;
+        await pedido.save();
+        local.carritosDePedido.push(pedido);
+        await local.save(function (err) {
+            if (err) return next(err);
+            return res.sendStatus(201);
+        })
+        
+    },
+
+    getPedidos: async (req, res, next) =>{
+        const {idLocal} = req.params;
+        const local = await Local.findById(idLocal).populate('carritosDePedido');
+        return res.send(local.carritosDePedido);
     }
 };

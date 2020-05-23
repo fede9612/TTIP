@@ -9,4 +9,5 @@ let usuarioSchema = new mongoose.Schema({
     carritosDePedido: [{type: Schema.Types.ObjectId, ref: 'carritoUsuario'}]
 });
 
-module.exports = mongoose.model('usuario', usuarioSchema);
+const Usuario = mongoose.model('usuario', usuarioSchema);
+module.exports = { usuarioSchema, Usuario }

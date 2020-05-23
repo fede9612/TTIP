@@ -21,4 +21,5 @@ let productoSchema = new mongoose.Schema({
     local: {type: Schema.Types.ObjectId, ref: 'local'}
 });
 
-module.exports = mongoose.model('producto', productoSchema);
+const Producto = mongoose.model('producto', productoSchema);
+module.exports = { productoSchema, Producto }

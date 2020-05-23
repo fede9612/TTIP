@@ -4,6 +4,7 @@ import BuscarProductos from './buscarproductos';
 import EmpresaPanel from './empresaPanel';
 import Productos from "../App";
 import ProductosPanel from './productosPanel';
+import CarritoEmpresaPanel from './carritoEmpresaPanel';
 
 class Navegacion extends Component{
 
@@ -56,6 +57,7 @@ class Navegacion extends Component{
                             <BuscarProductos />
                         </Route>
                         <Route path="/productos/:id" component={ProductosPanel}/>
+                        <Route path="/pedidos/:id" component={CarritoEmpresaPanel}/>
                         <Route path="/empresaPanel">
                             <EmpresaPanel />
                         </Route>
