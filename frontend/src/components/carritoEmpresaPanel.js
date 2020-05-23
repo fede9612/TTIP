@@ -15,9 +15,6 @@ class CarritoEmpresaPanel extends Component{
             pedidos: [],
             productoModal: false
         };
-        // this.handlerProductoModal = this.handlerProductoModal.bind(this);
-        // this.agregarProducto = this.agregarProducto.bind(this);
-        // this.eliminarProducto = this.eliminarProducto.bind(this);
         this.actualizarPedidos = this.actualizarPedidos.bind(this);
     }
 
@@ -38,17 +35,6 @@ class CarritoEmpresaPanel extends Component{
           this.setState({pedidos : res.data});
         });
     }
-
-    // handlerProductoModal(){
-    //     this.setState({productoModal: !this.state.productoModal})
-    // }
-
-    // agregarProducto(producto){
-    //     let {productos} = this.state;
-    //     productos.push(producto);
-    //     console.log(productos);
-    //     this.setState({productos: productos})
-    // }
 
     actualizarPedidos(pedido){
         let {pedidos} = this.state;
@@ -76,10 +62,6 @@ class CarritoEmpresaPanel extends Component{
                 </div>
             )
         }
-        // let productoModal;
-        // if(this.state.productoModal){
-        //      productoModal = <ProductoModal handlerClick={this.handlerProductoModal} agregarProducto={this.agregarProducto} local={this.state.local}/> 
-        // }
 
         return(
             <div className="container mt-2">
@@ -92,11 +74,6 @@ class CarritoEmpresaPanel extends Component{
                     <div class="w-full lg:w-3/4">
                         <div className="flex">
                             <h4>Pedidos</h4>
-                            <button className="bg-green-500 hover:bg-green-700 text-white font-bold px-2 ml-2 h-7 border-b-4 border-l-4 border-t-4 border-r-4 rounded-full"
-                                    // onClick={this.handlerProductoModal}>
-                                >Agregar                
-                            </button>
-                            {/* {productoModal} */}
                         </div>
                         <hr className="mt-1"></hr>
                         <div className="w-full border-b-2 border-l-2 border-r-2 rounded-t rounded-b">
