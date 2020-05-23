@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios';
 import ProductoRow from './productoRow';
 import ProductoModal from './productoModal';
+import CarritoEmpresaRow from './carritoEmpresaRow';
 
 class CarritoEmpresaPanel extends Component{
 
@@ -64,10 +65,9 @@ class CarritoEmpresaPanel extends Component{
         if(Array.isArray(this.state.pedidos) && this.state.pedidos.length){
             pedidosList = this.state.pedidos.map((pedido) => {
                 return(
-                    <div key={pedido._id} className="w-1/3 inline-block">
-                        <p>{pedido._id}</p>
-                    {/* <ProductoRow producto={producto} local={this.state.local} eliminarProducto={this.eliminarProducto}/> */}
-                    </div>
+                    
+                        <CarritoEmpresaRow pedido={pedido}/>
+                    
                 );
             });
         }else{
@@ -100,8 +100,21 @@ class CarritoEmpresaPanel extends Component{
                             {/* {productoModal} */}
                         </div>
                         <hr className="mt-1"></hr>
-                        <div className="w-full">
-                            {pedidosList}
+                        <div className="w-full border-b-2 border-l-2 border-r-2 rounded-t rounded-b">
+                        <table class="table ">
+                            <thead>
+                                <tr>
+                                <th scope="col">Solicitante</th>
+                                <th scope="col">Cantidad productos</th>
+                                <th scope="col">Total</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col">Cambiar a</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {pedidosList}
+                            </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>    
