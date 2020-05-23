@@ -4,6 +4,7 @@ const Local = require('./controller/local');
 const Producto = require('./controller/producto');
 const Usuario = require('./controller/usuario');
 const Empresa = require('./controller/empresa');
+const CarritoEmpresa = require('./controller/carritoEmpresa');
 router.get('/',(req,res)=>res.send('ok'));
 
 //consultas de local
@@ -13,6 +14,10 @@ router.route('/local/:idLocal/productos').get(Local.getPorductosLocal);
 router.route('/local/:idLocal/:idProducto').delete(Local.eliminarProductoLocal);
 router.route('/local/:idLocal/:idUsuario/pedido').post(Local.nuevoPedidoLocal);
 router.route('/local/:idLocal/pedidos').get(Local.getPedidos);
+
+//consultas de carrito local
+router.route('/carritoEmpresa/:idPedido').put(CarritoEmpresa.actualizar);
+router.route('/carritoEmpresa/:idPedido').get(CarritoEmpresa.getPedido);
 
 //consultas del producto
 router.route('/producto/productos').get(Producto.getPorductos);

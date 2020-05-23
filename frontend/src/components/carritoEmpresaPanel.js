@@ -18,6 +18,7 @@ class CarritoEmpresaPanel extends Component{
         // this.handlerProductoModal = this.handlerProductoModal.bind(this);
         // this.agregarProducto = this.agregarProducto.bind(this);
         // this.eliminarProducto = this.eliminarProducto.bind(this);
+        this.actualizarPedidos = this.actualizarPedidos.bind(this);
     }
 
     componentDidMount(){
@@ -49,26 +50,24 @@ class CarritoEmpresaPanel extends Component{
     //     this.setState({productos: productos})
     // }
 
-    // eliminarProducto(producto){
-    //     let {productos} = this.state;
-    //     let productosActualizados = [];
-    //     productos.map((prod) => {
-    //         if(prod._id != producto._id){
-    //             productosActualizados.push(prod);
-    //         }
-    //     });
-    //     this.setState({productos: productosActualizados});
-    // }
+    actualizarPedidos(pedido){
+        let {pedidos} = this.state;
+        let pedidosActualizados = [];
+        pedidos.map((pedid) => {
+            if(pedid._id != pedido._id){
+                pedidosActualizados.push(pedid);
+            }else{
+                pedidosActualizados.push(pedido);
+            }
+        });
+        this.setState({pedidos: pedidosActualizados});
+    }
 
     render(){
         let pedidosList;
         if(Array.isArray(this.state.pedidos) && this.state.pedidos.length){
             pedidosList = this.state.pedidos.map((pedido) => {
-                return(
-                    
-                        <CarritoEmpresaRow pedido={pedido}/>
-                    
-                );
+                return(<CarritoEmpresaRow pedido={pedido}  actualizarPedidos={this.actualizarPedidos}/>);
             });
         }else{
             pedidosList = (
@@ -108,7 +107,6 @@ class CarritoEmpresaPanel extends Component{
                                 <th scope="col">Cantidad productos</th>
                                 <th scope="col">Total</th>
                                 <th scope="col">Estado</th>
-                                <th scope="col">Cambiar a</th>
                                 </tr>
                             </thead>
                             <tbody>
