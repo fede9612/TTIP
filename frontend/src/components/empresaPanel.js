@@ -53,9 +53,9 @@ class EmpresaPanel extends Component{
         return(
             <div className="container mt-2">
                 <div class="flex flex-wrap">
-                    <div class="w-full lg:w-1/4 ">
+                    <div class="w-full lg:w-1/4">
                         <h4>Empresa</h4>
-                        <hr className="w-4/5 mt-1"></hr>
+                        <hr className="w-4/5 mt-2 mb-2"></hr>
                         <p>{ this.state.empresa.nombre }</p>
                     </div>
                     <div class="w-full lg:w-3/4">

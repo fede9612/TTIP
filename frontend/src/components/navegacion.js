@@ -4,7 +4,8 @@ import BuscarProductos from './buscarproductos';
 import EmpresaPanel from './empresaPanel';
 import ProductosPanel from './productosPanel';
 import CarritoEmpresaPanel from './carritoEmpresaPanel';
-import { useAuth0 } from "../react-auth0-spa";
+import { useAuth0 } from '../react-auth0-spa';
+import PrivateRoute from './privateRoute';
 
 class Navegacion extends Component {
     constructor(props){
@@ -24,7 +25,7 @@ class Navegacion extends Component {
                 <div>    
                     <nav class="flex items-center justify-between flex-wrap bg-teal-500 p-1">
                     <div class="flex items-center flex-shrink-0 text-white mr-6">
-                        <svg class="fill-current h-8 w-8 mr-2" width="54" height="54" viewBox="0 0 54 54" xmlns="http://www.w3.org/2000/svg"><path d="M13.5 22.1c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05zM0 38.3c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05z"/></svg>
+                        <svg class="fill-current h-8 w-8 mr-2" viewBox="0 0 54 54" xmlns="http://www.w3.org/2000/svg"><path d="M13.5 22.1c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05zM0 38.3c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05z"/></svg>
                         <span class="font-semibold text-xl tracking-tight">Anydirec</span>
                     </div>
                     <div class="block lg:hidden">
@@ -36,13 +37,13 @@ class Navegacion extends Component {
                     </div>
                     <div class={this.state.menuModal ? "w-full block flex-grow lg:flex lg:items-center lg:w-auto" : "hidden w-full block flex-grow lg:flex lg:items-center lg:w-auto"}>
                         <div class="text-sm lg:flex-grow">
-                        <Link to="/buscarproductos" onClick={this.toggleMenu.bind(this)} class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
+                        <Link to="/buscarproductos" onClick={this.toggleMenu.bind(this)} class="block lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
                             Buscar productos
                         </Link>
-                        <Link to="/empresaPanel" onClick={this.toggleMenu.bind(this)} class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
+                        <Link to="/empresaPanel" onClick={this.toggleMenu.bind(this)} class="block lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
                             Empresa
                         </Link>
-                        <a href="#responsive-header" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white">
+                        <a href="#responsive-header" class="block lg:inline-block lg:mt-0 text-teal-200 hover:text-white">
                             Carrito
                         </a>
                         </div>
@@ -57,9 +58,7 @@ class Navegacion extends Component {
                         </Route>
                         <Route path="/productos/:id" component={ProductosPanel}/>
                         <Route path="/pedidos/:id" component={CarritoEmpresaPanel}/>
-                        <Route path="/empresaPanel">
-                            <EmpresaPanel />
-                        </Route>
+                        <PrivateRoute path="/empresaPanel" component={EmpresaPanel}/>
                     </Switch>
                 </div>
             </Router>
@@ -76,10 +75,10 @@ function Login() {
                             <div className="flex inline-flex">
                             {/* <label className="mr-2 text-white">{auth0Client.getProfile().name}</label> */}
                             {console.log(user)}
-                            <span className="mt-4 mr-1 text-white">{user.given_name} 
+                            <span className="mr-1 text-white">{user.given_name} 
                             </span>
-                            <img src={user.picture} className="mt-4 h-8 rounded-full" />
-                            <button className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-green-400 mt-4 lg:mt-0" 
+                            <img src={user.picture} className=" h-8 rounded-full" />
+                            <button className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-green-400 lg:mt-0" 
                             onClick={() => logout()}>Desconectar</button>
                             </div>
     }
@@ -88,7 +87,7 @@ function Login() {
       <div>
        {
                             !isAuthenticated && (
-                        <button className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-green-400 mt-4 lg:mt-0"
+                        <button className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-green-400 lg:mt-0"
                                 onClick={() => loginWithRedirect({})}>
                                     Iniciar sesión
                         </button>
