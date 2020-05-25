@@ -69,25 +69,31 @@ class Navegacion extends Component {
 
 function Login() {
 
-    const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
-
+    const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
+    let usuarioNotUndifined;
+     if(typeof user !== 'undefined'){
+       usuarioNotUndifined = isAuthenticated && 
+                            <div className="flex inline-flex">
+                            {/* <label className="mr-2 text-white">{auth0Client.getProfile().name}</label> */}
+                            {console.log(user)}
+                            <span className="mt-4 mr-1 text-white">{user.given_name} 
+                            </span>
+                            <img src={user.picture} className="mt-4 h-8 rounded-full" />
+                            <button className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-green-400 mt-4 lg:mt-0" 
+                            onClick={() => logout()}>Desconectar</button>
+                            </div>
+    }
 
     return (
       <div>
        {
                             !isAuthenticated && (
-                        <button className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0"
+                        <button className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-green-400 mt-4 lg:mt-0"
                                 onClick={() => loginWithRedirect({})}>
                                     Iniciar sesión
                         </button>
                         )}
-                        {
-                            isAuthenticated &&
-                            <div>
-                            {/* <label className="mr-2 text-white">{auth0Client.getProfile().name}</label> */}
-                            <button className="btn btn-dark" onClick={() => logout()}>Sign Out</button>
-                            </div>
-                        }  
+                        {usuarioNotUndifined}  
       </div>
     );
   }
