@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Link, withRouter} from 'react-router-dom';
 import BuscarProductos from './buscarproductos';
 import EmpresaPanel from './empresaPanel';
-import Productos from "../App";
 import ProductosPanel from './productosPanel';
 import CarritoEmpresaPanel from './carritoEmpresaPanel';
+import { useAuth0 } from "../react-auth0-spa";
 
-class Navegacion extends Component{
-
+class Navegacion extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -48,7 +47,7 @@ class Navegacion extends Component{
                         </a>
                         </div>
                         <div>
-                        <a href="#" class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0">Iniciar sesión</a>
+                         <Login />
                         </div>
                     </div>
                     </nav>
@@ -65,7 +64,32 @@ class Navegacion extends Component{
                 </div>
             </Router>
         )
-    }
+        }
 }
+
+function Login() {
+
+    const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
+
+
+    return (
+      <div>
+       {
+                            !isAuthenticated && (
+                        <button className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0"
+                                onClick={() => loginWithRedirect({})}>
+                                    Iniciar sesión
+                        </button>
+                        )}
+                        {
+                            isAuthenticated &&
+                            <div>
+                            {/* <label className="mr-2 text-white">{auth0Client.getProfile().name}</label> */}
+                            <button className="btn btn-dark" onClick={() => logout()}>Sign Out</button>
+                            </div>
+                        }  
+      </div>
+    );
+  }
 
 export default Navegacion;
