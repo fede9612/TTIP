@@ -99,7 +99,7 @@ class ProductosPanel extends Component{
                             {productoModal}
                         </div>
                         <hr className="mt-1"></hr>
-                        <div className="w-full">
+                        <div className="w-full mt-1">
                             {productosList}
                         </div>
                     </div>
