@@ -27,7 +27,7 @@ router.route('/producto/:idProducto').put(Producto.actualizar);
 //consultas del usuario
 router.route('/usuario').post(Usuario.nuevoUsuario);
 router.route('/usuario/:idUsuario/empresa').post(Usuario.nuevoEmpresaUsuario);
-router.route('/usuario/:idUsuario').get(Usuario.getUsuario);
+router.route('/usuario/:nickname').get(Usuario.getUsuario);
 router.route('/usuario/:idUsuario/empresa').get(Usuario.getEmpresa);
 
 //consultas de empresa

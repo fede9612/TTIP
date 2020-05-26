@@ -10,9 +10,19 @@ module.exports = {
     },
 
     getUsuario: async (req, res, next) =>{
-        const {idUsuario} = req.params;
-        const usuario = await Usuario.findById(idUsuario);
-        res.status(201).json(usuario);
+        const {nickname} = req.params;
+        await Usuario.findOne({'mail': nickname}, async function(err, usuario){
+            if(usuario == null){
+                console.log("entro");
+                const usuario = new Usuario();
+                usuario.mail = nickname;
+                await usuario.save();
+                return res.status(201).json(usuario);
+            }
+            console.log("no entro");
+            return res.status(201).json(usuario);
+       });
+        
     },
 
     getEmpresa: async (req, res, next) =>{
