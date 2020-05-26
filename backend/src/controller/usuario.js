@@ -13,13 +13,11 @@ module.exports = {
         const {nickname} = req.params;
         await Usuario.findOne({'mail': nickname}, async function(err, usuario){
             if(usuario == null){
-                console.log("entro");
                 const usuario = new Usuario();
                 usuario.mail = nickname;
                 await usuario.save();
                 return res.status(201).json(usuario);
             }
-            console.log("no entro");
             return res.status(201).json(usuario);
        });
         
@@ -39,7 +37,9 @@ module.exports = {
         nuevoEmpresa.usuario = usuario;
         await nuevoEmpresa.save();
         usuario.empresa = nuevoEmpresa;
-        await usuario.save();
-        res.status(201).json(nuevoEmpresa);
+        await usuario.save(function (err) {
+            if (err) return next(err);
+            return res.sendStatus(201);
+        });
     }
 };

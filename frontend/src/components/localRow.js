@@ -49,7 +49,7 @@ class LocalRow extends Component{
                         </spam>
                       </Link>
                     </spam> 
-                    <spam className="ml-1 text-gray-700 text-base">Productos en stock: <spam>{this.state.local.productos.length} </spam><Link to={"/productos/"+this.state.local._id}>Ver</Link></spam>
+                    <spam className="ml-1 text-gray-700 text-base">Productos en stock: <spam>{Array.isArray(this.state.local.productos) ? this.state.local.productos.length : 0 } </spam><Link to={"/productos/"+this.state.local._id}>Ver</Link></spam>
                   <div className="flex items-center">
                     
                     <div className="text-xs">

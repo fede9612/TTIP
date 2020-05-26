@@ -24,8 +24,10 @@ module.exports = {
         nuevoProducto.local = local;
         await nuevoProducto.save();
         local.productos.push(nuevoProducto);
-        await local.save();
-        res.status(201);
+        await local.save(function (err) {
+            if (err) return next(err);
+            return res.sendStatus(201);
+        });
     },
 
     eliminarProductoLocal: async (req, res, next) =>{
@@ -62,7 +64,7 @@ module.exports = {
         await local.save(function (err) {
             if (err) return next(err);
             return res.sendStatus(201);
-        })
+        });
         
     },
 
