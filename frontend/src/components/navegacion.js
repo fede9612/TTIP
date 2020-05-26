@@ -4,20 +4,36 @@ import BuscarProductos from './buscarproductos';
 import EmpresaPanel from './empresaPanel';
 import ProductosPanel from './productosPanel';
 import CarritoEmpresaPanel from './carritoEmpresaPanel';
-import { useAuth0 } from '../react-auth0-spa';
+import auth0Client from '../Auth';
 import PrivateRoute from './privateRoute';
 
 class Navegacion extends Component {
     constructor(props){
         super(props);
         this.state = {
-            menuModal : false
+            menuModal : false,
+            checkingSession: true
         }
     }
 
     toggleMenu(){
         this.setState({menuModal: !this.state.menuModal});
     }
+
+    async componentDidMount() {
+        if (this.props.location.pathname === '/empresaPanel') {
+          this.setState({checkingSession:false});
+          return;
+        }
+        try {
+          await auth0Client.silentAuth();
+          this.forceUpdate();
+        } catch (err) {
+          if (err.error !== 'login_required') console.log(err.error);
+        }
+        this.setState({checkingSession:false});
+      }
+    
 
     render(){
         return(
@@ -58,7 +74,7 @@ class Navegacion extends Component {
                         </Route>
                         <Route path="/productos/:id" component={ProductosPanel}/>
                         <Route path="/pedidos/:id" component={CarritoEmpresaPanel}/>
-                        <PrivateRoute path="/empresaPanel" component={EmpresaPanel}/>
+                        <PrivateRoute path="/empresaPanel" component={EmpresaPanel} checkingSession={this.state.checkingSession}/>
                     </Switch>
                 </div>
             </Router>
@@ -66,35 +82,33 @@ class Navegacion extends Component {
         }
 }
 
-function Login() {
+function Login(props) {
 
-    const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
-    let usuarioNotUndifined;
-     if(typeof user !== 'undefined'){
-       usuarioNotUndifined = isAuthenticated && 
-                            <div className="flex inline-flex">
-                            {/* <label className="mr-2 text-white">{auth0Client.getProfile().name}</label> */}
-                            {console.log(user)}
-                            <span className="mr-1 text-white">{user.given_name} 
-                            </span>
-                            <img src={user.picture} className=" h-8 rounded-full" />
-                            <button className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-green-400 lg:mt-0" 
-                            onClick={() => logout()}>Desconectar</button>
-                            </div>
-    }
-
+    const signOut = () => {
+        auth0Client.signOut();
+        props.history.replace('/');
+      };
+    
     return (
       <div>
-       {
-                            !isAuthenticated && (
-                        <button className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-green-400 lg:mt-0"
-                                onClick={() => loginWithRedirect({})}>
-                                    Iniciar sesión
-                        </button>
-                        )}
-                        {usuarioNotUndifined}  
+       {!auth0Client.isAuthenticated() && (
+            <button className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-green-400 lg:mt-0"
+                onClick={auth0Client.signIn}>
+                Iniciar sesión
+            </button>
+        )}
+        {auth0Client.isAuthenticated() && 
+                            <div className="flex inline-flex">
+                            {console.log(auth0Client.getProfile())}
+                            <span className="mr-1 text-white">{auth0Client.getProfile().given_name} 
+                            </span>
+                            <img src={auth0Client.getProfile().picture} className=" h-8 rounded-full" />
+                            <button className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-green-400 lg:mt-0" 
+                            onClick={() => {signOut()}}>Desconectar</button>
+                            </div>  
+        }
       </div>
     );
   }
 
-export default Navegacion;
+export default withRouter(Navegacion);

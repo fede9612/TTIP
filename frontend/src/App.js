@@ -1,31 +1,22 @@
 import React, { Component } from 'react';
 import './styles/app.css';
 import Navegacion from './components/navegacion';
-import { useAuth0 } from "./react-auth0-spa";
+import auth0Client from './Auth';
 import history from "./utils/history";
-import { Router, Route, Switch } from "react-router-dom";
+import { Router, Route, Switch, withRouter } from "react-router-dom";
+import PrivateRoute from './components/privateRoute';
+import EmpresaPanel from './components/empresaPanel';
 
-const App = () => {
-
-
- 
-
-    return (
-      <div className="App">
-      {/* Don't forget to include the history module */}
-      <Router history={history}>
-        <header>
-          <Navegacion />
-        </header>
-        <Switch>
-          <Route path="/" exact />
-          {/* <Route path="/profile" component={Profile} /> */}
-        </Switch>
-      </Router>
-    </div>
-    );
+class App extends Component {
   
+  render(){
+    return (
+      <div>
+        <Navegacion />
+      </div>
+    );
+  }
 }
 
 
-export default App;
+export default withRouter(App);
