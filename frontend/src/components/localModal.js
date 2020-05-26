@@ -21,13 +21,14 @@ class LocalModal extends Component{
     }
 
     toggle(){
+        console.log('http://localhost:8080/empresa/'+ this.state.empresa._id +'/local');
         this.setState({modal: !this.state.modal})
         this.props.handlerClick();
     }
 
     agregarLocal(){
         axios.post('http://localhost:8080/empresa/'+ this.state.empresa._id +'/local', this.state.local)
-        .then((res) => {this.props.consultarEmpresa(res.data)})
+        .then((res) => {this.props.agregar(res.data)})
         .then(this.toggle());
     }
 

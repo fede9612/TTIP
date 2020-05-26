@@ -42,7 +42,7 @@ class ProductoRow extends Component{
                     
                     <h5>{this.state.producto.nombre}</h5>
                     <p>${this.state.producto.precio}<span> stock: {this.state.producto.cantidad}</span></p>
-                    <p>
+                    <p className="mb-1">
                         <button className="bg-red-600 hover:bg-red-900 text-white font-bold px-2 h-7 rounded-full" onClick={this.eliminarProducto}>Eliminar</button><span> </span> 
                         {botonOcultar}
                     </p>

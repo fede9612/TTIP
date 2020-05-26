@@ -127,7 +127,7 @@ class BuscarProductos extends Component{
                   <div className="flex-2"> 
                     <h2>¿Estás buscando un producto y no sabes donde encontrarlo?</h2> 
                   </div>
-                    <img className="imgSearch" src={imgSearch}></img>
+                    <img className="imgSearch h-40" src={imgSearch}></img>
                 </div>
                 <div className="flex justify-center w-full">
                   <h3>Te ayudamos con ello</h3>    

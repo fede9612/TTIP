@@ -87,7 +87,7 @@ class ProductosPanel extends Component{
                     <div class="w-full lg:w-1/4 ">
                         <h4>Local</h4>
                         <hr className="w-4/5 mt-1"></hr>
-                        <p>{ this.state.local.nombre }</p>
+                        <p className="mt-2">{ this.state.local.nombre }</p>
                     </div>
                     <div class="w-full lg:w-3/4">
                         <div className="flex">

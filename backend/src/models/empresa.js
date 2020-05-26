@@ -12,5 +12,5 @@ let empresaSchema = new mongoose.Schema({
     locales: [{type: Schema.Types.ObjectId, ref: 'local'}]
 });
 
-const Empresa = mongoose.model('empresa', empresaSchema);
+const Empresa = mongoose.model('Empresa', empresaSchema);
 module.exports = { empresaSchema, Empresa};
