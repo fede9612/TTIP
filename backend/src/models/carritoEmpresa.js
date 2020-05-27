@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 var ProductoSchema = require('../models/producto').productoSchema;
 var UsuarioSchema = require('../models/usuario').usuarioSchema;
 
-let carritoEmpresaSchema = new mongoose.Schema({
+let carritoSchema = new mongoose.Schema({
     local: { type: Schema.Types.ObjectId, ref: 'local' },
     pedidos: [ ProductoSchema ],
     usuarioDelPedido:  UsuarioSchema,
@@ -13,5 +13,5 @@ let carritoEmpresaSchema = new mongoose.Schema({
     }
 });
 
-const CarritoEmpresa = mongoose.model('carritoEmpresa', carritoEmpresaSchema);
-module.exports = { carritoEmpresaSchema, CarritoEmpresa };
+const Carrito = mongoose.model('Carrito', carritoSchema);
+module.exports = { carritoSchema, Carrito };
