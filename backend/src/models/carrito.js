@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-var ProductoSchema = require('../models/producto').productoSchema;
-var UsuarioSchema = require('../models/usuario').usuarioSchema;
+var ProductoSchema = require('./producto').productoSchema;
+var UsuarioSchema = require('./usuario').usuarioSchema;
 
 let carritoSchema = new mongoose.Schema({
     local: { type: Schema.Types.ObjectId, ref: 'local' },

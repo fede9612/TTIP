@@ -4,7 +4,7 @@ const Local = require('./controller/local');
 const Producto = require('./controller/producto');
 const Usuario = require('./controller/usuario');
 const Empresa = require('./controller/empresa');
-const CarritoEmpresa = require('./controller/carritoEmpresa');
+const CarritoEmpresa = require('./controller/carrito');
 router.get('/',(req,res)=>res.send('ok'));
 
 //consultas de local

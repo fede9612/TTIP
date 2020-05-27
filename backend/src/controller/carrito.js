@@ -1,4 +1,4 @@
-const CarritoEmpresa = require('../models/carritoEmpresa').CarritoEmpresa;
+const CarritoEmpresa = require('../models/carrito').CarritoEmpresa;
 
 module.exports = {
     
