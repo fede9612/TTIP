@@ -1,5 +1,7 @@
 const Empresa = require('../models/empresa').Empresa;
 const Usuario = require('../models/usuario').Usuario;
+const Carrito = require('../models/carrito').Carrito;
+const Local = require('../models/local');
 
 module.exports = {
 
@@ -41,5 +43,43 @@ module.exports = {
             if (err) return next(err);
             return res.sendStatus(201);
         });
+    },
+
+    agregarPedidoUsuario: async (req, res, next) =>{
+        const {idLocal} = req.params;
+        let productos = req.body;
+        const {idUsuario} = req.params;
+        const local = await Local.findById(idLocal);
+        const usuario = await Usuario.findById(idUsuario);
+        usuario.carritosDePedido.map(async (pedido) => {
+            if(pedido.local == local && pedido.pendiente && !pedido.confirmado){
+               pedido.pedidos.push(productos); 
+               await pedido.save(function (err) {
+                if (err) return next(err);
+                return res.sendStatus(201);
+               })
+            }else{
+                const pedido = new Carrito();
+                pedido.local = local;
+                pedido.pedidos = productos;
+                pedido.usuarioDelPedido = usuario;
+                await pedido.save();
+                usuario.carritosDePedido.push(pedido);
+                await usuario.save(function (err) {
+                    if (err) return next(err);
+                    return res.sendStatus(201);
+                });
+            }
+        });
+        const pedido = new Carrito();
+                pedido.local = local;
+                pedido.pedidos = productos;
+                pedido.usuarioDelPedido = usuario;
+                await pedido.save();
+                usuario.carritosDePedido.push(pedido);
+                await usuario.save(function (err) {
+                    if (err) return next(err);
+                    return res.sendStatus(201);
+    });      
     }
 };
