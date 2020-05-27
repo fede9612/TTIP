@@ -1,10 +1,10 @@
-const CarritoEmpresa = require('../models/carrito').CarritoEmpresa;
+const Carrito = require('../models/carrito').Carrito;
 
 module.exports = {
     
     getPedido: async (req, res, next) => {
         const {idPedido} = req.params;
-        CarritoEmpresa.findById(idPedido, function (err, producto) {
+        Carrito.findById(idPedido, function (err, producto) {
             if (err) return next(err);
             return res.send(producto);
         })
@@ -12,7 +12,7 @@ module.exports = {
 
     actualizar: async (req, res, next) => {
         const {idPedido} = req.params;
-        CarritoEmpresa.findByIdAndUpdate(idPedido, req.body, function (err, producto) {
+        Carrito.findByIdAndUpdate(idPedido, req.body, function (err, producto) {
             if (err) return next(err);
             return res.json(producto);
         })

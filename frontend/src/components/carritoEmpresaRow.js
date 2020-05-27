@@ -30,7 +30,7 @@ class CarritoEmpresaRow extends Component{
         let { pedido } = this.state;
         pedido.pendiente = !pedido.pendiente;
         this.setState({pedido: pedido});
-        axios.put('http://localhost:8080/carritoEmpresa/'+ pedido._id, pedido).then(this.props.actualizarPedidos(pedido));
+        axios.put('http://localhost:8080/carrito/'+ pedido._id +'/local', pedido).then(this.props.actualizarPedidos(pedido));
     }
     
     render(){  
