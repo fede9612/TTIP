@@ -10,6 +10,10 @@ let carritoSchema = new mongoose.Schema({
     pendiente: {
         type: Boolean,
         default: true 
+    },
+    confirmado: {
+        type: Boolean,
+        default: false 
     }
 });
 

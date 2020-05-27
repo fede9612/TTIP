@@ -47,39 +47,30 @@ module.exports = {
 
     agregarPedidoUsuario: async (req, res, next) =>{
         const {idLocal} = req.params;
-        let productos = req.body;
+        let producto = req.body;
         const {idUsuario} = req.params;
         const local = await Local.findById(idLocal);
-        const usuario = await Usuario.findById(idUsuario);
-        usuario.carritosDePedido.map(async (pedido) => {
-            if(pedido.local == local && pedido.pendiente && !pedido.confirmado){
-               pedido.pedidos.push(productos); 
-               await pedido.save(function (err) {
-                if (err) return next(err);
-                return res.sendStatus(201);
-               })
-            }else{
-                const pedido = new Carrito();
-                pedido.local = local;
-                pedido.pedidos = productos;
-                pedido.usuarioDelPedido = usuario;
-                await pedido.save();
-                usuario.carritosDePedido.push(pedido);
-                await usuario.save(function (err) {
-                    if (err) return next(err);
-                    return res.sendStatus(201);
-                });
+        const usuario = await Usuario.findById(idUsuario).populate('carritosDePedido');
+        var encontro = false;
+        var pedido;
+        usuario.carritosDePedido.map((_pedido) => {
+            if(_pedido.local.equals(local._id) && _pedido.pendiente && !_pedido.confirmado){
+                encontro = true;
+                pedido = _pedido;
+                pedido.pedidos.push(producto);   
             }
         });
-        const pedido = new Carrito();
-                pedido.local = local;
-                pedido.pedidos = productos;
-                pedido.usuarioDelPedido = usuario;
-                await pedido.save();
-                usuario.carritosDePedido.push(pedido);
-                await usuario.save(function (err) {
-                    if (err) return next(err);
-                    return res.sendStatus(201);
-    });      
+        if(!encontro){
+            const pedido = new Carrito();
+            pedido.local = local;
+            pedido.pedidos = producto;
+            pedido.usuarioDelPedido = usuario;
+            await pedido.save();
+            usuario.carritosDePedido.push(pedido);
+        }else{
+            await pedido.save(function (err) {if (err) return next(err)});
+        }
+        await usuario.save(function (err) {if (err) return next(err)});     
+        return res.send(usuario);
     }
 };
