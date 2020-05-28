@@ -27,17 +27,17 @@ class ProductoRowBuscarProductos extends Component{
                       </svg>
                       Producto
                     </p>
-                    <div className="text-gray-900 font-bold text-xl mb-2">{this.state.producto.nombre}</div>
+                    <div className="text-gray-900 font-bold text-xl mb-2">{this.props.producto.nombre}</div>
                   </div>
-                    <spam className="text-gray-700 text-base">Precio: <spam>{this.state.producto.precio}</spam></spam>
-                    <spam className="text-gray-700 text-base">Cantidad: <spam>{this.state.producto.cantidad}</spam></spam>
+                    <spam className="text-gray-700 text-base">Precio: <spam>{this.props.producto.precio}</spam></spam>
+                    <spam className="text-gray-700 text-base">Cantidad: <spam>{this.props.producto.cantidad}</spam></spam>
                   <div className="flex items-center">
                     
                     <div className="text-xs">
-                    <spam className="text-gray-600">Empresa: {this.state.producto.local.nombre} </spam>
+                    <spam className="text-gray-600">Empresa: {this.props.producto.local.nombre} </spam>
                       <br></br>
                       
-                      <spam className="text-green-700">Distancia: {this.props.calculateDistance(this.state.producto.local.latitud, this.state.producto.local.longitud)} KM</spam>
+                      <spam className="text-green-700">Distancia: {this.props.calculateDistance(this.props.producto.local.latitud, this.props.producto.local.longitud)} KM</spam>
                       <button className="bg-red-600 hover:bg-red-900 text-white font-bold px-2 h-7 rounded-full"onClick={this.agregarProductoAlCarrito}>Agregar al carrito</button>
                     </div>
                   </div>
