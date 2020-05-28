@@ -63,7 +63,8 @@ module.exports = {
             if(_pedido.local.equals(local._id) && _pedido.pendiente && !_pedido.confirmado){
                 encontro = true;
                 pedido = _pedido;
-                pedido.pedidos.push(producto);   
+                pedido.pedidos.push(producto); 
+                local.carritosDePedido.push(_pedido);  
             }
         });
         if(!encontro){
@@ -73,8 +74,11 @@ module.exports = {
             pedido.usuarioDelPedido = usuario;
             await pedido.save();
             usuario.carritosDePedido.push(pedido);
+            local.carritosDePedido.push(pedido);
+            await local.save(function (err) {if (err) return next(err)});
         }else{
             await pedido.save(function (err) {if (err) return next(err)});
+            await local.save(function (err) {if (err) return next(err)});
         }
         await usuario.save(function (err) {if (err) return next(err)});     
         return res.send(usuario);
