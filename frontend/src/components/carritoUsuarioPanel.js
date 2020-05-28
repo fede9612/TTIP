@@ -22,7 +22,6 @@ class CarritoUsuarioPanel extends Component{
     consultarCarritos(){
         axios.get('http://localhost:8080/usuario/' + auth0Client.getProfile().nickname + '/pedidos')
         .then((res) => {
-            console.log(res.data);
           this.setState({pedidos : res.data});
         });
     }
