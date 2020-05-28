@@ -13,6 +13,7 @@ class CarritoUsuarioPanel extends Component{
             pedidos: [],
             productoModal: false
         };
+        this.actualizarPedidos = this.actualizarPedidos.bind(this);
     }
 
     componentDidMount(){
@@ -26,11 +27,24 @@ class CarritoUsuarioPanel extends Component{
         });
     }
 
+    actualizarPedidos(pedido){
+        let {pedidos} = this.state;
+        let pedidosActualizados = [];
+        pedidos.map((pedid) => {
+            if(pedid._id != pedido._id){
+                pedidosActualizados.push(pedid);
+            }else{
+                pedidosActualizados.push(pedido);
+            }
+        });
+        this.setState({pedidos: pedidosActualizados});
+    }
+
     render(){
         let pedidosList;
         if(Array.isArray(this.state.pedidos) && this.state.pedidos.length){
             pedidosList = this.state.pedidos.map((pedido) => {
-                return(<CarritoUsuarioRow pedido={pedido} />);
+                return(<CarritoUsuarioRow pedido={pedido} actualizarPedidos={this.actualizarPedidos}/>);
             });
         }else{
             pedidosList = (

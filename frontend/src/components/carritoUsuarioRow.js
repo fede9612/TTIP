@@ -8,6 +8,7 @@ class CarritoEmpresaRow extends Component{
         this.state = {
             pedido : props.pedido
         };
+        this.actualizarEstado = this.actualizarEstado.bind(this);
     }
 
     calcularMontoDelPedido(){
@@ -17,13 +18,20 @@ class CarritoEmpresaRow extends Component{
         });
         return monto;
     }
+
+    actualizarEstado(){
+        let { pedido } = this.state;
+        pedido.confirmado = !pedido.confirmado;
+        this.setState({pedido: pedido});
+        axios.put('http://localhost:8080/carrito/'+ pedido._id +'/local', pedido).then(this.props.actualizarPedidos(pedido));
+    }
     
     render(){  
         let botonConfirmado;
         if(this.state.pedido.confirmado){
-            botonConfirmado = <button className="bg-red-600 hover:bg-red-800 text-white font-bold px-2 h-7 rounded-full">Cancelar compra</button>
+            botonConfirmado = <button className="bg-red-600 hover:bg-red-800 text-white font-bold px-2 h-7 rounded-full" onClick={this.actualizarEstado}>Cancelar compra</button>
         }else{
-            botonConfirmado = <button className="bg-green-500 hover:bg-green-800 text-white font-bold px-2 h-7 rounded-full">Confirmar compra</button>
+            botonConfirmado = <button className="bg-green-500 hover:bg-green-800 text-white font-bold px-2 h-7 rounded-full" onClick={this.actualizarEstado}>Confirmar compra</button>
         }          
             return(
                 
