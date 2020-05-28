@@ -74,6 +74,7 @@ class CarritoUsuarioPanel extends Component{
                                 <th scope="col">Solicitante</th>
                                 <th scope="col">Cantidad productos</th>
                                 <th scope="col">Total</th>
+                                <th scope="col">Estado</th>
                                 <th scope="col"></th>
                                 </tr>
                             </thead>
