@@ -48,9 +48,9 @@ module.exports = {
     agregarPedidoUsuario: async (req, res, next) =>{
         const {idLocal} = req.params;
         let producto = req.body;
-        const {idUsuario} = req.params;
+        const {nickname} = req.params;
         const local = await Local.findById(idLocal);
-        const usuario = await Usuario.findById(idUsuario).populate('carritosDePedido');
+        const usuario = await Usuario.findOne({'mail': nickname}).populate('carritosDePedido');
         var encontro = false;
         var pedido;
         usuario.carritosDePedido.map((_pedido) => {
