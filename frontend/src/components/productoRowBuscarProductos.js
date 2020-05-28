@@ -9,8 +9,6 @@ class ProductoRowBuscarProductos extends Component{
         this.state = {
             producto : props.producto
         };
-        // this.handlerEstadoOcultoProducto = this.handlerEstadoOcultoProducto.bind(this);
-        // this.eliminarProducto = this.eliminarProducto.bind(this);
         this.agregarProductoAlCarrito = this.agregarProductoAlCarrito.bind(this);
     }
 
@@ -18,11 +16,6 @@ class ProductoRowBuscarProductos extends Component{
         axios.post('http://localhost:8080/usuario/' + this.state.producto.local._id + '/' + auth0Client.getProfile().nickname + '/pedido', this.state.producto)
         .then((res) => console.log(res.data));
     }
-
-    // eliminarProducto(){
-    //     axios.delete('http://localhost:8080/local/'+ this.props.local._id + '/' + this.state.producto._id)
-    //     .then(this.props.eliminarProducto(this.state.producto));
-    // }
 
     render(){
         return(
