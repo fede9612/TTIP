@@ -15,8 +15,9 @@ describe('Producto Model Test', () => {
         usuario = new Usuario(usuarioData);
     });
 
-    afterAll(done => {
+    afterAll(async done => {
         // Closing the DB connection allows Jest to exit successfully.
+        await Usuario.collection.drop();
         mongoose.connection.close()
         done()
       })

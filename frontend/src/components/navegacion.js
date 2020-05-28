@@ -6,6 +6,7 @@ import ProductosPanel from './productosPanel';
 import CarritoEmpresaPanel from './carritoEmpresaPanel';
 import auth0Client from '../Auth';
 import PrivateRoute from './privateRoute';
+import CarritoUsuarioPanel from './carritoUsuarioPanel';
 
 class Navegacion extends Component {
     constructor(props){
@@ -59,9 +60,9 @@ class Navegacion extends Component {
                         <Link to="/empresaPanel" onClick={this.toggleMenu.bind(this)} class="block lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
                             Empresa
                         </Link>
-                        <a href="#responsive-header" class="block lg:inline-block lg:mt-0 text-teal-200 hover:text-white">
+                        <Link to="/carritos" class="block lg:inline-block lg:mt-0 text-teal-200 hover:text-white">
                             Carrito
-                        </a>
+                        </Link>
                         </div>
                         <div>
                          <Login />
@@ -75,6 +76,7 @@ class Navegacion extends Component {
                         <Route path="/productos/:id" component={ProductosPanel}/>
                         <Route path="/pedidos/:id" component={CarritoEmpresaPanel}/>
                         <PrivateRoute path="/empresaPanel" component={EmpresaPanel} checkingSession={this.state.checkingSession}/>
+                        <PrivateRoute path="/carritos" component={CarritoUsuarioPanel}/>
                     </Switch>
                 </div>
             </Router>

@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import imgSearch from '../styles/img/search.svg' 
 import axios from 'axios';
 import MapaTools from '../components/mapaTools'
+import ProductoRowBuscarProductos from './productoRowBuscarProductos';
 
 class BuscarProductos extends Component{
 
@@ -22,6 +23,7 @@ class BuscarProductos extends Component{
         this.handleSubmit = this.handleSubmit.bind(this);
         this.getLocation = this.getLocation.bind(this);
         this.getCordinates = this.getCordinates.bind(this);
+        this.calculateDistance = this.calculateDistance.bind(this);
     }
 
     componentWillMount(){
@@ -93,30 +95,7 @@ class BuscarProductos extends Component{
        
         let mostrarProductosBuscado = this.listaOrdenadaDeProductos().map((prod) => {
             return(
-                <div className="mt-2">
-                <div className="border-r border-b border-l border-t border-gray-700 lg:border-t lg:border-gray-700 rounded-b lg:rounded-b-none lg:rounded-r p-2 flex flex-col justify-between leading-normal">
-                  <div>
-                    <p className="text-sm text-gray-600 flex items-center">
-                      <svg className="fill-current text-gray-500 w-3 h-3 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                        <path d="M4 8V6a6 6 0 1 1 12 0v2h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-8c0-1.1.9-2 2-2h1zm5 6.73V17h2v-2.27a2 2 0 1 0-2 0zM7 6v2h6V6a3 3 0 0 0-6 0z" />
-                      </svg>
-                      Producto
-                    </p>
-                    <div className="text-gray-900 font-bold text-xl mb-2">{prod.nombre}</div>
-                  </div>
-                    <spam className="text-gray-700 text-base">Precio: <spam>{prod.precio}</spam></spam>
-                    <spam className="text-gray-700 text-base">Cantidad: <spam>{prod.cantidad}</spam></spam>
-                  <div className="flex items-center">
-                    
-                    <div className="text-xs">
-                    <spam className="text-gray-600">Empresa: {prod.local.nombre} </spam>
-                      <br></br>
-                      
-                      <spam className="text-green-700">Distancia: {this.calculateDistance(prod.local.latitud, prod.local.longitud)} KM</spam>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                <ProductoRowBuscarProductos producto={prod} calculateDistance={this.calculateDistance}/>
             );
         });
 

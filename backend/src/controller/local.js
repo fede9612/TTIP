@@ -1,6 +1,6 @@
 const Local = require('../models/local');
 const Producto = require('../models/producto').Producto;
-const CarritoEmpresa = require('../models/carritoEmpresa').CarritoEmpresa;
+const Carrito = require('../models/carrito').Carrito;
 const Usuario = require('../models/usuario').Usuario;
 
 module.exports = {
@@ -55,7 +55,7 @@ module.exports = {
         const {idUsuario} = req.params;
         const local = await Local.findById(idLocal);
         const usuario = await Usuario.findById(idUsuario);
-        const pedido = new CarritoEmpresa();
+        const pedido = new Carrito();
         pedido.local = local;
         pedido.pedidos = productos;
         pedido.usuarioDelPedido = usuario;
@@ -71,6 +71,12 @@ module.exports = {
     getPedidos: async (req, res, next) =>{
         const {idLocal} = req.params;
         const local = await Local.findById(idLocal).populate('carritosDePedido');
-        return res.send(local.carritosDePedido);
+        let pedidos = [];
+        local.carritosDePedido.map((pedido) => {
+            if(pedido.confirmado){
+                pedidos.push(pedido);
+            }
+        })
+        return res.send(pedidos);
     }
 };

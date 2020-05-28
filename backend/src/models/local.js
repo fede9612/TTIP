@@ -9,14 +9,16 @@ let localSchema = new mongoose.Schema({
         type: String
     },
     latitud: {
-        type: Number
+        type: Number,
+        default: 0
     },
     longitud: {
-        type: Number
+        type: Number,
+        default: 0
     },
     empresa: { type: Schema.Types.ObjectId, ref: 'empresa' },
     productos: [{ type: Schema.Types.ObjectId, ref: 'producto' }],
-    carritosDePedido: [{type: Schema.Types.ObjectId, ref: 'carritoEmpresa'}]
+    carritosDePedido: [{type: Schema.Types.ObjectId, ref: 'Carrito'}]
 });
 
 module.exports = mongoose.model('local', localSchema);

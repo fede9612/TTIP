@@ -19,35 +19,35 @@ class CarritoEmpresaRow extends Component{
         return monto;
     }
 
-    // handlerEstadoOcultoProducto(){
-    //     let { producto } = this.state
-    //     producto.oculto = !producto.oculto
-    //     this.setState({producto: producto});
-    //     this.actualizarProducto(producto);
-    // }
-
     actualizarEstado(){
         let { pedido } = this.state;
-        pedido.pendiente = !pedido.pendiente;
+        pedido.confirmado = !pedido.confirmado;
         this.setState({pedido: pedido});
         axios.put('http://localhost:8080/carrito/'+ pedido._id +'/local', pedido).then(this.props.actualizarPedidos(pedido));
     }
     
     render(){  
-        let botonPendiente;
-        if(this.state.pedido.pendiente){
-            botonPendiente = <button className="bg-red-600 hover:bg-red-800 text-white font-bold px-2 h-7 rounded-full" onClick={this.actualizarEstado}>Pendiente</button>
+        let botonConfirmado;
+        if(this.state.pedido.confirmado){
+            botonConfirmado = <button className="bg-red-600 hover:bg-red-800 text-white font-bold px-2 h-7 rounded-full" onClick={this.actualizarEstado}>Cancelar compra</button>
         }else{
-            botonPendiente = <button className="bg-green-500 hover:bg-green-800 text-white font-bold px-2 h-7 rounded-full" onClick={this.actualizarEstado}>Listo</button>
+            botonConfirmado = <button className="bg-green-500 hover:bg-green-800 text-white font-bold px-2 h-7 rounded-full" onClick={this.actualizarEstado}>Confirmar compra</button>
+        }
+        let pendiente;
+        if(this.state.pedido.pendiente){
+            pendiente = <button className="bg-red-600 text-white font-bold px-2 h-7 rounded-full">Pendiente</button>
+        }else{
+            pendiente = <button className="bg-green-500 text-white font-bold px-2 h-7 rounded-full">Listo</button>
         }          
             return(
                 
-                <tr className={this.state.pedido.pendiente ? "table-danger" : "table-success"}>
-                    <td>{this.state.pedido.usuarioDelPedido.mail}</td>
+                <tr>
+                    <td>{this.state.pedido.local.nombre}</td>
                     <td>{this.state.pedido.pedidos.length}</td>
                     <td>{this.calcularMontoDelPedido()}</td>
+                    <td>{pendiente}</td>
                     <td>
-                        {botonPendiente}
+                        {botonConfirmado}
                     </td>
                 </tr>                 
             

@@ -6,7 +6,7 @@ let usuarioSchema = new mongoose.Schema({
         type: String 
     },
     empresa: {type: Schema.Types.ObjectId, ref: 'Empresa'},
-    carritosDePedido: [{type: Schema.Types.ObjectId, ref: 'carritoUsuario'}]
+    carritosDePedido: [{type: Schema.Types.ObjectId, ref: 'Carrito'}]
 });
 
 const Usuario = mongoose.model('usuario', usuarioSchema);
