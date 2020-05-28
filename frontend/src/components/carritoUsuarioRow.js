@@ -42,7 +42,7 @@ class CarritoEmpresaRow extends Component{
             return(
                 
                 <tr>
-                    <td>{this.state.pedido.usuarioDelPedido.mail}</td>
+                    <td>{this.state.pedido.local.nombre}</td>
                     <td>{this.state.pedido.pedidos.length}</td>
                     <td>{this.calcularMontoDelPedido()}</td>
                     <td>{pendiente}</td>

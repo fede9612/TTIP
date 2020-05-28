@@ -71,7 +71,7 @@ class CarritoUsuarioPanel extends Component{
                         <table class="table ">
                             <thead>
                                 <tr>
-                                <th scope="col">Solicitante</th>
+                                <th scope="col">Sucursal</th>
                                 <th scope="col">Cantidad productos</th>
                                 <th scope="col">Total</th>
                                 <th scope="col">Estado</th>

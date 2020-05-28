@@ -27,8 +27,9 @@ module.exports = {
 
     getPedidos: async (req, res, next) =>{
         const {nickname} = req.params;
-        const usuario = await Usuario.findOne({'mail': nickname}).populate('carritosDePedido');
-        return res.send(usuario.carritosDePedido);
+        const usuario = await Usuario.findOne({'mail': nickname});
+        const pedidos = await Carrito.find({'usuarioDelPedido._id': usuario._id}).populate('local');
+        return res.send(pedidos);
     },
 
     getEmpresa: async (req, res, next) =>{
