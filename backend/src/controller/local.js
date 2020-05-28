@@ -71,6 +71,12 @@ module.exports = {
     getPedidos: async (req, res, next) =>{
         const {idLocal} = req.params;
         const local = await Local.findById(idLocal).populate('carritosDePedido');
-        return res.send(local.carritosDePedido);
+        let pedidos = [];
+        local.carritosDePedido.map((pedido) => {
+            if(pedido.confirmado){
+                pedidos.push(pedido);
+            }
+        })
+        return res.send(pedidos);
     }
 };
