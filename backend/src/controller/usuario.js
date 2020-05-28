@@ -74,8 +74,7 @@ module.exports = {
             pedido.usuarioDelPedido = usuario;
             await pedido.save();
             usuario.carritosDePedido.push(pedido);
-            local.carritosDePedido.push(pedido);
-            await local.save(function (err) {if (err) return next(err)});
+            local.carritosDePedido.push(pedido._id);
         }else{
             await pedido.save(function (err) {if (err) return next(err)});
             await local.save(function (err) {if (err) return next(err)});
