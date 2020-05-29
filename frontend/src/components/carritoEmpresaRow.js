@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import axios from 'axios';
+import ChatPedido from "./chatPedido";
+import { Link } from "react-router-dom";
 
 class CarritoEmpresaRow extends Component{
 
@@ -49,8 +51,8 @@ class CarritoEmpresaRow extends Component{
                     <td>
                         {botonPendiente}
                     </td>
+                    <Link to={`/chat?name=${'name'}&room=${this.state.pedido._id}`}>chat</Link>
                 </tr>                 
-            
             
             )
         }
