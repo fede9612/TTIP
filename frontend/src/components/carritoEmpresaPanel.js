@@ -53,7 +53,7 @@ class CarritoEmpresaPanel extends Component{
         let pedidosList;
         if(Array.isArray(this.state.pedidos) && this.state.pedidos.length){
             pedidosList = this.state.pedidos.map((pedido) => {
-                return(<CarritoEmpresaRow pedido={pedido}  actualizarPedidos={this.actualizarPedidos}/>);
+                return(<CarritoEmpresaRow pedido={pedido} local={this.state.local} actualizarPedidos={this.actualizarPedidos}/>);
             });
         }else{
             pedidosList = (

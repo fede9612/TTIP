@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import axios from 'axios';
+import auth0Client from '../Auth';
+import { Link } from "react-router-dom";
 
 class CarritoEmpresaRow extends Component{
 
@@ -49,6 +51,7 @@ class CarritoEmpresaRow extends Component{
                     <td>
                         {botonConfirmado}
                     </td>
+                    <Link to={`/chat?name=${auth0Client.getProfile().nickname}&room=${this.state.pedido._id}`}>chat</Link>
                 </tr>                 
             
             

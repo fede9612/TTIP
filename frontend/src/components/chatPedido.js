@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import io from "socket.io-client";
+import '../chat/chat.css';
 import queryString from 'query-string';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import Message from "./Message";
@@ -33,6 +34,7 @@ const ChatPedido = () => {
   
   useEffect(() => {
     socket.on('message', message => {
+      console.log(message)
       setMessages(messages => [ ...messages, message ]);
     });
     
@@ -45,26 +47,27 @@ const ChatPedido = () => {
     event.preventDefault();
 
     if(message) {
+      console.log(message)
       socket.emit('sendMessage', message, () => setMessage(''));
     }
   }
 
   return (
     <div className="outerContainer">
-        <div className="container">
+        <div className="containerChat">
         <ScrollToBottom className="messages">
             {messages.map((message, i) => <div key={i}><Message message={message} name={name}/></div>)}
         </ScrollToBottom>
-        <form className="form">
+        <form className="formChat">
             <input
-            className="input"
+            className="inputChat"
             type="text"
             placeholder="Type a message..."
             value={message}
             onChange={({ target: { value } }) => setMessage(value)}
             onKeyPress={event => event.key === 'Enter' ? sendMessage(event) : null}
             />
-            <button className="sendButton" onClick={e => sendMessage(e)}>Send</button>
+            <button className="sendButtonChat" onClick={e => sendMessage(e)}>Send</button>
         </form>
         </div>
         

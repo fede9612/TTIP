@@ -1,4 +1,5 @@
 import React from 'react';
+import '../chat/chat.css';
 
 const Message = ({ message: { text, user }, name }) => {
   let isSentByCurrentUser = false;
@@ -15,14 +16,14 @@ const Message = ({ message: { text, user }, name }) => {
         <div className="messageContainer justifyEnd">
           <p className="sentText pr-10">{trimmedName}</p>
           <div className="messageBox backgroundBlue">
-            <p className="messageText colorWhite"></p>
+            <p className="messageText colorWhite">{text}</p>
           </div>
         </div>
         )
         : (
           <div className="messageContainer justifyStart">
             <div className="messageBox backgroundLight">
-              <p className="messageText colorDark"></p>
+              <p className="messageText colorDark">{text}</p>
             </div>
             <p className="sentText pl-10 ">{user}</p>
           </div>

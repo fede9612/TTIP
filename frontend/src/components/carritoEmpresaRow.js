@@ -8,7 +8,8 @@ class CarritoEmpresaRow extends Component{
     constructor(props){
         super(props);
         this.state = {
-            pedido : props.pedido
+            pedido : props.pedido,
+            local : props.local
         };
         this.actualizarEstado = this.actualizarEstado.bind(this);
     }
@@ -51,7 +52,7 @@ class CarritoEmpresaRow extends Component{
                     <td>
                         {botonPendiente}
                     </td>
-                    <Link to={`/chat?name=${'name'}&room=${this.state.pedido._id}`}>chat</Link>
+                    <Link to={`/chat?name=${this.state.local.nombre}&room=${this.state.pedido._id}`}>chat</Link>
                 </tr>                 
             
             )
