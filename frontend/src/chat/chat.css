@@ -128,3 +128,9 @@
     border: none;
     width: 20%;
   }
+
+  .messages {
+    padding: 5% 0;
+    overflow: auto;
+    flex: auto;
+  }
