@@ -2,7 +2,7 @@ const nodemailer = require("nodemailer");
 
 module.exports = {
     
-    main: async function() {
+    main: async function(maiLocal) {
         // Generate test SMTP service account from ethereal.email
         // Only needed if you don't have a real mail account for testing
         let testAccount = await nodemailer.createTestAccount();
@@ -21,7 +21,7 @@ module.exports = {
         // send mail with defined transport object
         let info = await transporter.sendMail({
           from: '"Anydirec" <foo@example.com>', // sender address
-          to: "federicoferreyra2@gmail.com", // list of receivers
+          to: maiLocal, // list of receivers
           subject: "Nuevo pedido", // Subject line
           text: "Hola este es un correo para probar los servicios SMTP", // plain text body
           html: "<b>Hola este es un correo para probar los servicios SMTP</b>", // html body

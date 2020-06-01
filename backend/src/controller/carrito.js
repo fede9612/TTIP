@@ -17,7 +17,8 @@ module.exports = {
             if (err) return next(err);
         })
         if(pedido.confirmado){
-            mails.main().catch(console.error);
+            const _pedido = await Carrito.findOne(pedido).populate('local');
+            mails.main(_pedido.local.mail).catch(console.error);
         }
         return res.json(pedido);
     }
