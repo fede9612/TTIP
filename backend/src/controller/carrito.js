@@ -18,7 +18,7 @@ module.exports = {
         })
         if(pedido.confirmado){
             const _pedido = await Carrito.findOne(pedido).populate('local');
-            mails.main(_pedido.local.mail).catch(console.error + 'envio al local');
+            mails.main(_pedido.local.mail, "local").catch(console.error + 'envio al local');
         } 
         return res.json(pedido);
     },
@@ -30,7 +30,7 @@ module.exports = {
         })
         if(!pedido.pendiente){
             const _pedido = await Carrito.findOne(pedido).populate('local');
-            mails.main(_pedido.usuarioDelPedido.mail + '@gmail.com').catch(console.error);
+            mails.main(_pedido.usuarioDelPedido.mail + '@gmail.com', "comprador").catch(console.error);
         } 
         return res.json(pedido);
     }
