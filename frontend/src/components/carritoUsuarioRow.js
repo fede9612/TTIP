@@ -25,7 +25,7 @@ class CarritoEmpresaRow extends Component{
         let { pedido } = this.state;
         pedido.confirmado = !pedido.confirmado;
         this.setState({pedido: pedido});
-        axios.put('http://localhost:8080/carrito/'+ pedido._id +'/local', pedido).then(this.props.actualizarPedidos(pedido));
+        axios.put('http://localhost:8080/carrito/'+ pedido._id +'/usuario', pedido).then(this.props.actualizarPedidos(pedido));
     }
     
     render(){  
