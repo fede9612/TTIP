@@ -55,14 +55,16 @@ class Navegacion extends Component {
                     </div>
                     <div class={this.state.menuModal ? "w-full block flex-grow lg:flex lg:items-center lg:w-auto" : "hidden w-full block flex-grow lg:flex lg:items-center lg:w-auto"}>
                         <div class="text-sm lg:flex-grow">
-                        <Link to="/buscarproductos" onClick={this.toggleMenu.bind(this)} class="block lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
+                        <Link to="/buscarproductos" onClick={this.toggleMenu.bind(this)} class="block text-base lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
                             Buscar productos
                         </Link>
-                        <Link to="/empresaPanel" onClick={this.toggleMenu.bind(this)} class="block lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
+                        <Link to="/empresaPanel" onClick={this.toggleMenu.bind(this)} class="block text-base lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
                             Empresa
                         </Link>
                         <Link to="/carritos" class="block lg:inline-block lg:mt-0 text-teal-200 hover:text-white">
-                            Carrito
+                            <svg class="bi bi-cart w-5 h-6 p-0" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+                            </svg>
                         </Link>
                         </div>
                         <div>

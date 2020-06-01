@@ -22,13 +22,6 @@ class CarritoEmpresaRow extends Component{
         return monto;
     }
 
-    // handlerEstadoOcultoProducto(){
-    //     let { producto } = this.state
-    //     producto.oculto = !producto.oculto
-    //     this.setState({producto: producto});
-    //     this.actualizarProducto(producto);
-    // }
-
     actualizarEstado(){
         let { pedido } = this.state;
         pedido.pendiente = !pedido.pendiente;
@@ -52,7 +45,7 @@ class CarritoEmpresaRow extends Component{
                     <td>
                         {botonPendiente}
                     </td>
-                    <Link to={`/chat?name=${this.state.local.nombre}&room=${this.state.pedido._id}`}>chat</Link>
+                    <td><Link to={`/chat?name=${this.state.local.nombre}&room=${this.state.pedido._id}`}>chat</Link></td>
                 </tr>                 
             
             )

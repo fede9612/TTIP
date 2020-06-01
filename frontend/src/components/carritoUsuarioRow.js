@@ -31,9 +31,9 @@ class CarritoEmpresaRow extends Component{
     render(){  
         let botonConfirmado;
         if(this.state.pedido.confirmado){
-            botonConfirmado = <button className="bg-red-600 hover:bg-red-800 text-white font-bold px-2 h-7 rounded-full" onClick={this.actualizarEstado}>Cancelar compra</button>
+            botonConfirmado = <button className="bg-red-600 hover:bg-red-800 text-white font-bold px-2 h-7 rounded-full" onClick={this.actualizarEstado}>Cancelar</button>
         }else{
-            botonConfirmado = <button className="bg-green-500 hover:bg-green-800 text-white font-bold px-2 h-7 rounded-full" onClick={this.actualizarEstado}>Confirmar compra</button>
+            botonConfirmado = <button className="bg-green-500 hover:bg-green-800 text-white font-bold px-2 h-7 rounded-full" onClick={this.actualizarEstado}>Confirmar</button>
         }
         let pendiente;
         if(this.state.pedido.pendiente){
@@ -51,7 +51,7 @@ class CarritoEmpresaRow extends Component{
                     <td>
                         {botonConfirmado}
                     </td>
-                    <Link to={`/chat?name=${auth0Client.getProfile().nickname}&room=${this.state.pedido._id}`}>chat</Link>
+                    <td><Link to={`/chat?name=${auth0Client.getProfile().nickname}&room=${this.state.pedido._id}`}>chat</Link></td>
                 </tr>                 
             
             
