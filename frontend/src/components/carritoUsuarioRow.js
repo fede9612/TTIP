@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import axios from 'axios';
+import auth0Client from '../Auth';
+import { Link } from "react-router-dom";
 
 class CarritoEmpresaRow extends Component{
 
@@ -29,9 +31,9 @@ class CarritoEmpresaRow extends Component{
     render(){  
         let botonConfirmado;
         if(this.state.pedido.confirmado){
-            botonConfirmado = <button className="bg-red-600 hover:bg-red-800 text-white font-bold px-2 h-7 rounded-full" onClick={this.actualizarEstado}>Cancelar compra</button>
+            botonConfirmado = <button className="bg-red-600 hover:bg-red-800 text-white font-bold px-2 h-7 rounded-full" onClick={this.actualizarEstado}>Cancelar</button>
         }else{
-            botonConfirmado = <button className="bg-green-500 hover:bg-green-800 text-white font-bold px-2 h-7 rounded-full" onClick={this.actualizarEstado}>Confirmar compra</button>
+            botonConfirmado = <button className="bg-green-500 hover:bg-green-800 text-white font-bold px-2 h-7 rounded-full" onClick={this.actualizarEstado}>Confirmar</button>
         }
         let pendiente;
         if(this.state.pedido.pendiente){
@@ -49,6 +51,7 @@ class CarritoEmpresaRow extends Component{
                     <td>
                         {botonConfirmado}
                     </td>
+                    <td><Link to={`/chat?name=${auth0Client.getProfile().nickname}&room=${this.state.pedido._id}`}>chat</Link></td>
                 </tr>                 
             
             
