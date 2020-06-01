@@ -17,7 +17,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(require('./src/routes'));
 
-mails.main().catch(console.error);
+// mails.main().catch(console.error);
 
 let server = app.listen(8080, ()=> console.log("Server iniciado"));
 

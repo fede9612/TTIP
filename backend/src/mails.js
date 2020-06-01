@@ -22,7 +22,7 @@ module.exports = {
         let info = await transporter.sendMail({
           from: '"Anydirec" <foo@example.com>', // sender address
           to: "federicoferreyra2@gmail.com", // list of receivers
-          subject: "Correo de prueba", // Subject line
+          subject: "Nuevo pedido", // Subject line
           text: "Hola este es un correo para probar los servicios SMTP", // plain text body
           html: "<b>Hola este es un correo para probar los servicios SMTP</b>", // html body
         });

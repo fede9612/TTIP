@@ -1,4 +1,5 @@
 const Carrito = require('../models/carrito').Carrito;
+const mails = require('../../src/mails');
 
 module.exports = {
     
@@ -12,10 +13,13 @@ module.exports = {
 
     actualizar: async (req, res, next) => {
         const {idPedido} = req.params;
-        Carrito.findByIdAndUpdate(idPedido, req.body, function (err, producto) {
+        pedido = await Carrito.findByIdAndUpdate(idPedido, req.body, function (err, pedido) {
             if (err) return next(err);
-            return res.json(producto);
         })
+        if(pedido.confirmado){
+            mails.main().catch(console.error);
+        }
+        return res.json(pedido);
     }
 
 };
