@@ -10,6 +10,7 @@ class LocalModal extends Component{
             local:{
                 nombre: "",
                 direccion: "",
+                mail: "",
                 productos: [],
                 carritosDePedidos: []
             },
@@ -48,6 +49,12 @@ class LocalModal extends Component{
                         <Input id="nombre" value={this.state.local.direccion} onChange={(event) =>  {
                             let { local } = this.state;
                             local.direccion = event.target.value;
+                            this.setState({local})
+                        }}/>
+                        <Label for="Nombre">Mail: </Label>
+                        <Input id="nombre" value={this.state.local.mail} onChange={(event) =>  {
+                            let { local } = this.state;
+                            local.mail = event.target.value;
                             this.setState({local})
                         }}/>
                     </ModalBody>

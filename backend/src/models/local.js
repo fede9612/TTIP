@@ -16,6 +16,10 @@ let localSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
+    mail: {
+        type: String,
+        default: ""
+    },
     empresa: { type: Schema.Types.ObjectId, ref: 'empresa' },
     productos: [{ type: Schema.Types.ObjectId, ref: 'producto' }],
     carritosDePedido: [{type: Schema.Types.ObjectId, ref: 'Carrito'}]

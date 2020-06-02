@@ -16,7 +16,8 @@ router.route('/local/:idLocal/:idUsuario/pedido').post(Local.nuevoPedidoLocal);
 router.route('/local/:idLocal/pedidos').get(Local.getPedidos);
 
 //consultas de carrito local
-router.route('/carrito/:idPedido/local').put(Carrito.actualizar);
+router.route('/carrito/:idPedido/usuario').put(Carrito.actualizar);
+router.route('/carrito/:idPedido/local').put(Carrito.actualizarPedicoLocal);
 router.route('/carrito/:idPedido/local').get(Carrito.getPedido);
 
 //consultas del producto

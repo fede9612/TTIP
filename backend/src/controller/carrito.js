@@ -1,4 +1,5 @@
 const Carrito = require('../models/carrito').Carrito;
+const mails = require('../../src/mails');
 
 module.exports = {
     
@@ -12,10 +13,26 @@ module.exports = {
 
     actualizar: async (req, res, next) => {
         const {idPedido} = req.params;
-        Carrito.findByIdAndUpdate(idPedido, req.body, function (err, producto) {
+        pedido = await Carrito.findByIdAndUpdate(idPedido, req.body, function (err) {
             if (err) return next(err);
-            return res.json(producto);
         })
-    }
+        if(pedido.confirmado){
+            const _pedido = await Carrito.findOne(pedido).populate('local');
+            mails.nuevoPedido(_pedido.local.mail).catch(console.error + 'envio al local');
+        } 
+        return res.json(pedido);
+    },
 
+    actualizarPedicoLocal: async (req, res, next) => {
+        const {idPedido} = req.params;
+        pedido = await Carrito.findByIdAndUpdate(idPedido, req.body, function (err) {
+            if (err) return next(err);
+        })
+        if(!pedido.pendiente){
+            const _pedido = await Carrito.findOne(pedido).populate('local');
+            mails.pedidoListo(_pedido.usuarioDelPedido.mail + '@gmail.com', "comprador").catch(console.error + 'envío al comprador');
+        } 
+        return res.json(pedido);
+    }
+    
 };
