@@ -14,3 +14,10 @@ En este directorio podrás buscar y obtener información según el rubro de pyme
 ### Listado de frameworks utilizadas en este proyecto.
 * Tailwind
 * Mongoose
+
+
+# Uso
+
+## Backend
+### database
+* Para iniciar el database necesitamos declarar las variables de entorno MAIL y PASSMAIL que utilizan el servicio SMTP para el envío de correos electrónicos, ejemplo: MAIL=mail@gmail.com PASSMAIL=password node server.js
