@@ -8,14 +8,16 @@ mercadopago.configure({
 module.exports = {
 
     getIdPreference: async (req, res, next) => {
+        var items = [];
+        req.body.map((producto) => {
+            items.push({
+                title: producto.nombre,
+                unit_price: producto.precio,
+                quantity: 1
+            })
+        })
         let preference = {
-            items: [
-              {
-                title: 'Mi producto',
-                unit_price: 100,
-                quantity: 2,
-              }
-            ]
+            items: items
           };
           
           mercadopago.preferences.create(preference)

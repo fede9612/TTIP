@@ -8,9 +8,36 @@ class CarritoEmpresaRow extends Component{
     constructor(props){
         super(props);
         this.state = {
-            pedido : props.pedido
+            pedido : props.pedido,
+            idPreference: '',
+            redirect: false
         };
         this.actualizarEstado = this.actualizarEstado.bind(this);
+        this.getIdPreference = this.getIdPreference.bind(this);
+    }
+
+    componentWillMount(){
+        this.getIdPreference();
+    }
+
+    getIdPreference(){
+        axios.post('http://localhost:8080/mercadopago', this.state.pedido.pedidos).then((res) => this.setState({idPreference: res.data}));
+    }
+
+    setRedirect = () => {
+        this.setState({
+          redirect: true
+        })
+    }
+
+    redirectMercadopago(url){
+        console.log("url: " + url)
+        if(this.state.redirect){
+            return <Link component={() => { 
+                    window.location.href = url; 
+                    return null;
+                }}/>
+        }
     }
 
     calcularMontoDelPedido(){
@@ -44,12 +71,13 @@ class CarritoEmpresaRow extends Component{
             return(
                 
                 <tr>
+                    {this.redirectMercadopago(this.state.idPreference)}
                     <td>{this.state.pedido.local.nombre}</td>
                     <td>{this.state.pedido.pedidos.length}</td>
                     <td>{this.calcularMontoDelPedido()}</td>
                     <td>{pendiente}</td>
                     <td>
-                        {botonConfirmado}
+                    <button onClick={this.setRedirect}>Comprar</button>
                     </td>
                     <td><Link to={`/chat?name=${auth0Client.getProfile().nickname}&room=${this.state.pedido._id}`}>chat</Link></td>
                 </tr>                 

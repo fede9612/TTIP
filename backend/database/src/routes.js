@@ -38,6 +38,6 @@ router.route('/usuario/:nickname/pedidos').get(Usuario.getPedidos);
 router.route('/empresa/:idEmpresa/local').post(Empresa.nuevoLocalEmpresa);
 
 //consultas de mercadopago
-router.route('/mercadopago').get(Mercadopago.getIdPreference);
+router.route('/mercadopago').post(Mercadopago.getIdPreference);
 
 module.exports = router;
