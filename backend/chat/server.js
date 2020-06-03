@@ -2,15 +2,23 @@ const http = require('http');
 const express = require('express');
 const socketio = require('socket.io');
 const cors = require('cors');
-
+const bodyParser = require("body-parser");
+const mongoose = require('mongoose');
+const router = require('./router');
 const { addUser, removeUser, getUser, getUsersInRoom } = require('./users');
 
-const router = require('./router');
+mongoose.set("useNewUrlParser", true);
+mongoose.set("useUnifiedTopology", true);
+
+mongoose.connect("mongodb://localhost/anydirec",()=>{
+    console.log("Base de datos conectada");
+});
+
 
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
-
+app.use(bodyParser.json());
 app.use(cors());
 app.use(router);
 
