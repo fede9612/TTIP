@@ -4,7 +4,7 @@ node_js:
 services:
   - mongodb
 script:
-- cd backend/
+- cd backend/database/
 - npm install
 - npm install jest
 - npm install @shelf/jest-mongodb
