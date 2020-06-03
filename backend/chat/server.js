@@ -29,12 +29,16 @@ io.on('connect', (socket) => {
   socket.on('join', async ({ name, room }, callback) => {
     console.log(name);
     console.log(room);
-    var sala = await Sala.findOne({room: room});
+    var sala = await Sala.findOne({room: room}).populate('mensajes');
     if(sala == null){
       sala = new Sala();
       sala.room = room;
       await sala.save();
     }
+   
+    sala.mensajes.map((mensaje) => {
+      socket.emit('message', { user: mensaje.usuario, text: mensaje.contenido });
+    })
     
     const { error, user } = addUser({ id: socket.id, name, room });
 
@@ -42,7 +46,7 @@ io.on('connect', (socket) => {
 
     socket.join(user.room);
 
-    socket.emit('message', { user: 'admin', text: `${user.name}, welcome to room ${user.room}.`});
+    // socket.emit('message', { user: 'admin', text: `${user.name}, welcome to room ${user.room}.`});
     socket.broadcast.to(user.room).emit('message', { user: 'admin', text: `${user.name} ingresó` });
 
     io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
@@ -59,7 +63,6 @@ io.on('connect', (socket) => {
     await mensaje.save();
     sala.mensajes.push(mensaje._id);
     await sala.save();
-    console.log(mensaje.contenido + 'En la sala ' + sala.room);
 
     io.to(user.room).emit('message', { user: user.name, text: message });
 
