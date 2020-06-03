@@ -18,7 +18,7 @@ module.exports = {
         let _text = "<h2>Tiene un nuevo pedido<h2>"
                     + "<span>Usted tiene un nuevo pedido en su local</span>"
         // send mail with defined transport object
-        var htmlStream = fs.createReadStream("/home/federico/Escritorio/Desarrollo/Trabajo Final UNQUI/backend/src/Nuevo pedido.html");
+        var htmlStream = fs.createReadStream("/home/federico/Escritorio/Desarrollo/Trabajo Final UNQUI/backend/database/src/Nuevo pedido.html");
         let info = await transporter.sendMail({
           from: '"Anydirec" <foo@example.com>', // sender address
           to: mail, // list of receivers
@@ -49,7 +49,7 @@ module.exports = {
        
        let _text = "Su pedido está listo";
        // send mail with defined transport object
-       var htmlStream = fs.createReadStream("/home/federico/Escritorio/Desarrollo/Trabajo Final UNQUI/backend/src/Pedido listo.html");
+       var htmlStream = fs.createReadStream("/home/federico/Escritorio/Desarrollo/Trabajo Final UNQUI/backend/databse/src/Pedido listo.html");
        let info = await transporter.sendMail({
         from: '"Anydirec" <foo@example.com>', // sender address
         to: mail, // list of receivers
