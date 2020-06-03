@@ -5,6 +5,7 @@ const cors = require('cors');
 const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
 const router = require('./router');
+const Sala = require('./src/models/sala').Sala;
 const { addUser, removeUser, getUser, getUsersInRoom } = require('./users');
 
 mongoose.set("useNewUrlParser", true);
@@ -24,10 +25,16 @@ app.use(router);
 
 io.on('connect', (socket) => {
 
-  socket.on('join', ({ name, room }, callback) => {
+  socket.on('join', async ({ name, room }, callback) => {
     console.log(name);
     console.log(room);
-    
+    var sala = await Sala.findOne({room: room});
+    if(sala == null){
+      sala = new Sala();
+      sala.room = room;
+      await sala.save();
+    }
+    console.log(sala);
     const { error, user } = addUser({ id: socket.id, name, room });
 
     if(error) return callback(error);
