@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
 const router = require('./router');
 const Sala = require('./src/models/sala').Sala;
+const Mensaje = require('./src/models/mensaje').Mensaje;
 const { addUser, removeUser, getUser, getUsersInRoom } = require('./users');
 
 mongoose.set("useNewUrlParser", true);
@@ -34,7 +35,7 @@ io.on('connect', (socket) => {
       sala.room = room;
       await sala.save();
     }
-    console.log(sala);
+    
     const { error, user } = addUser({ id: socket.id, name, room });
 
     if(error) return callback(error);
@@ -49,9 +50,17 @@ io.on('connect', (socket) => {
     callback();
   });
 
-  socket.on('sendMessage', (message, callback) => {
+  socket.on('sendMessage',async (message, callback) => {
     const user = getUser(socket.id);
-    console.log(message)
+    var sala = await Sala.findOne({room: user.room});
+    var mensaje = new Mensaje()
+    mensaje.usuario = user.name;
+    mensaje.contenido = message;
+    await mensaje.save();
+    sala.mensajes.push(mensaje._id);
+    await sala.save();
+    console.log(mensaje.contenido + 'En la sala ' + sala.room);
+
     io.to(user.room).emit('message', { user: user.name, text: message });
 
     callback();

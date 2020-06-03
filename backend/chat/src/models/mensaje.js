@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 let mensajeSchema = new mongoose.Schema({
     usuario: { type: String },
-    mensaje: { type: String },
+    contenido: { type: String },
 });
 
-const Sala = mongoose.model('sala', mensajeSchema);
-module.exports = { mensajeSchema, Sala }
+const Mensaje = mongoose.model('mensaje', mensajeSchema);
+module.exports = { mensajeSchema, Mensaje }
