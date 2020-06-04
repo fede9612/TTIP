@@ -17,6 +17,18 @@ module.exports = {
         return res.send(local.productos);
     },
 
+    getPorductosLocalVisibles: async (req, res, next) =>{
+        const {idLocal} = req.params;
+        const local = await Local.findById(idLocal).populate('productos');
+        var productosVisibles = [];
+        local.productos.map((producto) => {
+            if(!producto.oculto){
+                productosVisibles.push(producto);
+            }
+        })
+        return res.send(productosVisibles);
+    },
+
     nuevoProductoLocal: async (req, res, next) =>{
         const {idLocal} = req.params;
         const nuevoProducto = new Producto(req.body);
