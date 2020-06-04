@@ -8,6 +8,7 @@ import auth0Client from '../Auth';
 import PrivateRoute from './privateRoute';
 import CarritoUsuarioPanel from './carritoUsuarioPanel';
 import ChatPedido from './chatPedido';
+import EmpresaPage from './empresaPage';
 
 class Navegacion extends Component {
     constructor(props){
@@ -80,6 +81,7 @@ class Navegacion extends Component {
                         <Route path="/pedidos/:id" component={CarritoEmpresaPanel}/>
                         <PrivateRoute path="/empresaPanel" component={EmpresaPanel} checkingSession={this.state.checkingSession}/>
                         <PrivateRoute path="/carritos" component={CarritoUsuarioPanel}/>
+                        <Route path="/empresa/:id" component={EmpresaPage}/>
                         <Route path="/chat" component={ChatPedido}/>
                     </Switch>
                 </div>

@@ -3,6 +3,12 @@ const Empresa = require('../models/empresa').Empresa;
 
 module.exports = { 
 
+    getEmpresa: async (req, res, next) =>{
+        const {idEmpresa} = req.params;
+        var empresa = await Empresa.findById(idEmpresa).populate("locales");
+        return res.send(empresa);
+    },
+
     nuevoLocalEmpresa: async (req, res, next) =>{
         const {idEmpresa} = req.params;
         const nuevoLocal = new Local(req.body);
