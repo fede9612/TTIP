@@ -5,6 +5,7 @@ import LocalRow from './localRow';
 import LocalModal from './localModal';
 import auth0Client from '../Auth';
 import EmpresaModal from './empresaModal';
+import { Link } from 'react-router-dom';
 
 class EmpresaPanel extends Component{
 
@@ -72,7 +73,12 @@ class EmpresaPanel extends Component{
         if(this.state.empresaModal){
             empresaModal = <EmpresaModal handlerClick={this.handlerEmpresaModal} consultarEmpresa={this.consultarEmpresa} usuario={this.state.usuario}/>     
         }
-        let infoEmpresa = <p>{ this.state.empresa.nombre }</p>;
+        let infoEmpresa = (
+                            <div>
+                                <p>{ this.state.empresa.nombre }</p>
+                                <Link to={"/empresa/"+this.state.empresa._id}>Ver página</Link>
+                            </div>
+                          );
         if(this.state.empresa == false){
             infoEmpresa = (
                 <div>
