@@ -6,10 +6,49 @@ class EmpresaPage extends Component{
 
     constructor(props){
         super(props);
-        this.state = {id: props.match.params.id}
+        this.state = {
+            id: props.match.params.id,
+            empresa: false,
+            productos: []
+        }
+        this.getEmpresa = this.getEmpresa.bind(this);
+    }
+
+    componentWillMount(){
+        this.getEmpresa();
+    }
+
+    getEmpresa(){
+        axios.get("http://localhost:8080/empresa/" + this.state.id)
+        .then((res) => {
+            this.setState({empresa: res.data})
+            this.state.empresa.locales.map((local) => {
+                axios.get('http://localhost:8080/local/' + local._id + '/productos')
+                .then((res) => this.setState({productos: this.state.productos.concat(res.data)}));
+            })
+        });
     }
 
     render(){
+        let productos = this.state.productos.map((producto) =>{
+            return (
+                <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card h-100">
+                        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></img></a>
+                        <div class="card-body">
+                            <h4 class="card-title">
+                            <a href="#">{producto.nombre}</a>
+                            </h4>
+                            <h5>${producto.precio}</h5>
+                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+                        </div>
+                        </div>
+                    </div>
+            )
+        })
         return(
             <div>
             <div class="container">
@@ -18,7 +57,7 @@ class EmpresaPage extends Component{
 
                 <div class="col-lg-3">
 
-                    <h1 class="my-4">Shop Name</h1>
+                    <h1 class="my-4">{this.state.empresa.nombre}</h1>
                     <div class="list-group">
                     <a href="#" class="list-group-item">Category 1</a>
                     <a href="#" class="list-group-item">Category 2</a>
@@ -58,103 +97,7 @@ class EmpresaPage extends Component{
                     </div>
 
                     <div class="row">
-
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="card h-100">
-                        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></img></a>
-                        <div class="card-body">
-                            <h4 class="card-title">
-                            <a href="#">Item One</a>
-                            </h4>
-                            <h5>$24.99</h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                        </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="card h-100">
-                        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></img></a>
-                        <div class="card-body">
-                            <h4 class="card-title">
-                            <a href="#">Item Two</a>
-                            </h4>
-                            <h5>$24.99</h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor sit amet.</p>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                        </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="card h-100">
-                        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></img></a>
-                        <div class="card-body">
-                            <h4 class="card-title">
-                            <a href="#">Item Three</a>
-                            </h4>
-                            <h5>$24.99</h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                        </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="card h-100">
-                        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></img></a>
-                        <div class="card-body">
-                            <h4 class="card-title">
-                            <a href="#">Item Four</a>
-                            </h4>
-                            <h5>$24.99</h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                        </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="card h-100">
-                        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></img></a>
-                        <div class="card-body">
-                            <h4 class="card-title">
-                            <a href="#">Item Five</a>
-                            </h4>
-                            <h5>$24.99</h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor sit amet.</p>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                        </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="card h-100">
-                        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></img></a>
-                        <div class="card-body">
-                            <h4 class="card-title">
-                            <a href="#">Item Six</a>
-                            </h4>
-                            <h5>$24.99</h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                        </div>
-                        </div>
-                    </div>
-
+                        {productos}
                     </div>
                     {/* <!-- /.row --> */}
 
@@ -165,12 +108,10 @@ class EmpresaPage extends Component{
                 {/* <!-- /.row --> */}
 
             </div>
-           {/* <!-- /.container --> */}
-  
-  {/* <!-- Footer --> */}
+           
   <footer class="py-5 bg-dark">
     <div class="container">
-      <p class="m-0 text-center text-white">Copyright &copy; Your Website 2020</p>
+      <p class="m-0 text-center text-white">Copyright &copy; {this.state.empresa.nombre} 2020</p>
     </div>
     {/* <!-- /.container --> */}
   </footer>

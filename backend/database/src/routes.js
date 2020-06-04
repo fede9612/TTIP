@@ -35,5 +35,6 @@ router.route('/usuario/:nickname/pedidos').get(Usuario.getPedidos);
 
 //consultas de empresa
 router.route('/empresa/:idEmpresa/local').post(Empresa.nuevoLocalEmpresa);
+router.route('/empresa/:idEmpresa').get(Empresa.getEmpresa);
 
 module.exports = router;
