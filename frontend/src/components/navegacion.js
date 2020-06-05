@@ -79,8 +79,8 @@ class Navegacion extends Component {
                         </Route>
                         <Route path="/productos/:id" component={ProductosPanel}/>
                         <Route path="/pedidos/:id" component={CarritoEmpresaPanel}/>
-                        <PrivateRoute path="/empresaPanel" component={EmpresaPanel} checkingSession={this.state.checkingSession}/>
-                        <PrivateRoute path="/carritos" component={CarritoUsuarioPanel}/>
+                        <PrivateRoute urlRedirect={"http://localhost:3000/"} path="/empresaPanel" component={EmpresaPanel} checkingSession={this.state.checkingSession}/>
+                        <PrivateRoute urlRedirect={"http://localhost:3000/"} path="/carritos" component={CarritoUsuarioPanel}/>
                         <Route path="/empresa/:id" component={EmpresaPage}/>
                         <Route path="/chat" component={ChatPedido}/>
                     </Switch>

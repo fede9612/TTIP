@@ -15,10 +15,12 @@ class NavegacionEmpresa extends Component {
         super(props);
         this.state = {
             menuModal : false,
-            checkingSession: true
+            checkingSession: true,
+            urlHome: props.urlHome
         }
         this.toggleMenu = this.toggleMenu.bind(this);
         console.log(this.props.urlHome)
+        console.log("http://localhost:8080/empresa/" + this.props.match.params.id);
     }
 
     toggleMenu(){
@@ -58,14 +60,14 @@ class NavegacionEmpresa extends Component {
                                 </Link>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Carrito</a>
+                                <Link to="/carritos" class="nav-link" href="#">Carrito</Link>
                             </li>
                             </ul>
                         </div>
                         </div>
                     </nav>
                     <Switch>
-                        <PrivateRoute path="/carritos" component={CarritoUsuarioPanel}/>
+                        <PrivateRoute urlRedirect={"http://localhost:3000/empresa/" + this.props.match.params.id} path="/carritos" component={CarritoUsuarioPanel}/>
                         <Route path="/empresa/:id" component={EmpresaPage}/>
                         <Route path="/chat" component={ChatPedido}/>
                     </Switch>
