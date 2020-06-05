@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 import './styles/app.css';
 import Navegacion from './components/navegacion';
 import { withRouter, Route, Switch } from "react-router-dom";
-import EmpresaPage from '../src/components/empresaPage';
+import NavegacionEmpresa from './components/navegacionEmpresa';
 
 class App extends Component {
   
   render(){
-    {console.log(this.props.location.pathname)}
     return (
       <div>
         <Switch>
@@ -21,7 +20,7 @@ class App extends Component {
 
 const PageEmpresa = () => (
   <div>
-    <Route path="/empresa/:id" component={EmpresaPage}/>
+    <Route render={(props) => <NavegacionEmpresa {...props} urlHome={window.location.pathname}/>}/>
   </div>
 );
 

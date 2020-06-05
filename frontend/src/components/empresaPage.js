@@ -38,7 +38,7 @@ class EmpresaPage extends Component{
         })
         return(
             <div>
-            <div class="container">
+            <div class="container mt-16">
 
                 <div class="row">
 
