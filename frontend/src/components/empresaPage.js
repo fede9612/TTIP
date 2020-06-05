@@ -33,7 +33,7 @@ class EmpresaPage extends Component{
     render(){
         let productos = this.state.productos.map((producto) =>{
             return (
-                <ProductoRowEmpresaPage producto={producto}/>
+                <ProductoRowEmpresaPage producto={producto} empresa={this.state.empresa}/>
             )
         })
         return(

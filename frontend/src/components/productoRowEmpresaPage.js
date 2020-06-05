@@ -7,13 +7,19 @@ class ProductoRowEmpresaPage extends Component{
     constructor(props){
         super(props);
         this.state = {
-            producto : props.producto
+            producto: props.producto,
+            empresa: props.empresa
         };
         this.agregarProductoAlCarrito = this.agregarProductoAlCarrito.bind(this);
     }
 
     agregarProductoAlCarrito(){
-        axios.post('http://localhost:8080/usuario/' + this.state.producto.local + '/' + auth0Client.getProfile().nickname + '/pedido', this.state.producto);
+        console.log(auth0Client.getProfile());
+        if(auth0Client.getProfile() == undefined){
+            auth0Client.signIn("http://localhost:3000/empresa/" + this.state.empresa._id); //Ver como paso el id de la emrpesa
+        }else{
+            axios.post('http://localhost:8080/usuario/' + this.state.producto.local + '/' + auth0Client.getProfile().nickname + '/pedido', this.state.producto);
+        }
     }
 
     render(){
