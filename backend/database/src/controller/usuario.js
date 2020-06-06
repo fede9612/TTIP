@@ -36,12 +36,18 @@ module.exports = {
         const {nickname} = req.params;
         const {idEmpresa} = req.params;
         const empresa = await Empresa.findById(idEmpresa).populate('locales');
-        // console.log(empresa.locales);
         const usuario = await Usuario.findOne({'mail': nickname});
-        //Agregar que al buscar también busque por el id del local, así devuelve los pedidos para un local especifico.
-        const pedido = await Carrito.find({'usuarioDelPedido._id': usuario._id, "confirmado": false});
-        console.log(pedido)
-        return res.send(pedido);
+        var pedidosSinConfirmarDeUsuario = await Carrito.find({'usuarioDelPedido._id': usuario._id, "confirmado": false}); 
+        var pedidos = []
+        //Buscar entro los pedidos pendientes del usuario los pedidos que son de una empresa en especifica que puede tener varios locales
+        pedidosSinConfirmarDeUsuario.map((pedido) => {
+            empresa.locales.map((local) => {
+                if(pedido.local.equals(local._id)){
+                    pedidos.push(pedido)
+                }
+            })
+        })
+        return res.send(pedidos);
     },
 
     getEmpresa: async (req, res, next) =>{
