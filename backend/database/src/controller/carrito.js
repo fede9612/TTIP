@@ -23,6 +23,21 @@ module.exports = {
         return res.json(pedido);
     },
 
+    eliminarProducto: async (req, res, next) => {
+        const {idPedido} = req.params;
+        const productoAEliminar = req.body;
+        var pedido = await Carrito.findById(idPedido);
+        var productos = [];
+        pedido.pedidos.map((producto) => {
+            if(!producto._id.equals(productoAEliminar._id)){
+                productos.push(producto);
+            }
+        })
+        pedido.pedidos = productos;
+        await pedido.save();
+        return res.json(pedido);
+    },
+
     actualizarPedicoLocal: async (req, res, next) => {
         const {idPedido} = req.params;
         pedido = await Carrito.findByIdAndUpdate(idPedido, req.body, function (err) {

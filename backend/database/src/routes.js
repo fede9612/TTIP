@@ -20,6 +20,7 @@ router.route('/local/:idLocal/pedidos').get(Local.getPedidos);
 router.route('/carrito/:idPedido/usuario').put(Carrito.actualizar);
 router.route('/carrito/:idPedido/local').put(Carrito.actualizarPedicoLocal);
 router.route('/carrito/:idPedido/local').get(Carrito.getPedido);
+router.route('/carrito/:idPedido/producto').put(Carrito.eliminarProducto);
 
 //consultas del producto
 router.route('/producto/productos').get(Producto.getPorductos);

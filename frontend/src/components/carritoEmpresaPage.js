@@ -14,7 +14,7 @@ class CarritoEmpresaPage extends Component{
             productoModal: false
         };
         this.consultarCarritos = this.consultarCarritos.bind(this);
-        
+        this.eliminarProducto = this.eliminarProducto.bind(this);
     }
 
     componentDidMount(){
@@ -26,7 +26,21 @@ class CarritoEmpresaPage extends Component{
         axios.get('http://localhost:8080/usuario/' + auth0Client.getProfile().nickname + '/pedido/' + this.props.id)
         .then((res) => {
           this.setState({pedidos : res.data});
-          console.log(res.data)
+        });
+    }
+
+    eliminarProducto(pedido, producto){
+        axios.put('http://localhost:8080/carrito/' + pedido._id + '/producto/', producto)
+        .then((res) => {
+            var pedidos = []
+            this.state.pedidos.map((pedido) => {
+                pedido.pedidos.map((_producto) => {
+                    if(!_producto.id == producto._id){
+                        pedido.push(_producto);
+                    }
+                });
+            });
+            this.setState({pedidos: pedidos});    
         });
     }
 
@@ -58,6 +72,8 @@ class CarritoEmpresaPage extends Component{
         if(Array.isArray(this.state.pedidos) && this.state.pedidos.length){
             productosList = this.state.pedidos.map((pedido) => {
                 return pedido.pedidos.map((producto) => {
+                    console.log(pedido)
+                    console.log(producto)
                     return(
                         <tbody>
                             <tr>
@@ -67,6 +83,13 @@ class CarritoEmpresaPage extends Component{
                                 </td>
                                 <td>${producto.precio}</td>
                                 <td>${producto.precio * producto.cantidad}</td>
+                                <td><button onClick={() => this.eliminarProducto(pedido, producto)}>
+                                        <svg class="bi bi-x" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/>
+                                            <path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/>
+                                        </svg>
+                                    </button>
+                                </td>
                             </tr>
                         </tbody>
                     );
@@ -87,7 +110,7 @@ class CarritoEmpresaPage extends Component{
                         <div class="row"></div>
                         <div id="basket" class="col-12 col-xl-9 col-lg-9 col-sm-12 col-md-10">
                             <div class="box">
-                            <form method="post" action="checkout1.html">
+                            
                                 <h1>Carrito de compra</h1>
                                 <p class="text-muted">You currently have 3 item(s) in your cart.</p>
                                 <div class="table-responsive">
@@ -98,6 +121,7 @@ class CarritoEmpresaPage extends Component{
                                         <th>Quantity</th>
                                         <th>Unit price</th>
                                         <th>Total</th>
+                                        <th></th>
                                     </tr>
                                     </thead>
                                     {productosList}
@@ -115,7 +139,7 @@ class CarritoEmpresaPage extends Component{
                                     <button type="submit" class="btn btn-primary">Proceed to checkout <i class="fa fa-chevron-right"></i></button>
                                 </div>
                                 </div>
-                            </form>
+                            
                             </div>
                         </div>
                     </div>
