@@ -33,6 +33,7 @@ router.route('/usuario/:nickname').get(Usuario.getUsuario);
 router.route('/usuario/:idUsuario/empresa').get(Usuario.getEmpresa);
 router.route('/usuario/:idLocal/:nickname/pedido').post(Usuario.agregarPedidoUsuario);
 router.route('/usuario/:nickname/pedidos').get(Usuario.getPedidos);
+router.route('/usuario/:nickname/pedido/:idEmpresa').get(Usuario.getPedido);
 
 //consultas de empresa
 router.route('/empresa/:idEmpresa/local').post(Empresa.nuevoLocalEmpresa);

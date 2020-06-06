@@ -16,7 +16,7 @@ class ProductoRowEmpresaPage extends Component{
     agregarProductoAlCarrito(){
         console.log(auth0Client.getProfile());
         if(auth0Client.getProfile() == undefined){
-            auth0Client.signIn("http://localhost:3000/empresa/" + this.state.empresa._id); //Ver como paso el id de la emrpesa
+            auth0Client.signIn("http://localhost:3000/empresa/" + this.state.empresa._id);
         }else{
             axios.post('http://localhost:8080/usuario/' + this.state.producto.local + '/' + auth0Client.getProfile().nickname + '/pedido', this.state.producto);
         }

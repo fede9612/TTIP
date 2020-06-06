@@ -9,6 +9,7 @@ import PrivateRoute from './privateRoute';
 import CarritoUsuarioPanel from './carritoUsuarioPanel';
 import ChatPedido from './chatPedido';
 import EmpresaPage from './empresaPage';
+import CarritoEmpresaPage from './carritoEmpresaPage';
 
 class NavegacionEmpresa extends Component {
     constructor(props){
@@ -60,14 +61,14 @@ class NavegacionEmpresa extends Component {
                                 </Link>
                             </li>
                             <li class="nav-item">
-                                <Link to="/carritos" class="nav-link" href="#">Carrito</Link>
+                                <Link to={"/empresa/" + this.props.match.params.id + "/carrito"} class="nav-link" href="#">Carrito</Link>
                             </li>
                             </ul>
                         </div>
                         </div>
                     </nav>
                     <Switch>
-                        <PrivateRoute urlRedirect={"http://localhost:3000/empresa/" + this.props.match.params.id} path="/carritos" component={CarritoUsuarioPanel}/>
+                        <PrivateRoute urlRedirect={"http://localhost:3000/empresa/" + this.props.match.params.id} path="/empresa/:id/carrito" component={CarritoEmpresaPage} prop={this.props.match.params.id}/>
                         <Route path="/empresa/:id" component={EmpresaPage}/>
                         <Route path="/chat" component={ChatPedido}/>
                     </Switch>
