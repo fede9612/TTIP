@@ -11,6 +11,7 @@ class CarritoEmpresaPage extends Component{
             id: props.match.params.id,
             local: false,
             pedidos: [],
+            cantidadProducto: 0,
             productoModal: false
         };
         this.consultarCarritos = this.consultarCarritos.bind(this);
@@ -34,6 +35,16 @@ class CarritoEmpresaPage extends Component{
         .then(this.consultarCarritos());
     }
 
+    sumarUnProducto(pedido, producto){
+        axios.put('http://localhost:8080/carrito/' + pedido._id + '/producto/sumar/', producto)
+        .then(this.consultarCarritos());
+    }
+
+    restarUnProducto(pedido, producto){
+        axios.put('http://localhost:8080/carrito/' + pedido._id + '/producto/restar/', producto)
+        .then(this.consultarCarritos());
+    }
+
     calcularTotal(){
         var total = 0;
         this.state.pedidos.map((pedido) => {
@@ -49,14 +60,24 @@ class CarritoEmpresaPage extends Component{
         if(Array.isArray(this.state.pedidos) && this.state.pedidos.length){
             productosList = this.state.pedidos.map((pedido) => {
                 return pedido.pedidos.map((producto) => {
-                    console.log(pedido)
-                    console.log(producto)
                     return(
                         <tbody>
                             <tr>
                                 <td className="flex"><img src={auth0Client.getProfile().picture} alt="" className="w-16 h-20"></img><a href="#">{producto.nombre}</a></td>
                                 <td>
-                                    <input type="number" value={producto.cantidad} class="form-control w-16"></input>
+                                    <p>
+                                        <button onClick={() => this.restarUnProducto(pedido, producto)}>
+                                        <svg class="bi bi-chevron-left h-5" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+                                        </svg>
+                                        </button>
+                                            <span className="text-lg">{producto.cantidad}</span>
+                                        <button onClick={() => this.sumarUnProducto(pedido, producto)}>
+                                        <svg class="bi bi-chevron-right h-5" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                                        </svg>
+                                        </button>
+                                    </p>
                                 </td>
                                 <td>${producto.precio}</td>
                                 <td>${producto.precio * producto.cantidad}</td>
