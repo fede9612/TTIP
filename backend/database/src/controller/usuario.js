@@ -34,8 +34,13 @@ module.exports = {
 
     getPedido: async (req, res, next) =>{
         const {nickname} = req.params;
+        const {idEmpresa} = req.params;
+        const empresa = await Empresa.findById(idEmpresa).populate('locales');
+        // console.log(empresa.locales);
         const usuario = await Usuario.findOne({'mail': nickname});
-        const pedido = await Carrito.findOne({'usuarioDelPedido._id': usuario._id, "pendiente": true}).populate('local');
+        //Agregar que al buscar también busque por el id del local, así devuelve los pedidos para un local especifico.
+        const pedido = await Carrito.find({'usuarioDelPedido._id': usuario._id, "confirmado": false});
+        console.log(pedido)
         return res.send(pedido);
     },
 
@@ -71,12 +76,23 @@ module.exports = {
             if(_pedido.local.equals(local._id) && _pedido.pendiente && !_pedido.confirmado){
                 encontro = true;
                 pedido = _pedido;
-                pedido.pedidos.push(producto);   
+                var duplicado = false;
+                pedido.pedidos.map((_producto) => {
+                    if(producto._id == _producto._id){
+                        duplicado = true;
+                        _producto.cantidad += 1
+                    }    
+                })
+                if(!duplicado){
+                    producto.cantidad = 1
+                    pedido.pedidos.push(producto);
+                }
             }
         });
         if(!encontro){
             const pedido = new Carrito();
             pedido.local = local;
+            producto.cantidad = 1;
             pedido.pedidos = producto;
             pedido.usuarioDelPedido = usuario;
             await pedido.save();

@@ -10,7 +10,7 @@ class CarritoEmpresaPage extends Component{
         this.state = { 
             id: props.match.params.id,
             local: false,
-            pedido: false,
+            pedidos: [],
             productoModal: false
         };
         this.consultarCarritos = this.consultarCarritos.bind(this);
@@ -25,7 +25,7 @@ class CarritoEmpresaPage extends Component{
     consultarCarritos(){
         axios.get('http://localhost:8080/usuario/' + auth0Client.getProfile().nickname + '/pedido/' + this.props.id)
         .then((res) => {
-          this.setState({pedido : res.data});
+          this.setState({pedidos : res.data});
           console.log(res.data)
         });
     }
@@ -45,21 +45,23 @@ class CarritoEmpresaPage extends Component{
 
     render(){
         let productosList;
-        if(Array.isArray(this.state.pedido.pedidos) && this.state.pedido.pedidos.length){
-            productosList = this.state.pedido.pedidos.map((producto) => {
-                return(
-                    <tbody>
-                        <tr>
-                            <td className="flex"><img src={auth0Client.getProfile().picture} alt="" className="w-16 h-20"></img><a href="#">{producto.nombre}</a></td>
-                            <td>
-                                <input type="number" class="form-control w-16"></input>
-                            </td>
-                            <td>${producto.precio}</td>
-                            <td>$200.00</td>
-                        </tr>
-                    </tbody>
-                );
-            });
+        if(Array.isArray(this.state.pedidos) && this.state.pedidos.length){
+            productosList = this.state.pedidos.map((pedido) => {
+                return pedido.pedidos.map((producto) => {
+                    return(
+                        <tbody>
+                            <tr>
+                                <td className="flex"><img src={auth0Client.getProfile().picture} alt="" className="w-16 h-20"></img><a href="#">{producto.nombre}</a></td>
+                                <td>
+                                    <input type="number" value={producto.cantidad} class="form-control w-16"></input>
+                                </td>
+                                <td>${producto.precio}</td>
+                                <td>$200.00</td>
+                            </tr>
+                        </tbody>
+                    );
+                })
+            })
         }else{
             productosList = (
                 <div>
