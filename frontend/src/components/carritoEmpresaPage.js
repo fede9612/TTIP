@@ -31,17 +31,7 @@ class CarritoEmpresaPage extends Component{
 
     eliminarProducto(pedido, producto){
         axios.put('http://localhost:8080/carrito/' + pedido._id + '/producto/', producto)
-        .then((res) => {
-            var pedidos = []
-            this.state.pedidos.map((pedido) => {
-                pedido.pedidos.map((_producto) => {
-                    if(!_producto.id == producto._id){
-                        pedido.push(_producto);
-                    }
-                });
-            });
-            this.setState({pedidos: pedidos});    
-        });
+        .then(this.consultarCarritos());
     }
 
     calcularTotal(){
@@ -53,19 +43,6 @@ class CarritoEmpresaPage extends Component{
         });
         return total;
     }
-
-    // actualizarPedidos(pedido){
-    //     let {pedidos} = this.state;
-    //     let pedidosActualizados = [];
-    //     pedidos.map((pedid) => {
-    //         if(pedid._id != pedido._id){
-    //             pedidosActualizados.push(pedid);
-    //         }else{
-    //             pedidosActualizados.push(pedido);
-    //         }
-    //     });
-    //     this.setState({pedidos: pedidosActualizados});
-    // }
 
     render(){
         let productosList;
@@ -112,23 +89,22 @@ class CarritoEmpresaPage extends Component{
                             <div class="box">
                             
                                 <h1>Carrito de compra</h1>
-                                <p class="text-muted">You currently have 3 item(s) in your cart.</p>
                                 <div class="table-responsive">
                                 <table class="table">
                                     <thead>
                                     <tr>
-                                        <th>Product</th>
-                                        <th>Quantity</th>
-                                        <th>Unit price</th>
-                                        <th>Total</th>
+                                        <th>Producto</th>
+                                        <th>Cantidad</th>
+                                        <th>Precio unitario</th>
+                                        <th>SubTotal</th>
                                         <th></th>
                                     </tr>
                                     </thead>
                                     {productosList}
                                     <tfoot>
                                     <tr>
-                                        <th colspan="3">Total</th>
-                                        <th>${this.calcularTotal()}</th>
+                                        <th colspan="3"></th>
+                                        <th>Total ${this.calcularTotal()}</th>
                                     </tr>
                                     </tfoot>
                                 </table>
@@ -136,7 +112,7 @@ class CarritoEmpresaPage extends Component{
                             
                                 <div class="box-footer d-flex justify-content-between flex-column flex-lg-row">
                                 <div class="right">
-                                    <button type="submit" class="btn btn-primary">Proceed to checkout <i class="fa fa-chevron-right"></i></button>
+                                    <button type="submit" class="btn btn-primary">Continuar comprando <i class="fa fa-chevron-right"></i></button>
                                 </div>
                                 </div>
                             
