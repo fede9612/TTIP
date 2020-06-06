@@ -101,13 +101,12 @@ function Login(props) {
       <div>
        {!auth0Client.isAuthenticated() && (
             <button className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-green-400 lg:mt-0"
-                onClick={auth0Client.signIn}>
+                onClick={() => auth0Client.signIn("http://localhost:3000/")}>
                 Iniciar sesión
             </button>
         )}
         {auth0Client.isAuthenticated() && 
                             <div className="flex inline-flex">
-                            {console.log(auth0Client.getProfile())}
                             <span className="mr-1 text-white">{auth0Client.getProfile().given_name} 
                             </span>
                             <img src={auth0Client.getProfile().picture} className=" h-8 rounded-full" />
