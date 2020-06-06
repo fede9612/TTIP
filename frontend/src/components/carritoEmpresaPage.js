@@ -30,6 +30,16 @@ class CarritoEmpresaPage extends Component{
         });
     }
 
+    calcularTotal(){
+        var total = 0;
+        this.state.pedidos.map((pedido) => {
+            return pedido.pedidos.map((producto) => {
+                total += producto.precio * producto.cantidad
+            });
+        });
+        return total;
+    }
+
     // actualizarPedidos(pedido){
     //     let {pedidos} = this.state;
     //     let pedidosActualizados = [];
@@ -56,7 +66,7 @@ class CarritoEmpresaPage extends Component{
                                     <input type="number" value={producto.cantidad} class="form-control w-16"></input>
                                 </td>
                                 <td>${producto.precio}</td>
-                                <td>$200.00</td>
+                                <td>${producto.precio * producto.cantidad}</td>
                             </tr>
                         </tbody>
                     );
@@ -94,7 +104,7 @@ class CarritoEmpresaPage extends Component{
                                     <tfoot>
                                     <tr>
                                         <th colspan="3">Total</th>
-                                        <th>$446.00</th>
+                                        <th>${this.calcularTotal()}</th>
                                     </tr>
                                     </tfoot>
                                 </table>
