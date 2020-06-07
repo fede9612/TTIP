@@ -1,6 +1,7 @@
 const Empresa = require('../models/empresa').Empresa;
 const Usuario = require('../models/usuario').Usuario;
 const Carrito = require('../models/carrito').Carrito;
+const Producto = require('../models/producto').Producto;
 const Local = require('../models/local');
 
 module.exports = {
@@ -73,6 +74,7 @@ module.exports = {
     agregarPedidoUsuario: async (req, res, next) =>{
         const {idLocal} = req.params;
         let producto = req.body;
+        const productoBuscado = await Producto.findById(producto._id);
         const {nickname} = req.params;
         const local = await Local.findById(idLocal);
         const usuario = await Usuario.findOne({'mail': nickname}).populate('carritosDePedido');
@@ -86,7 +88,9 @@ module.exports = {
                 pedido.pedidos.map((_producto) => {
                     if(producto._id == _producto._id){
                         duplicado = true;
-                        _producto.cantidad += 1
+                        if(productoBuscado.cantidad > _producto.cantidad){
+                            _producto.cantidad += 1
+                        }
                     }    
                 })
                 if(!duplicado){
