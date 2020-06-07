@@ -56,12 +56,12 @@ class NavegacionEmpresa extends Component {
                         <div className={(this.state.menuModal ? '' : 'collapse') + ' navbar-collapse'} id="navbarResponsive">
                             <ul class="navbar-nav ml-auto">
                             <li class="nav-item active">
-                                <Link to={this.props.urlHome} class="nav-link" href="#">Home
+                                <Link to={this.props.urlHome} class="nav-link" onClick={this.toggleMenu}>Home
                                 <span class="sr-only">(current)</span>
                                 </Link>
                             </li>
                             <li class="nav-item">
-                                <Link to={"/empresa/" + this.props.match.params.id + "/carrito"} class="nav-link" href="#">Carrito</Link>
+                                <Link to={"/empresa/" + this.props.match.params.id + "/carrito"} class="nav-link" onClick={this.toggleMenu}>Carrito</Link>
                             </li>
                             </ul>
                         </div>
