@@ -1,8 +1,9 @@
 import React, { Component } from "react";
+import { BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios';
 import ProductoRowEmpresaPage from "./productoRowEmpresaPage";
-import { BrowserRouter as Router, Switch, Route, Link, withRouter} from 'react-router-dom';
+
 
 class EmpresaPage extends Component{
 
@@ -59,14 +60,12 @@ class EmpresaPage extends Component{
                 <div class="row">
 
                 <div class="col-lg-3">
-
                     <h1 class="my-4">{this.state.empresa.nombre}</h1>
                     <div class="list-group">
                     {this.state.categorias.map((categoria) =>{
                         return <Link to={"/empresa/" + this.state.empresa._id + "/" + categoria} class="list-group-item">{categoria}</Link>    
                     })}
                     </div>
-
                 </div>
                 {/* <!-- /.col-lg-3 --> */}
 
@@ -100,11 +99,11 @@ class EmpresaPage extends Component{
                     </div>
 
                     <div class="row">
-                        {/* {productos} */}
                         <Switch>
                             {this.state.categorias.map((categoria) =>{
-                               return <Route path={"/empresa/:id/" + categoria} render={(props) => <Productos {...props} productos={this.state.productos} empresa={this.state.empresa} categoria={categoria}/>}/>    
+                                return <Route path={"/empresa/:id/" + categoria} render={(props) => <ProductosCategorizados {...props} productos={this.state.productos} empresa={this.state.empresa} categoria={categoria}/>}/>    
                             })}
+                            <Route path="/empresa/:id" render={(props) => <Productos {...props} productos={this.state.productos} empresa={this.state.empresa}/>}/>
                         </Switch>
                     </div>
                     {/* <!-- /.row --> */}
@@ -129,7 +128,17 @@ class EmpresaPage extends Component{
     }
 }
 
-function Productos(props){
+function Productos(props){ 
+    return(
+        props.productos.map((producto) =>{
+            return (
+                <ProductoRowEmpresaPage producto={producto} empresa={props.empresa}/>
+            )
+        })
+    );
+}
+
+function ProductosCategorizados(props){
     const productosCategorizados = props.productos.filter((prod) => prod.categoria == props.categoria); 
 
     return(

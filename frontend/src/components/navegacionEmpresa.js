@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link, withRouter} from 'react-router-dom';
-import BuscarProductos from './buscarproductos';
-import EmpresaPanel from './empresaPanel';
-import ProductosPanel from './productosPanel';
-import CarritoEmpresaPanel from './carritoEmpresaPanel';
 import auth0Client from '../Auth';
 import PrivateRoute from './privateRoute';
-import CarritoUsuarioPanel from './carritoUsuarioPanel';
 import ChatPedido from './chatPedido';
 import EmpresaPage from './empresaPage';
 import CarritoEmpresaPage from './carritoEmpresaPage';
@@ -17,7 +12,8 @@ class NavegacionEmpresa extends Component {
         this.state = {
             menuModal : false,
             checkingSession: true,
-            urlHome: props.urlHome
+            urlHome: props.urlHome,
+            redirect: false
         }
         this.toggleMenu = this.toggleMenu.bind(this);
         console.log(this.props.urlHome)
@@ -42,10 +38,22 @@ class NavegacionEmpresa extends Component {
         this.setState({checkingSession:false});
       }
     
+    setRedirect = () => {
+        this.setState({
+          redirect: true
+        })
+    }
 
+    redirectHome(){
+        if(this.state.redirect){
+            return <Link component={() => window.location.href = this.props.urlHome}/>
+        }
+    }
+    
     render(){
         return(
             <Router>
+                {this.redirectHome()}
                 <div>    
                     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
                         <div class="container">
@@ -56,9 +64,9 @@ class NavegacionEmpresa extends Component {
                         <div className={(this.state.menuModal ? '' : 'collapse') + ' navbar-collapse'} id="navbarResponsive">
                             <ul class="navbar-nav ml-auto">
                             <li class="nav-item active">
-                                <Link to={this.props.urlHome} class="nav-link" onClick={this.toggleMenu}>Home
+                                <button  class="nav-link" onClick={this.setRedirect}>Home
                                 <span class="sr-only">(current)</span>
-                                </Link>
+                                </button>
                             </li>
                             <li class="nav-item">
                                 <Link to={"/empresa/" + this.props.match.params.id + "/carrito"} class="nav-link" onClick={this.toggleMenu}>Carrito</Link>
