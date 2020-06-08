@@ -1,6 +1,9 @@
 import React, { Component } from "react";
+import { BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios';
+import ProductoRowEmpresaPage from "./productoRowEmpresaPage";
+
 
 class EmpresaPage extends Component{
 
@@ -9,9 +12,11 @@ class EmpresaPage extends Component{
         this.state = {
             id: props.match.params.id,
             empresa: false,
-            productos: []
+            productos: [],
+            categorias: []
         }
         this.getEmpresa = this.getEmpresa.bind(this);
+        this.cargarCategorias = this.cargarCategorias.bind(this);
     }
 
     componentWillMount(){
@@ -23,52 +28,44 @@ class EmpresaPage extends Component{
         .then((res) => {
             this.setState({empresa: res.data})
             this.state.empresa.locales.map((local) => {
+                this.cargarCategorias(local);
                 axios.get('http://localhost:8080/local/' + local._id + '/productos/visibles')
                 .then((res) => this.setState({productos: this.state.productos.concat(res.data)}));
             })
         });
     }
 
+    cargarCategorias(local){
+        var {categorias} = this.state;
+        local.categorias.map((categoria) => {
+            //Si la categoría no está dentro de la lista de categorias la agrega
+            if(categoria != categorias.find((cat) => cat == categoria)){
+                categorias.push(categoria);
+            }  
+        });
+        this.setState({categorias: categorias});
+    }
+
     render(){
-        let productos = this.state.productos.map((producto) =>{
-            return (
-                <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="card h-100">
-                        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></img></a>
-                        <div class="card-body">
-                            <h4 class="card-title">
-                            <a href="#">{producto.nombre}</a>
-                            </h4>
-                            <h5>${producto.precio}</h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
-                        </div>
-                        <div class="card-footer d-flex justify-content-center">
-                            <button  type="button" class="btn btn-dark"><span className="flex ml-4 mr-4">Agregar al carrito&nbsp;
-                                <svg class="bi bi-cart w-5 h-6 p-0" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
-                                </svg>
-                                </span>
-                            </button>
-                        </div>
-                        </div>
-                    </div>
-            )
-        })
+        // let productos = this.state.productos.map((producto) =>{
+        //     return (
+        //         <ProductoRowEmpresaPage producto={producto} empresa={this.state.empresa}/>
+        //     )
+        // })
         return(
+            <Router>
             <div>
-            <div class="container">
+            <div class="container mt-16">
 
                 <div class="row">
 
                 <div class="col-lg-3">
-
                     <h1 class="my-4">{this.state.empresa.nombre}</h1>
                     <div class="list-group">
-                    <a href="#" class="list-group-item">Category 1</a>
-                    <a href="#" class="list-group-item">Category 2</a>
-                    <a href="#" class="list-group-item">Category 3</a>
+                    {this.state.categorias.map((categoria) =>{
+                        return <Link to={"/empresa/" + this.state.empresa._id + "/" + categoria} class="list-group-item">{categoria}</Link>    
+                    })}
                     </div>
-
                 </div>
                 {/* <!-- /.col-lg-3 --> */}
 
@@ -102,7 +99,12 @@ class EmpresaPage extends Component{
                     </div>
 
                     <div class="row">
-                        {productos}
+                        <Switch>
+                            {this.state.categorias.map((categoria) =>{
+                                return <Route path={"/empresa/:id/" + categoria} render={(props) => <ProductosCategorizados {...props} productos={this.state.productos} empresa={this.state.empresa} categoria={categoria}/>}/>    
+                            })}
+                            <Route path="/empresa/:id" render={(props) => <Productos {...props} productos={this.state.productos} empresa={this.state.empresa}/>}/>
+                        </Switch>
                     </div>
                     {/* <!-- /.row --> */}
 
@@ -121,8 +123,31 @@ class EmpresaPage extends Component{
     {/* <!-- /.container --> */}
   </footer>
   </div>
+  </Router>
         )
     }
+}
+
+function Productos(props){ 
+    return(
+        props.productos.map((producto) =>{
+            return (
+                <ProductoRowEmpresaPage producto={producto} empresa={props.empresa}/>
+            )
+        })
+    );
+}
+
+function ProductosCategorizados(props){
+    const productosCategorizados = props.productos.filter((prod) => prod.categoria == props.categoria); 
+
+    return(
+        productosCategorizados.map((producto) =>{
+            return (
+                <ProductoRowEmpresaPage producto={producto} empresa={props.empresa}/>
+            )
+        })
+    );
 }
 
 export default EmpresaPage;

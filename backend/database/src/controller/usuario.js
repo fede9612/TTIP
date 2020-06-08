@@ -1,6 +1,7 @@
 const Empresa = require('../models/empresa').Empresa;
 const Usuario = require('../models/usuario').Usuario;
 const Carrito = require('../models/carrito').Carrito;
+const Producto = require('../models/producto').Producto;
 const Local = require('../models/local');
 
 module.exports = {
@@ -32,6 +33,24 @@ module.exports = {
         return res.send(pedidos);
     },
 
+    getPedido: async (req, res, next) =>{
+        const {nickname} = req.params;
+        const {idEmpresa} = req.params;
+        const empresa = await Empresa.findById(idEmpresa).populate('locales');
+        const usuario = await Usuario.findOne({'mail': nickname});
+        var pedidosSinConfirmarDeUsuario = await Carrito.find({'usuarioDelPedido._id': usuario._id, "confirmado": false}); 
+        var pedidos = []
+        //Buscar entro los pedidos pendientes del usuario los pedidos que son de una empresa en especifica que puede tener varios locales
+        pedidosSinConfirmarDeUsuario.map((pedido) => {
+            empresa.locales.map((local) => {
+                if(pedido.local.equals(local._id)){
+                    pedidos.push(pedido)
+                }
+            })
+        })
+        return res.send(pedidos);
+    },
+
     getEmpresa: async (req, res, next) =>{
         const {idUsuario} = req.params;
         const usuario = await Usuario.findById(idUsuario);
@@ -55,6 +74,7 @@ module.exports = {
     agregarPedidoUsuario: async (req, res, next) =>{
         const {idLocal} = req.params;
         let producto = req.body;
+        const productoBuscado = await Producto.findById(producto._id);
         const {nickname} = req.params;
         const local = await Local.findById(idLocal);
         const usuario = await Usuario.findOne({'mail': nickname}).populate('carritosDePedido');
@@ -64,12 +84,25 @@ module.exports = {
             if(_pedido.local.equals(local._id) && _pedido.pendiente && !_pedido.confirmado){
                 encontro = true;
                 pedido = _pedido;
-                pedido.pedidos.push(producto);   
+                var duplicado = false;
+                pedido.pedidos.map((_producto) => {
+                    if(producto._id == _producto._id){
+                        duplicado = true;
+                        if(productoBuscado.cantidad > _producto.cantidad){
+                            _producto.cantidad += 1
+                        }
+                    }    
+                })
+                if(!duplicado){
+                    producto.cantidad = 1
+                    pedido.pedidos.push(producto);
+                }
             }
         });
         if(!encontro){
             const pedido = new Carrito();
             pedido.local = local;
+            producto.cantidad = 1;
             pedido.pedidos = producto;
             pedido.usuarioDelPedido = usuario;
             await pedido.save();

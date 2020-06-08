@@ -22,6 +22,7 @@ let localSchema = new mongoose.Schema({
     },
     empresa: { type: Schema.Types.ObjectId, ref: 'empresa' },
     productos: [{ type: Schema.Types.ObjectId, ref: 'producto' }],
+    categorias: {type:[String]},
     carritosDePedido: [{type: Schema.Types.ObjectId, ref: 'Carrito'}]
 });
 

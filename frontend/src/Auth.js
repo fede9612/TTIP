@@ -7,7 +7,7 @@ class Auth {
       domain: 'dev-q25jqk3m.auth0.com',
       audience: 'https://dev-q25jqk3m.auth0.com/userinfo',
       clientID: '0s0yk2IfgsM3kJeIXbAucTyGh2Nax0yO',
-      redirectUri: 'http://localhost:3000',
+      redirectUri: 'http://localhost:3000/',
       responseType: 'id_token',
       scope: 'openid profile'
     });
@@ -31,8 +31,10 @@ class Auth {
     return new Date().getTime() < this.expiresAt;
   }
 
-  signIn() {
-    this.auth0.authorize();
+  signIn(url) {
+    this.auth0.authorize({
+      redirectUri: url
+    });
   }
 
   handleAuthentication() {
