@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios';
 import ProductoRowEmpresaPage from "./productoRowEmpresaPage";
+import { BrowserRouter as Router, Switch, Route, Link, withRouter} from 'react-router-dom';
 
 class EmpresaPage extends Component{
 
@@ -30,13 +31,15 @@ class EmpresaPage extends Component{
         });
     }
 
+
     render(){
-        let productos = this.state.productos.map((producto) =>{
-            return (
-                <ProductoRowEmpresaPage producto={producto} empresa={this.state.empresa}/>
-            )
-        })
+        // let productos = this.state.productos.map((producto) =>{
+        //     return (
+        //         <ProductoRowEmpresaPage producto={producto} empresa={this.state.empresa}/>
+        //     )
+        // })
         return(
+            <Router>
             <div>
             <div class="container mt-16">
 
@@ -46,8 +49,8 @@ class EmpresaPage extends Component{
 
                     <h1 class="my-4">{this.state.empresa.nombre}</h1>
                     <div class="list-group">
-                    <a href="#" class="list-group-item">Category 1</a>
-                    <a href="#" class="list-group-item">Category 2</a>
+                    <Link to={"/empresa/" + this.state.empresa._id + "/productos"} class="list-group-item">Category 1</Link>
+                    <Link to={"/empresa/" + this.state.empresa._id + "/productoss"} class="list-group-item">Category 2</Link>
                     <a href="#" class="list-group-item">Category 3</a>
                     </div>
 
@@ -84,7 +87,11 @@ class EmpresaPage extends Component{
                     </div>
 
                     <div class="row">
-                        {productos}
+                        {/* {productos} */}
+                        <Switch>
+                            <Route path="/empresa/:id/productos" render={(props) => <Productos {...props} productos={this.state.productos} empresa={this.state.empresa}/>}/>
+                            <Route path="/empresa/:id/productoss" render={(props) => <Productos {...props} productos={this.state.productos} empresa={this.state.empresa}/>}/>
+                        </Switch>
                     </div>
                     {/* <!-- /.row --> */}
 
@@ -103,8 +110,19 @@ class EmpresaPage extends Component{
     {/* <!-- /.container --> */}
   </footer>
   </div>
+  </Router>
         )
     }
+}
+
+function Productos(props){
+    return(
+        props.productos.map((producto) =>{
+            return (
+                <ProductoRowEmpresaPage producto={producto} empresa={props.empresa}/>
+            )
+        })
+    );
 }
 
 export default EmpresaPage;
