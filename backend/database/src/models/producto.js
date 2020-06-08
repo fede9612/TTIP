@@ -14,6 +14,10 @@ let productoSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
+    categoria:{
+        type: String,
+        default: "Otro"
+    },
     oculto: {
         type: Boolean,
         default: false

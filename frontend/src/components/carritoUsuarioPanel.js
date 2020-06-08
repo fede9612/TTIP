@@ -14,6 +14,7 @@ class CarritoUsuarioPanel extends Component{
             productoModal: false
         };
         this.actualizarPedidos = this.actualizarPedidos.bind(this);
+        
     }
 
     componentDidMount(){
