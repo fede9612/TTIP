@@ -11,9 +11,11 @@ class EmpresaPage extends Component{
         this.state = {
             id: props.match.params.id,
             empresa: false,
-            productos: []
+            productos: [],
+            categorias: []
         }
         this.getEmpresa = this.getEmpresa.bind(this);
+        this.cargarCategorias = this.cargarCategorias.bind(this);
     }
 
     componentWillMount(){
@@ -25,12 +27,23 @@ class EmpresaPage extends Component{
         .then((res) => {
             this.setState({empresa: res.data})
             this.state.empresa.locales.map((local) => {
+                this.cargarCategorias(local);
                 axios.get('http://localhost:8080/local/' + local._id + '/productos/visibles')
                 .then((res) => this.setState({productos: this.state.productos.concat(res.data)}));
             })
         });
     }
 
+    cargarCategorias(local){
+        var {categorias} = this.state;
+        local.categorias.map((categoria) => {
+            //Si la categoría no está dentro de la lista de categorias la agrega
+            if(categoria != categorias.find((cat) => cat == categoria)){
+                categorias.push(categoria);
+            }  
+        });
+        this.setState({categorias: categorias});
+    }
 
     render(){
         // let productos = this.state.productos.map((producto) =>{
@@ -49,9 +62,9 @@ class EmpresaPage extends Component{
 
                     <h1 class="my-4">{this.state.empresa.nombre}</h1>
                     <div class="list-group">
-                    <Link to={"/empresa/" + this.state.empresa._id + "/productos"} class="list-group-item">Category 1</Link>
-                    <Link to={"/empresa/" + this.state.empresa._id + "/productoss"} class="list-group-item">Category 2</Link>
-                    <a href="#" class="list-group-item">Category 3</a>
+                    {this.state.categorias.map((categoria) =>{
+                        return <Link to={"/empresa/" + this.state.empresa._id + "/" + categoria} class="list-group-item">{categoria}</Link>    
+                    })}
                     </div>
 
                 </div>
@@ -89,8 +102,9 @@ class EmpresaPage extends Component{
                     <div class="row">
                         {/* {productos} */}
                         <Switch>
-                            <Route path="/empresa/:id/productos" render={(props) => <Productos {...props} productos={this.state.productos} empresa={this.state.empresa}/>}/>
-                            <Route path="/empresa/:id/productoss" render={(props) => <Productos {...props} productos={this.state.productos} empresa={this.state.empresa}/>}/>
+                            {this.state.categorias.map((categoria) =>{
+                               return <Route path={"/empresa/:id/" + categoria} render={(props) => <Productos {...props} productos={this.state.productos} empresa={this.state.empresa} categoria={categoria}/>}/>    
+                            })}
                         </Switch>
                     </div>
                     {/* <!-- /.row --> */}
@@ -116,8 +130,10 @@ class EmpresaPage extends Component{
 }
 
 function Productos(props){
+    const productosCategorizados = props.productos.filter((prod) => prod.categoria == props.categoria); 
+
     return(
-        props.productos.map((producto) =>{
+        productosCategorizados.map((producto) =>{
             return (
                 <ProductoRowEmpresaPage producto={producto} empresa={props.empresa}/>
             )
