@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios';
 import auth0Client from '../Auth';
+import { Link } from 'react-router-dom';
 
 class CarritoEmpresaPage extends Component{
 
@@ -12,15 +13,19 @@ class CarritoEmpresaPage extends Component{
             local: false,
             pedidos: [],
             cantidadProducto: 0,
-            productoModal: false
+            productoModal: false,
+            redirect: false,
+            idPreference: ""
         };
         this.consultarCarritos = this.consultarCarritos.bind(this);
         this.eliminarProducto = this.eliminarProducto.bind(this);
+        this.comprar = this.comprar.bind(this);
     }
 
     componentDidMount(){
         console.log(this.props.id)
-        this.consultarCarritos(); 
+        this.consultarCarritos();
+        console.log(this.state.pedidoActual) 
     }
 
     consultarCarritos(){
@@ -53,6 +58,42 @@ class CarritoEmpresaPage extends Component{
             });
         });
         return total;
+    }
+
+    comprar(){
+        var productos = [];
+        var local;
+        this.state.pedidos.map((pedido) => {
+            local = pedido.local;
+            pedido.pedidos.map((producto) => {
+                productos.push(producto);    
+            })
+        })
+        console.log(this.state.pedidos)
+        axios.get('http://localhost:8080/local/' + local).then((res) =>{
+            console.log(res.data.empresa.usuario)
+            axios.post('http://localhost:8080/mercadopago/' + res.data.empresa.usuario, productos)
+            .then((res) => {
+                this.setState({idPreference: res.data});
+                this.setRedirect();
+            });
+        })
+    }
+
+    setRedirect = () => {
+        this.setState({
+          redirect: true
+        })
+    }
+
+    redirectMercadopago(url){
+        console.log("url: " + url)
+        if(this.state.redirect){
+            return <Link component={() => { 
+                    window.location.href = url; 
+                    return null;
+                }}/>
+        }
     }
 
     render(){
@@ -133,7 +174,8 @@ class CarritoEmpresaPage extends Component{
                             
                                 <div class="box-footer d-flex justify-content-between flex-column flex-lg-row">
                                 <div class="right">
-                                    <button type="submit" class="btn btn-primary">Continuar comprando <i class="fa fa-chevron-right"></i></button>
+                                    <button type="submit" class="btn btn-primary" onClick={this.comprar}>Continuar comprando <i class="fa fa-chevron-right"></i></button>
+                                    {this.redirectMercadopago(this.state.idPreference)}
                                 </div>
                                 </div>
                             

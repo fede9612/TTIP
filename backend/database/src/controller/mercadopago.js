@@ -2,12 +2,6 @@ const mercadopago = require('mercadopago');
 const VendedorMercadopago = require('../models/vendedoresMercadopago').VendedorMercadopago;
 const Usuario = require('../models/usuario').Usuario;
 
-// Agrega credenciales
-mercadopago.configure({
-    // acá necesito el access token del vendedor, lo tengo que obtener de la empresa en un atributo llamado vendedorToken
-    access_token: 'TEST-3457279708576154-060321-813e885a833495f547846e43d3398019-174549524'
-});
-
 module.exports = {
 
     nuevoVendedor: async (req, res, next) => {
@@ -28,12 +22,21 @@ module.exports = {
     },
 
     getIdPreference: async (req, res, next) => {
+        const {idVendedor} = req.params;
+        const vendedor = await Usuario.findById(idVendedor);
+        console.log(vendedor)
+        const vendedorMercadopago = await VendedorMercadopago.findOne({"vendedor": vendedor._id});
+        console.log(vendedorMercadopago.access_token)
+          // Agrega credenciales
+        mercadopago.configure({
+            access_token: vendedorMercadopago.access_token
+        });
         var items = [];
         req.body.map((producto) => {
             items.push({
                 title: producto.nombre,
                 unit_price: producto.precio,
-                quantity: 1
+                quantity: producto.cantidad
             })
         })
         let preference = {
@@ -44,15 +47,17 @@ module.exports = {
                 "pending": "http://localhost:3000/"
             },
           };
+
+        
           
-          mercadopago.preferences.create(preference)
-          .then(function(response){
-          // Este valor reemplazará el string "$$init_point$$" en tu HTML
+        mercadopago.preferences.create(preference)
+        .then(function(response){
+        // Este valor reemplazará el string "$$init_point$$" en tu HTML
             global.init_point = response.body.init_point;
             console.log(global.init_point)
             return res.send(global.init_point);
-          }).catch(function(error){
+        }).catch(function(error){
             console.log(error);
-          });
+        });
     }
 };
