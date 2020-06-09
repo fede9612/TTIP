@@ -45,5 +45,6 @@ router.route('/empresa/:idEmpresa').get(Empresa.getEmpresa);
 
 //consultas de mercadopago
 router.route('/mercadopago').post(Mercadopago.getIdPreference);
+router.route('/mercadopago/vendedor/:nickname').post(Mercadopago.nuevoVendedor);
 
 module.exports = router;

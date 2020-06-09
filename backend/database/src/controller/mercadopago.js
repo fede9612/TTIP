@@ -1,4 +1,6 @@
 const mercadopago = require('mercadopago');
+const VendedorMercadopago = require('../models/vendedoresMercadopago').VendedorMercadopago;
+const Usuario = require('../models/usuario').Usuario;
 
 // Agrega credenciales
 mercadopago.configure({
@@ -7,6 +9,23 @@ mercadopago.configure({
 });
 
 module.exports = {
+
+    nuevoVendedor: async (req, res, next) => {
+        const {nickname} = req.params;
+        const usuario = await Usuario.findOne({"mail": nickname});
+        const encontrado = await VendedorMercadopago.findOne({"vendedor": usuario._id});
+        if(encontrado === null){
+            var vendedor = new VendedorMercadopago(req.body);
+            vendedor.vendedor = usuario;
+            vendedor.save();
+            return res.sendStatus(200);
+        }else{
+            await VendedorMercadopago.findByIdAndUpdate(encontrado._id, req.body, function (err, producto) {
+                if (err) return next(err);
+                return res.sendStatus(202);
+            })
+        }
+    },
 
     getIdPreference: async (req, res, next) => {
         var items = [];

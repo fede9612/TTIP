@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from 'axios';
+import auth0Client from "../../Auth";
 const qs = require('querystring');
 
 class AuthMercadopago extends Component{
@@ -8,8 +9,6 @@ class AuthMercadopago extends Component{
         super(props);
         this.state = {
         };
-        // this.actualizarEstado = this.actualizarEstado.bind(this);
-        // this.getIdPreference = this.getIdPreference.bind(this);
     }
 
     componentWillMount(){
@@ -29,7 +28,12 @@ class AuthMercadopago extends Component{
             code: this.props.location.search.split('?code=').join(''),
             redirect_uri: 'http://localhost:3000/autorizado'
         }
-        axios.post('https://api.mercadopago.com/oauth/token', qs.stringify(body), config).then((res) => console.log("Respuesta de mercado pago" + res.data.access_token));
+        axios.post('https://api.mercadopago.com/oauth/token', qs.stringify(body), config)
+        .then(async (res) => {
+            await auth0Client.silentAuth();
+            // console.log("Respuesta de mercado pago" + res.data.access_token)
+            axios.post('http://localhost:8080/mercadopago/vendedor/' + auth0Client.getProfile().nickname, res.data);
+        });
     }
 
     // setRedirect = () => {
@@ -51,8 +55,7 @@ class AuthMercadopago extends Component{
     render(){  
         return(
             <div className="container mt-2">
-                <p>AuthMercadopago {this.props.location.search.split('?code=').join('')}</p>    
-                
+                <p>Obteniendo token...</p>  
             </div>
         )
     }
