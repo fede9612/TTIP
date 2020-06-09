@@ -16,12 +16,14 @@ class EmpresaPanel extends Component{
             locales: [],
             usuario: false,
             localModal: false,
-            empresaModal: false
+            empresaModal: false,
+            redirect: false
         };
         this.handlerLocalModal = this.handlerLocalModal.bind(this);
         this.handlerEmpresaModal = this.handlerEmpresaModal.bind(this);
         this.agregarLocal = this.agregarLocal.bind(this);
         this.consultarEmpresa = this.consultarEmpresa.bind(this);
+        this.setRedirect = this.setRedirect.bind(this);
     }
 
     componentDidMount(){
@@ -55,6 +57,21 @@ class EmpresaPanel extends Component{
         this.setState({locales: locales})
     }
 
+    setRedirect = () => {
+        this.setState({
+          redirect: true
+        })
+    }
+
+    redirectAuthMercadopago(url){
+        if(this.state.redirect){
+            return <Link component={() => { 
+                    window.location.href = url; 
+                    return null;
+                }}/>
+        }
+    }
+
     
     render(){
         let localesList = <p>No tiene locales registrados aún</p>
@@ -76,7 +93,9 @@ class EmpresaPanel extends Component{
         let infoEmpresa = (
                             <div>
                                 <p>{ this.state.empresa.nombre }</p>
-                                <Link to={"/empresa/"+this.state.empresa._id}>Ver página</Link>
+                                <Link to={"/empresa/"+this.state.empresa._id}>Ver página</Link><br/>
+                                <Link onClick={this.setRedirect}>Configurar mercadopago</Link>
+                                {this.redirectAuthMercadopago("https://auth.mercadopago.com.ar/authorization?client_id=7465715726728656&response_type=code&platform_id=mp&redirect_uri=http://localhost:3000/")}
                             </div>
                           );
         if(this.state.empresa == false){
