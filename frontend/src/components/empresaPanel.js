@@ -95,7 +95,7 @@ class EmpresaPanel extends Component{
                                 <p>{ this.state.empresa.nombre }</p>
                                 <Link to={"/empresa/"+this.state.empresa._id}>Ver página</Link><br/>
                                 <Link onClick={this.setRedirect}>Configurar mercadopago</Link>
-                                {this.redirectAuthMercadopago("https://auth.mercadopago.com.ar/authorization?client_id=7465715726728656&response_type=code&platform_id=mp&redirect_uri=http://localhost:3000/")}
+                                {this.redirectAuthMercadopago("https://auth.mercadopago.com.ar/authorization?client_id=4521684348779774&response_type=code&platform_id=mp&redirect_uri=http://localhost:3000/autorizado")}
                             </div>
                           );
         if(this.state.empresa == false){
