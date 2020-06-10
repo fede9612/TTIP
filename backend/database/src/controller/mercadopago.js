@@ -24,15 +24,13 @@ module.exports = {
     getIdPreference: async (req, res, next) => {
         const {idVendedor} = req.params;
         const vendedor = await Usuario.findById(idVendedor);
-        console.log(vendedor)
         const vendedorMercadopago = await VendedorMercadopago.findOne({"vendedor": vendedor._id});
-        console.log(vendedorMercadopago.access_token)
           // Agrega credenciales
         mercadopago.configure({
             access_token: vendedorMercadopago.access_token
         });
         var items = [];
-        req.body.map((producto) => {
+        req.body.productos.map((producto) => {
             items.push({
                 title: producto.nombre,
                 unit_price: producto.precio,
@@ -42,10 +40,12 @@ module.exports = {
         let preference = {
             items: items,
             back_urls: {
-                "success": "http://localhost:3000/",
+                "success": req.body.redirect,
                 "failure": "http://localhost:3000/",
                 "pending": "http://localhost:3000/"
             },
+            //Esto me retorna automáticamente cuando el pago fue success
+            auto_return: "approved"
           };
 
         
