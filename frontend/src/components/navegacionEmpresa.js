@@ -5,6 +5,7 @@ import PrivateRoute from './privateRoute';
 import ChatPedido from './chatPedido';
 import EmpresaPage from './empresaPage';
 import CarritoEmpresaPage from './carritoEmpresaPage';
+import CompraAprovada from './empresaPage/compraAprovada';
 
 class NavegacionEmpresa extends Component {
     constructor(props){
@@ -46,7 +47,7 @@ class NavegacionEmpresa extends Component {
 
     redirectHome(){
         if(this.state.redirect){
-            return <Link component={() => window.location.href = this.props.urlHome}/>
+            return <Link component={() => window.location.href = "/empresa/" + this.props.match.params.id}/>
         }
     }
     
@@ -77,6 +78,7 @@ class NavegacionEmpresa extends Component {
                     </nav>
                     <Switch>
                         <PrivateRoute urlRedirect={"http://localhost:3000/empresa/" + this.props.match.params.id} path="/empresa/:id/carrito" component={CarritoEmpresaPage} prop={this.props.match.params.id}/>
+                        <Route path="/empresa/:id/aprovado" component={CompraAprovada}/>
                         <Route path="/empresa/:id" component={EmpresaPage}/>
                         <Route path="/chat" component={ChatPedido}/>
                     </Switch>

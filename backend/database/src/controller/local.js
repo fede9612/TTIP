@@ -7,7 +7,7 @@ module.exports = {
 
     getById: async (req, res, next) =>{
         const {idLocal} = req.params;
-        const local = await Local.findById(idLocal);
+        const local = await Local.findById(idLocal).populate('empresa');
         return res.send(local);
     },
 

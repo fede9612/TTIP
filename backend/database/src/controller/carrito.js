@@ -1,5 +1,6 @@
 const Carrito = require('../models/carrito').Carrito;
 const Producto = require('../models/producto').Producto;
+const Usuario = require('../models/usuario').Usuario;
 const mails = require('../../src/mails');
 
 module.exports = {
@@ -14,12 +15,12 @@ module.exports = {
 
     actualizar: async (req, res, next) => {
         const {idPedido} = req.params;
-        pedido = await Carrito.findByIdAndUpdate(idPedido, req.body, function (err) {
+        pedido = await Carrito.findByIdAndUpdate(idPedido, req.body.pedido, function (err) {
             if (err) return next(err);
         })
         if(pedido.confirmado){
-            const _pedido = await Carrito.findOne(pedido).populate('local');
-            mails.nuevoPedido(_pedido.local.mail).catch(console.error + 'envio al local');
+            const vendedor = await Usuario.findOne(req.body.idVendedor);
+            mails.nuevoPedido(vendedor.mail).catch(console.error + 'envio al local');
         } 
         return res.json(pedido);
     },
