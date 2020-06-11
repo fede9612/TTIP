@@ -4,6 +4,7 @@ import axios from 'axios';
 import auth0Client from '../Auth';
 import { BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
 import CarritoDeCompra from './empresaPage/carritoDeCompra';
+import PedidosPendientes from './empresaPage/pedidosPendientes';
 
 class CarritoEmpresaPage extends Component{
 
@@ -20,16 +21,14 @@ class CarritoEmpresaPage extends Component{
             mostrarLinksPedido: false,
         };
         this.mostrarLinksPedido = this.mostrarLinksPedido.bind(this);
-        this.consultarPedidosPendientes = this.consultarPedidosPendientes.bind(this);
+        this.consultarPedidosSinConfirmar = this.consultarPedidosSinConfirmar.bind(this);
     }
 
     componentDidMount(){
-        console.log(this.props.id)
-        this.consultarPedidosPendientes();
-        console.log(this.state.pedidoActual) 
+        this.consultarPedidosSinConfirmar();
     }
 
-    consultarPedidosPendientes(){
+    consultarPedidosSinConfirmar(){
         axios.get('http://localhost:8080/usuario/' + auth0Client.getProfile().nickname + '/pedido/' + this.props.id)
         .then((res) => {
           this.setState({pedidos : res.data});
@@ -62,7 +61,8 @@ class CarritoEmpresaPage extends Component{
                                     <div id="collapseOne" class={this.state.mostrarLinksPedido ? "collapse show": "collapse"} aria-labelledby="headingOne" data-parent="#accordion">
                                         <div class="card-body">
                                             <div class="list-group">
-                                                <Link to={"/empresa/" + this.props.id + "/carrito"} class="list-group-item">Carrito de compra</Link>    
+                                                <Link to={"/empresa/" + this.props.id + "/carrito"} class="list-group-item">Carrito de compra</Link>
+                                                <Link to={"/empresa/" + this.props.id + "/carrito/pendientes"} class="list-group-item">Pedidos pendientes</Link>     
                                             </div>
                                         </div>
                                     </div>
@@ -72,8 +72,9 @@ class CarritoEmpresaPage extends Component{
                         </div>
                        
                         <Switch>
+                            <Route path="/empresa/:id/carrito/pendientes" render={(props) => <PedidosPendientes {...props}/>}/>
                             <Route  path="/empresa/:id/carrito" 
-                                    render={(props) => <CarritoDeCompra {...props} pedidos={this.state.pedidos} id={this.props.id} consultarPedidosPendientes={this.consultarPedidosPendientes}/>}
+                                    render={(props) => <CarritoDeCompra {...props} pedidos={this.state.pedidos} id={this.props.id} consultarPedidosSinConfirmar={this.consultarPedidosSinConfirmar}/>}
                             />
                         </Switch>
                     </div>

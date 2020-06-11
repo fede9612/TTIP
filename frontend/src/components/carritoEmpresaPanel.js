@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios';
-import ProductoRow from './productoRow';
-import ProductoModal from './productoModal';
 import CarritoEmpresaRow from './carritoEmpresaRow';
 
 class CarritoEmpresaPanel extends Component{

@@ -24,17 +24,17 @@ class CarritoDeCompra extends Component{
 
     eliminarProducto(pedido, producto){
         axios.put('http://localhost:8080/carrito/' + pedido._id + '/producto/', producto)
-        .then(this.props.consultarPedidosPendientes());
+        .then(this.props.consultarPedidosSinConfirmar());
     }
 
     sumarUnProducto(pedido, producto){
         axios.put('http://localhost:8080/carrito/' + pedido._id + '/producto/sumar/', producto)
-        .then(this.props.consultarPedidosPendientes());
+        .then(this.props.consultarPedidosSinConfirmar());
     }
 
     restarUnProducto(pedido, producto){
         axios.put('http://localhost:8080/carrito/' + pedido._id + '/producto/restar/', producto)
-        .then(this.props.consultarPedidosPendientes());
+        .then(this.props.consultarPedidosSinConfirmar());
     }
 
     calcularTotal(){
