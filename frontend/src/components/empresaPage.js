@@ -13,10 +13,12 @@ class EmpresaPage extends Component{
             id: props.match.params.id,
             empresa: false,
             productos: [],
-            categorias: []
+            categorias: [],
+            mostrarCategorias: false
         }
         this.getEmpresa = this.getEmpresa.bind(this);
         this.cargarCategorias = this.cargarCategorias.bind(this);
+        this.mostrarCategorias = this.mostrarCategorias.bind(this);
     }
 
     componentWillMount(){
@@ -46,6 +48,10 @@ class EmpresaPage extends Component{
         this.setState({categorias: categorias});
     }
 
+    mostrarCategorias(){
+        this.setState({mostrarCategorias: !this.state.mostrarCategorias});
+    }
+
     render(){
         // let productos = this.state.productos.map((producto) =>{
         //     return (
@@ -61,11 +67,28 @@ class EmpresaPage extends Component{
 
                 <div class="col-lg-3">
                     <h1 class="my-4">{this.state.empresa.nombre}</h1>
-                    <div class="list-group">
-                    {this.state.categorias.map((categoria) =>{
-                        return <Link to={"/empresa/" + this.state.empresa._id + "/" + categoria} class="list-group-item">{categoria}</Link>    
-                    })}
+                    <div id="accordion">
+                    <div class="card">
+                        <div class="card-header" id="headingOne">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" onClick={this.mostrarCategorias}>
+                            Categorías
+                            </button>
+                        </h5>
+                        </div>
+
+                        <div id="collapseOne" class={this.state.mostrarCategorias ? "collapse show": "collapse"} aria-labelledby="headingOne" data-parent="#accordion">
+                            <div class="card-body">
+                                <div class="list-group">
+                                    {this.state.categorias.map((categoria) =>{
+                                        return <Link to={"/empresa/" + this.state.empresa._id + "/" + categoria} class="list-group-item">{categoria}</Link>    
+                                })}
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    </div>
+                   
                 </div>
                 {/* <!-- /.col-lg-3 --> */}
 
