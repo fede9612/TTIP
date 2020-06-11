@@ -14,6 +14,7 @@ class CarritoEmpresaPage extends Component{
             id: props.match.params.id,
             local: false,
             pedidos: [],
+            pedidosPendientes: [],
             cantidadProducto: 0,
             productoModal: false,
             redirect: false,
@@ -26,12 +27,20 @@ class CarritoEmpresaPage extends Component{
 
     componentDidMount(){
         this.consultarPedidosSinConfirmar();
+        this.consultarPendientes();
     }
 
     consultarPedidosSinConfirmar(){
         axios.get('http://localhost:8080/usuario/' + auth0Client.getProfile().nickname + '/pedido/' + this.props.id)
         .then((res) => {
           this.setState({pedidos : res.data});
+        });
+    }
+    
+    consultarPendientes(){
+        axios.get('http://localhost:8080/usuario/' + auth0Client.getProfile().nickname + '/pedidosPendiente/' + this.props.id)
+        .then((res) => {
+          this.setState({pedidosPendientes : res.data});
         });
     }
 
@@ -72,7 +81,7 @@ class CarritoEmpresaPage extends Component{
                         </div>
                        
                         <Switch>
-                            <Route path="/empresa/:id/carrito/pendientes" render={(props) => <PedidosPendientes {...props}/>}/>
+                            <Route path="/empresa/:id/carrito/pendientes" render={(props) => <PedidosPendientes {...props} pedidos={this.state.pedidosPendientes} id={this.props.id}/>}/>
                             <Route  path="/empresa/:id/carrito" 
                                     render={(props) => <CarritoDeCompra {...props} pedidos={this.state.pedidos} id={this.props.id} consultarPedidosSinConfirmar={this.consultarPedidosSinConfirmar}/>}
                             />

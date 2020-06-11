@@ -4,11 +4,13 @@ import '../chat/chat.css';
 import queryString from 'query-string';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import Message from "./Message";
+import { Modal, ModalHeader, ModalBody } from "reactstrap";
+import { Link } from "react-router-dom";
 
 
 let socket;
 
-const ChatPedido = () => {
+const ChatPedido = (props) => {
   const [name, setName] = useState('');
   const [room, setRoom] = useState('');
   const [users, setUsers] = useState('');
@@ -53,25 +55,33 @@ const ChatPedido = () => {
   }
 
   return (
-    <div className="outerContainer">
-        <div className="containerChat">
-        <ScrollToBottom className="messages">
-            {messages.map((message, i) => <div key={i}><Message message={message} name={name}/></div>)}
-        </ScrollToBottom>
-        <form className="formChat">
-            <input
-            className="inputChat"
-            type="text"
-            placeholder="Type a message..."
-            value={message}
-            onChange={({ target: { value } }) => setMessage(value)}
-            onKeyPress={event => event.key === 'Enter' ? sendMessage(event) : null}
-            />
-            <button className="sendButtonChat" onClick={e => sendMessage(e)}>Send</button>
-        </form>
-        </div>
-        
-    </div>
+    <Modal isOpen={true} className="w-4/5">
+        <ModalHeader className="bg-black">
+          <Link to={props.urlRedirect} className="text-white font-bold">Cancel</Link>
+        </ModalHeader>
+        <ModalBody className="bg-black">
+          <div className="outerContainer">
+            <div className="containerChat">
+              <ScrollToBottom className="messages">
+                  {messages.map((message, i) => <div key={i}><Message message={message} name={name}/></div>)}
+              </ScrollToBottom>
+              <form className="formChat">
+                  <input
+                  className="inputChat"
+                  type="text"
+                  placeholder="Type a message..."
+                  value={message}
+                  onChange={({ target: { value } }) => setMessage(value)}
+                  onKeyPress={event => event.key === 'Enter' ? sendMessage(event) : null}
+                  />
+                  <button className="sendButtonChat" onClick={e => sendMessage(e)}>Send</button>
+              </form>
+            </div>
+          
+          </div>
+        </ModalBody>
+    </Modal>
+    
   );
 }
 
