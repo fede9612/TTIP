@@ -20,7 +20,7 @@ module.exports = {
         })
         if(pedido.confirmado){
             const vendedor = await Usuario.findOne(req.body.idVendedor);
-            mails.nuevoPedido(vendedor.mail).catch(console.error + 'envio al local');
+            mails.nuevoPedido(vendedor.mail+'@gmail.com').catch(console.error + 'envio al local');
         } 
         return res.json(pedido);
     },
@@ -84,7 +84,7 @@ module.exports = {
         })
         if(!pedido.pendiente){
             const _pedido = await Carrito.findOne(pedido).populate('local');
-            mails.pedidoListo(_pedido.usuarioDelPedido.mail + '@gmail.com', "comprador").catch(console.error + 'envío al comprador');
+            mails.pedidoListo(_pedido.usuarioDelPedido.mail + '@gmail.com').catch(console.error + 'envío al comprador');
         } 
         return res.json(pedido);
     }

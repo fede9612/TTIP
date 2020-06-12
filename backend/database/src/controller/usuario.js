@@ -51,6 +51,42 @@ module.exports = {
         return res.send(pedidos);
     },
 
+    getPedidosPendientes: async (req, res, next) =>{
+        const {nickname} = req.params;
+        const {idEmpresa} = req.params;
+        const empresa = await Empresa.findById(idEmpresa).populate('locales');
+        const usuario = await Usuario.findOne({'mail': nickname});
+        var pedidosPendientesDeUsuario = await Carrito.find({'usuarioDelPedido._id': usuario._id, "confirmado": true, "pendiente": true}); 
+        var pedidos = []
+        //Buscar entro los pedidos pendientes del usuario los pedidos que son de una empresa en especifica que puede tener varios locales
+        pedidosPendientesDeUsuario.map((pedido) => {
+            empresa.locales.map((local) => {
+                if(pedido.local.equals(local._id)){
+                    pedidos.push(pedido)
+                }
+            })
+        })
+        return res.send(pedidos);
+    },
+
+    getPedidosListos: async (req, res, next) =>{
+        const {nickname} = req.params;
+        const {idEmpresa} = req.params;
+        const empresa = await Empresa.findById(idEmpresa).populate('locales');
+        const usuario = await Usuario.findOne({'mail': nickname});
+        var pedidosPendientesDeUsuario = await Carrito.find({'usuarioDelPedido._id': usuario._id, "confirmado": true, "pendiente": false}); 
+        var pedidos = []
+        //Buscar entro los pedidos pendientes del usuario los pedidos que son de una empresa en especifica que puede tener varios locales
+        pedidosPendientesDeUsuario.map((pedido) => {
+            empresa.locales.map((local) => {
+                if(pedido.local.equals(local._id)){
+                    pedidos.push(pedido)
+                }
+            })
+        })
+        return res.send(pedidos);
+    },
+
     getEmpresa: async (req, res, next) =>{
         const {idUsuario} = req.params;
         const usuario = await Usuario.findById(idUsuario);
