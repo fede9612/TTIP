@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from 'axios';
 import ChatPedido from "./chatPedido";
-import { Link } from "react-router-dom";
+import { BrowserRouter as Router, Link, Switch, Route } from "react-router-dom";
 
 class CarritoEmpresaRow extends Component{
 
@@ -29,7 +29,7 @@ class CarritoEmpresaRow extends Component{
         axios.put('http://localhost:8080/carrito/'+ pedido._id +'/local', pedido).then(this.props.actualizarPedidos(pedido));
     }
     
-    render(){  
+    render(){ 
         let botonPendiente;
         if(this.state.pedido.pendiente){
             botonPendiente = <button className="bg-red-600 hover:bg-red-800 text-white font-bold px-2 h-7 rounded-full" onClick={this.actualizarEstado}>Pendiente</button>
@@ -37,7 +37,7 @@ class CarritoEmpresaRow extends Component{
             botonPendiente = <button className="bg-green-500 hover:bg-green-800 text-white font-bold px-2 h-7 rounded-full" onClick={this.actualizarEstado}>Listo</button>
         }          
             return(
-                
+                <Router> 
                 <tr className={this.state.pedido.pendiente ? "table-danger" : "table-success"}>
                     <td>{this.state.pedido.usuarioDelPedido.mail}</td>
                     <td>{this.state.pedido.pedidos.length}</td>
@@ -46,8 +46,11 @@ class CarritoEmpresaRow extends Component{
                         {botonPendiente}
                     </td>
                     <td><Link to={`/chat?name=${this.state.local.nombre}&room=${this.state.pedido._id}`}>chat</Link></td>
+                        <Switch>
+                        <Route path="/chat" render={(props) => <ChatPedido {...props} urlRedirect={"/pedidos/"+this.state.local._id}/>}/>
+                        </Switch>
                 </tr>                 
-            
+                </Router>
             )
         }
     }

@@ -7,7 +7,6 @@ import CarritoEmpresaPanel from './carritoEmpresaPanel';
 import auth0Client from '../Auth';
 import PrivateRoute from './privateRoute';
 import CarritoUsuarioPanel from './carritoUsuarioPanel';
-import ChatPedido from './chatPedido';
 import EmpresaPage from './empresaPage';
 import AuthMercadopago from './mercadopago/authMercadopago';
 
@@ -83,7 +82,6 @@ class Navegacion extends Component {
                         <PrivateRoute urlRedirect={"http://localhost:3000/"} path="/empresaPanel" component={EmpresaPanel} checkingSession={this.state.checkingSession}/>
                         <PrivateRoute urlRedirect={"http://localhost:3000/"} path="/carritos" component={CarritoUsuarioPanel}/>
                         <Route path="/empresa/:id" component={EmpresaPage}/>
-                        <Route path="/chat" component={ChatPedido}/>
                         <Route path="/autorizado" component={AuthMercadopago}/>
                     </Switch>
                 </div>
