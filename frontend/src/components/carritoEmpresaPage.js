@@ -4,7 +4,7 @@ import axios from 'axios';
 import auth0Client from '../Auth';
 import { BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
 import CarritoDeCompra from './empresaPage/carritoDeCompra';
-import PedidosPendientes from './empresaPage/pedidosPendientes';
+import Pedidos from './empresaPage/pedidos';
 
 class CarritoEmpresaPage extends Component{
 
@@ -15,6 +15,7 @@ class CarritoEmpresaPage extends Component{
             local: false,
             pedidos: [],
             pedidosPendientes: [],
+            pedidosListos: [],
             cantidadProducto: 0,
             productoModal: false,
             redirect: false,
@@ -28,6 +29,7 @@ class CarritoEmpresaPage extends Component{
     componentDidMount(){
         this.consultarPedidosSinConfirmar();
         this.consultarPendientes();
+        this.consultarListos();
     }
 
     consultarPedidosSinConfirmar(){
@@ -41,6 +43,13 @@ class CarritoEmpresaPage extends Component{
         axios.get('http://localhost:8080/usuario/' + auth0Client.getProfile().nickname + '/pedidosPendiente/' + this.props.id)
         .then((res) => {
           this.setState({pedidosPendientes : res.data});
+        });
+    }
+
+    consultarListos(){
+        axios.get('http://localhost:8080/usuario/' + auth0Client.getProfile().nickname + '/pedidosListo/' + this.props.id)
+        .then((res) => {
+          this.setState({pedidosListos : res.data});
         });
     }
 
@@ -71,7 +80,8 @@ class CarritoEmpresaPage extends Component{
                                         <div class="card-body">
                                             <div class="list-group">
                                                 <Link to={"/empresa/" + this.props.id + "/carrito"} class="list-group-item">Carrito de compra</Link>
-                                                <Link to={"/empresa/" + this.props.id + "/carrito/pendientes"} class="list-group-item">Pedidos pendientes</Link>     
+                                                <Link to={"/empresa/" + this.props.id + "/carrito/pendientes"} class="list-group-item">Pedidos pendientes</Link>
+                                                <Link to={"/empresa/" + this.props.id + "/carrito/listos"} class="list-group-item">Pedidos listos</Link>    
                                             </div>
                                         </div>
                                     </div>
@@ -81,7 +91,12 @@ class CarritoEmpresaPage extends Component{
                         </div>
                        
                         <Switch>
-                            <Route path="/empresa/:id/carrito/pendientes" render={(props) => <PedidosPendientes {...props} pedidos={this.state.pedidosPendientes} id={this.props.id}/>}/>
+                            <Route  path="/empresa/:id/carrito/pendientes" 
+                                    render={(props) => <Pedidos {...props} pedidos={this.state.pedidosPendientes} id={this.props.id} titulo="pendientes"/>}
+                            />
+                            <Route  path="/empresa/:id/carrito/listos" 
+                                    render={(props) => <Pedidos {...props} pedidos={this.state.pedidosListos} id={this.props.id} titulo="listos"/>}
+                            />
                             <Route  path="/empresa/:id/carrito" 
                                     render={(props) => <CarritoDeCompra {...props} pedidos={this.state.pedidos} id={this.props.id} consultarPedidosSinConfirmar={this.consultarPedidosSinConfirmar}/>}
                             />

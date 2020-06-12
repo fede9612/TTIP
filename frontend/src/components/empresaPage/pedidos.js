@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios';
-import PedidoPendiente from './pedidoPendiente';
+import PedidoRow from './pedidoRow';
 
-class PedidosPendientes extends Component{
+class Pedidos extends Component{
 
     constructor(props){
         super(props);
@@ -21,14 +21,14 @@ class PedidosPendientes extends Component{
             <div className="col-12 col-xl-9 col-lg-9 col-sm-9 col-md-9 mt-2">
                 <div className="">
                     <div className="box">
-                        <h1>Pedidos Pendientes</h1>
+                        <h1>Pedidos {this.props.titulo}</h1>
                     </div>
                     <div id="accordion" >
                     {
                         this.props.pedidos.map((pedido) => {
                             console.log(pedido)
                             return(
-                                <PedidoPendiente pedido={pedido} id={this.props.id}/>
+                                <PedidoRow pedido={pedido} id={this.props.id}/>
                             )
                         })
                     }
@@ -39,4 +39,4 @@ class PedidosPendientes extends Component{
     }
 }
 
-export default PedidosPendientes;
+export default Pedidos;

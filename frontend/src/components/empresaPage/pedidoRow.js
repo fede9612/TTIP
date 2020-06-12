@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Link, Switch, Route } from 'react-router-dom';
 import auth0Client from '../../Auth';
 import ChatPedido from '../chatPedido';
 
-class PedidoPendiente extends Component{
+class PedidoRow extends Component{
 
     constructor(props){
         super(props);
@@ -92,4 +92,4 @@ class PedidoPendiente extends Component{
     }
 }
 
-export default PedidoPendiente;
+export default PedidoRow;
