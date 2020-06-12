@@ -6,9 +6,10 @@ const mongoose = require('mongoose');
 mongoose.set("useNewUrlParser", true);
 mongoose.set("useUnifiedTopology", true);
 
-mongoose.connect("mongodb://localhost/anydirec",()=>{
+mongoose.connect("mongodb+srv://" + process.env.USERDB + ":" + process.env.PASSDB + "@anydirec-buuch.mongodb.net/<dbname>?retryWrites=true&w=majority",()=>{
     console.log("Base de datos conectada");
 });
+
 
 const app = express();
 
