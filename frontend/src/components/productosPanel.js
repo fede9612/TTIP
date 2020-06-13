@@ -63,6 +63,7 @@ class ProductosPanel extends Component{
         let productosList;
         if(Array.isArray(this.state.productos) && this.state.productos.length){
             productosList = this.state.productos.map((producto) => {
+                console.log(producto)
                 return(
                     <div key={producto._id} className="w-1/3 inline-block">
                     <ProductoRow producto={producto} local={this.state.local} eliminarProducto={this.eliminarProducto}/>

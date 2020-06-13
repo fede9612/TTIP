@@ -18,6 +18,9 @@ let productoSchema = new mongoose.Schema({
         type: String,
         default: "Otro"
     },
+    detalle:{
+        type: String
+    },
     oculto: {
         type: Boolean,
         default: false

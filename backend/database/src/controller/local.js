@@ -38,7 +38,7 @@ module.exports = {
         local.productos.push(nuevoProducto);
         await local.save(function (err) {
             if (err) return next(err);
-            return res.sendStatus(201);
+            return res.json(nuevoProducto);
         });
     },
 
