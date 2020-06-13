@@ -9,7 +9,8 @@ let empresaSchema = new mongoose.Schema({
         type: Number
     },
     usuario: { type: Schema.Types.ObjectId, ref: 'usuario' },
-    locales: [{type: Schema.Types.ObjectId, ref: 'local'}]
+    locales: [{type: Schema.Types.ObjectId, ref: 'local'}],
+    categoriasDeProductos: [{type:String}]
 });
 
 const Empresa = mongoose.model('empresa', empresaSchema);

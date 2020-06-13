@@ -17,7 +17,6 @@ class EmpresaPage extends Component{
             mostrarCategorias: false
         }
         this.getEmpresa = this.getEmpresa.bind(this);
-        this.cargarCategorias = this.cargarCategorias.bind(this);
         this.mostrarCategorias = this.mostrarCategorias.bind(this);
     }
 
@@ -28,24 +27,13 @@ class EmpresaPage extends Component{
     getEmpresa(){
         axios.get("http://localhost:8080/empresa/" + this.state.id)
         .then((res) => {
-            this.setState({empresa: res.data})
+            this.setState({empresa: res.data});
+            this.setState({categorias: res.data.categoriasDeProductos});
             this.state.empresa.locales.map((local) => {
-                this.cargarCategorias(local);
                 axios.get('http://localhost:8080/local/' + local._id + '/productos/visibles')
                 .then((res) => this.setState({productos: this.state.productos.concat(res.data)}));
             })
         });
-    }
-
-    cargarCategorias(local){
-        var {categorias} = this.state;
-        local.categorias.map((categoria) => {
-            //Si la categoría no está dentro de la lista de categorias la agrega
-            if(categoria != categorias.find((cat) => cat == categoria)){
-                categorias.push(categoria);
-            }  
-        });
-        this.setState({categorias: categorias});
     }
 
     mostrarCategorias(){
