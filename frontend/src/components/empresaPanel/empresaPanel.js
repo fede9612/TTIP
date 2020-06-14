@@ -8,6 +8,8 @@ import EmpresaModal from '../empresaModal';
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 import Sucursales from './sucursales';
 import EmpresaPage from '../empresaPage';
+import CarritoEmpresaPanel from '../carritoEmpresaPanel';
+import ProductosPanel from '../productosPanel';
 
 class EmpresaPanel extends Component{
 
@@ -102,6 +104,8 @@ class EmpresaPanel extends Component{
                     </div>
                     <div class="w-full lg:w-3/4">
                         <Switch>
+                            <Route path="/pedidos/:id" component={CarritoEmpresaPanel}/>
+                            <Route path="/productos/:id" component={ProductosPanel}/>
                             <Route path="/empresaPanel/sucursales/:id" render={(props) => <Sucursales {...props} locales={this.state.locales} empresa={this.state.empresa}/>}/>
                             <Route path="/empresa/:id" component={EmpresaPage}/>
                         </Switch>

@@ -64,14 +64,9 @@ class CarritoEmpresaPanel extends Component{
         return(
             <div className="container mt-2">
                 <div class="flex flex-wrap">
-                    <div class="w-full lg:w-1/4 ">
-                        <h4>Local</h4>
-                        <hr className="w-4/5 mt-2"></hr>
-                        <p>{ this.state.local.nombre }</p>
-                    </div>
                     <div class="w-full lg:w-3/4">
                         <div className="flex">
-                            <h4>Pedidos</h4>
+                            <h4>Pedidos de { this.state.local.nombre }</h4>
                         </div>
                         <hr className="mt-1"></hr>
                         <div className="w-full border-b-2 border-l-2 border-r-2 rounded-t rounded-b mt-2">

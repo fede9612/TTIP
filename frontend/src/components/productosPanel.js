@@ -83,16 +83,11 @@ class ProductosPanel extends Component{
         }
 
         return(
-            <div className="container mt-2">
-                <div class="flex flex-wrap">
-                    <div class="w-full lg:w-1/4 ">
-                        <h4>Local</h4>
-                        <hr className="w-4/5 mt-1"></hr>
-                        <p className="mt-2">{ this.state.local.nombre }</p>
-                    </div>
-                    <div class="w-full lg:w-3/4">
-                        <div className="flex">
-                            <h4>Productos</h4>
+            <div className="mt-2">
+                
+                    <div class="w-4/5">
+                        <div>
+                            <h4 className="inline-block">Productos de { this.state.local.nombre }</h4>
                             <button className="bg-green-500 hover:bg-green-700 text-white font-bold px-2 ml-2 h-7 border-b-4 border-l-4 border-t-4 border-r-4 rounded-full"
                                     onClick={this.handlerProductoModal}>
                                 Agregar                
@@ -104,7 +99,7 @@ class ProductosPanel extends Component{
                             {productosList}
                         </div>
                     </div>
-                </div>    
+                   
              
             </div>        
         )
