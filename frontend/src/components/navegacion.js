@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link, withRouter} from 'react-router-dom';
 import BuscarProductos from './buscarproductos';
-import EmpresaPanel from './empresaPanel';
+import EmpresaPanel from './empresaPanel/empresaPanel';
 import ProductosPanel from './productosPanel';
 import CarritoEmpresaPanel from './carritoEmpresaPanel';
 import auth0Client from '../Auth';
@@ -81,7 +81,6 @@ class Navegacion extends Component {
                         <Route path="/pedidos/:id" component={CarritoEmpresaPanel}/>
                         <PrivateRoute urlRedirect={"http://localhost:3000/"} path="/empresaPanel" component={EmpresaPanel} checkingSession={this.state.checkingSession}/>
                         <PrivateRoute urlRedirect={"http://localhost:3000/"} path="/carritos" component={CarritoUsuarioPanel}/>
-                        <Route path="/empresa/:id" component={EmpresaPage}/>
                         <Route path="/autorizado" component={AuthMercadopago}/>
                     </Switch>
                 </div>
