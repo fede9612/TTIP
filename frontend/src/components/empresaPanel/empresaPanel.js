@@ -17,7 +17,6 @@ class EmpresaPanel extends Component{
         super(props);
         this.state = { 
             empresa: false,
-            locales: [],
             usuario: false,
             empresaModal: false,
             redirect: false
@@ -46,7 +45,7 @@ class EmpresaPanel extends Component{
             this.setState({usuario:res.data});
             axios.get('http://localhost:8080/usuario/' + res.data._id + '/empresa')
             .then((res) => {
-                this.setState({empresa : res.data, locales: res.data.locales});
+                this.setState({empresa : res.data});
             }) 
         });
     }
@@ -106,7 +105,7 @@ class EmpresaPanel extends Component{
                         <Switch>
                             <Route path="/pedidos/:id" component={CarritoEmpresaPanel}/>
                             <Route path="/productos/:id" component={ProductosPanel}/>
-                            <Route path="/empresaPanel/sucursales/:id" render={(props) => <Sucursales {...props} locales={this.state.locales} empresa={this.state.empresa}/>}/>
+                            <Route path="/empresaPanel/sucursales/:id" render={(props) => <Sucursales {...props} empresa={this.state.empresa}/>}/>
                             <Route path="/empresa/:id" component={EmpresaPage}/>
                         </Switch>
                     </div>

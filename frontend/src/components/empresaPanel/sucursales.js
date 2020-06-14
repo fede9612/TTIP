@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
+import axios from 'axios';
 import LocalRow from '../localRow';
 import LocalModal from '../localModal';
 
@@ -9,11 +10,23 @@ class Sucursales extends Component{
     constructor(props){
         super(props);
         this.state = { 
-            locales: props.locales,
+            locales: [],
             localModal: false
         };
         this.handlerLocalModal = this.handlerLocalModal.bind(this);
         this.agregarLocal = this.agregarLocal.bind(this);
+    }
+
+    componentDidMount(){
+        this.consultarLocales();
+    }
+
+    consultarLocales(){
+        //En vez de pasar los locales por props lo hago por acá porque si recargan la página se pierden los props y no aparecen los locales
+        axios.get('http://localhost:8080/empresa/' + this.props.location.pathname.split('/empresaPanel/sucursales/').join(''))
+        .then((res) => {
+            this.setState({locales: res.data.locales});
+        })
     }
 
     handlerLocalModal(){
