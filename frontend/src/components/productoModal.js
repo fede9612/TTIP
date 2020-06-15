@@ -33,6 +33,14 @@ class ProductoModal extends Component{
     }
 
     render(){
+        let categorias = <option></option>;
+        if(this.state.local.empresa.categoriasDeProductos.length){
+            categorias = this.state.local.empresa.categoriasDeProductos.map((categoria) =>{
+                return(
+                    <option>{categoria}</option>
+                )
+            });
+        }
         return(
             <div>
                 <Modal isOpen={this.state.modal}>
@@ -68,8 +76,7 @@ class ProductoModal extends Component{
                             producto.categoria = event.target.value.toString();
                             this.setState({producto})
                         }}>
-                            <option>Hola</option>
-                            <option>Chau</option>
+                            {categorias}
                         </Input>
                     </ModalBody>
                     <ModalFooter className="bg-teal-500">

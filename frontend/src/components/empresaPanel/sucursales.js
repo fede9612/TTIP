@@ -45,7 +45,7 @@ class Sucursales extends Component{
         if(Array.isArray(this.state.locales) && this.state.locales.length){
             localesList = this.state.locales.map((local) => {
                             return(
-                                <LocalRow local={local} />
+                                <LocalRow local={local} empresa={this.props.empresa}/>
                             );
                         });
         }
