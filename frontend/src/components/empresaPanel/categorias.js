@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios';
 import CategoriaModal from './categoriaModal';
+import { Modal, ModalBody, Label, Input, ModalFooter } from 'reactstrap';
 
 class Categorias extends Component{
 
@@ -9,22 +10,29 @@ class Categorias extends Component{
         super(props);
         this.state = { 
             categorias: this.props.empresa.categoriasDeProductos,
-            categoriaModal: false
+            categoriaModal: false,
+            eliminarCategoriaModal: false
         };
         this.handlerCategoriaModal = this.handlerCategoriaModal.bind(this);
         this.agregarCategoria = this.agregarCategoria.bind(this);
+        this.handlerEliminarCategoriaModal = this.handlerEliminarCategoriaModal.bind(this);
+        this.eliminarCategoria = this.eliminarCategoria.bind(this);
     }
 
     eliminarCategoria(categoria){
         axios.put('http://localhost:8080/empresa/' + this.props.empresa._id + '/categoria', {categoria: categoria})
         .then((res) => {
             this.props.empresa.categoriasDeProductos = res.data;
-            this.setState({categorias: this.props.empresa.categoriasDeProductos});
+            this.setState({categorias: this.props.empresa.categoriasDeProductos, eliminarCategoriaModal: !this.state.eliminarCategoriaModal});
         })
     }
 
     handlerCategoriaModal(){
-        this.setState({categoriaModal: !this.state.categoriaModal})
+        this.setState({categoriaModal: !this.state.categoriaModal});
+    }
+
+    handlerEliminarCategoriaModal(){
+        this.setState({eliminarCategoriaModal: !this.state.eliminarCategoriaModal});
     }
 
     agregarCategoria(categoria){
@@ -45,22 +53,37 @@ class Categorias extends Component{
     }
     
     render(){
+        let eliminarCategoriaModal;
         let categoriasList = <p>No tiene categorías cargadas aún</p>
         if(Array.isArray(this.state.categorias) && this.state.categorias.length){
             categoriasList = this.state.categorias.map((categoria) => {
-                            return(
-                                <li class="list-group-item">
-                                    <button onClick={() => this.eliminarCategoria(categoria)}>
-                                        <svg class="bi bi-x" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/>
-                                            <path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/>
-                                        </svg>
-                                    </button>
-                                    {categoria}
-                                </li>
-                            );
-                        });
+                if(this.state.eliminarCategoriaModal){
+                    eliminarCategoriaModal = (
+                        <Modal isOpen={true}>
+                            <ModalBody className="bg-teal-500 content-center">
+                                <h5>¿Eliminar la categoría {categoria}?</h5>
+                            </ModalBody>   
+                            <ModalFooter className="bg-teal-500">
+                                <button className="bg-red-600 hover:bg-red-800 text-white font-bold py-2 px-4 rounded-full" onClick={() => this.eliminarCategoria(categoria)}>Eliminar</button>
+                                <button className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full" onClick={this.handlerEliminarCategoriaModal}>Cancel</button>
+                            </ModalFooter>
+                        </Modal>
+                    )    
+        }                    
+                return(
+                    <li class="list-group-item">
+                        <button onClick={() => this.handlerEliminarCategoriaModal()}>
+                            <svg class="bi bi-x" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/>
+                                <path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/>
+                            </svg>
+                        </button>
+                        {categoria}
+                    </li>
+                );
+            });
         }
+        
         let categoriaModal;
         if(this.state.categoriaModal){
              categoriaModal = <CategoriaModal handlerClick={this.handlerCategoriaModal} agregar={this.agregarCategoria} empresa={this.props.empresa}/>     
@@ -69,6 +92,7 @@ class Categorias extends Component{
         return(
               <div>
                   {categoriaModal}
+                  {eliminarCategoriaModal}
                   <div className="flex">
                     <h4>Categorias</h4>
                     <button className= {"bg-green-500 hover:bg-green-700 text-white font-bold px-2 ml-2 h-7 border-b-4 border-l-4 border-t-4 border-r-4 rounded-full"}
