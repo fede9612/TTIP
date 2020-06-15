@@ -9,6 +9,7 @@ import EmpresaPage from '../empresaPage';
 import CarritoEmpresaPanel from '../carritoEmpresaPanel';
 import ProductosPanel from '../productosPanel';
 import Categorias from './categorias';
+import VendedorMercadopago from './vendedorMercadopago';
 
 class EmpresaPanel extends Component{
 
@@ -17,12 +18,10 @@ class EmpresaPanel extends Component{
         this.state = { 
             empresa: false,
             usuario: false,
-            empresaModal: false,
-            redirect: false
+            empresaModal: false
         };
         this.handlerEmpresaModal = this.handlerEmpresaModal.bind(this);
         this.consultarEmpresa = this.consultarEmpresa.bind(this);
-        this.setRedirect = this.setRedirect.bind(this);
     }
 
     componentDidMount(){
@@ -48,19 +47,6 @@ class EmpresaPanel extends Component{
             }) 
         });
     }
-
-    setRedirect = () => {
-        this.setState({
-          redirect: true
-        })
-    }
-
-    redirectAuthMercadopago(url){
-        if(this.state.redirect){
-            return <Link component={() => {window.location.href = url; return null;}}/>
-        }
-    }
-
     
     render(){
         let empresaModal;
@@ -74,8 +60,7 @@ class EmpresaPanel extends Component{
                                     <li class="list-group-item"><Link to={"/empresaPanel/sucursales/"+this.state.empresa._id}>Sucursales</Link><br/></li>
                                     <li class="list-group-item"><Link to={"/empresaPanel/categorias"}>Categorizar productos</Link><br/></li>
                                     <li class="list-group-item"><Link to={"/empresa/"+this.state.empresa._id}>Ver página</Link><br/></li>
-                                    <li class="list-group-item"><Link onClick={this.setRedirect}>Configurar mercadopago</Link></li>
-                                    {this.redirectAuthMercadopago("https://auth.mercadopago.com.ar/authorization?client_id=4521684348779774&response_type=code&platform_id=mp&redirect_uri=http://localhost:3000/autorizado")}
+                                    <li class="list-group-item"><Link to={"/empresaPanel/mercadopago"}>Mercadopago</Link></li>
                                 </div>
                             </div>
                           );
@@ -104,6 +89,7 @@ class EmpresaPanel extends Component{
                         <Switch>
                             <Route path="/pedidos/:id" component={CarritoEmpresaPanel}/>
                             <Route path="/productos/:id" component={ProductosPanel}/>
+                            <Route path="/empresaPanel/mercadopago" component={VendedorMercadopago}/>
                             {/* este ejemplo es pasando la empresa por props, tiene el problema que al recargar a página pierde los props */}
                             <Route path="/empresaPanel/categorias" render={(props) => <Categorias {...props} empresa={this.state.empresa}/>}/>
                             {/* estes ejemplo pierde los props pero busco la empresa por id */}
