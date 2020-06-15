@@ -70,7 +70,7 @@ class ProductoModal extends Component{
                             producto.detalle = event.target.value;
                             this.setState({producto})
                         }}/>
-                        <Label for="Detalle">Detalle: </Label>
+                        <Label for="Detalle">Categorías: </Label>
                         <Input id="Categoría" type="select" value={this.state.producto.categoria} onChange={(event) =>  {
                             let { producto } = this.state;
                             producto.categoria = event.target.value.toString();
