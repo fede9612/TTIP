@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios';
-import LocalRow from '../localRow';
-import LocalModal from '../localModal';
 import auth0Client from '../../Auth';
 import EmpresaModal from '../empresaModal';
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
@@ -59,10 +57,7 @@ class EmpresaPanel extends Component{
 
     redirectAuthMercadopago(url){
         if(this.state.redirect){
-            return <Link component={() => { 
-                    window.location.href = url; 
-                    return null;
-                }}/>
+            return <Link component={() => {window.location.href = url; return null;}}/>
         }
     }
 
@@ -73,13 +68,15 @@ class EmpresaPanel extends Component{
             empresaModal = <EmpresaModal handlerClick={this.handlerEmpresaModal} consultarEmpresa={this.consultarEmpresa} usuario={this.state.usuario}/>     
         }
         let infoEmpresa = (
-                            <div>
+                            <div className="w-4/5">
                                 <p>{ this.state.empresa.nombre }</p>
-                                <Link to={"/empresa/"+this.state.empresa._id}>Ver página</Link><br/>
-                                <Link to={"/empresaPanel/sucursales/"+this.state.empresa._id}>Sucursales</Link><br/>
-                                <Link to={"/empresaPanel/categorias"}>Categorizar productos</Link><br/>
-                                <Link onClick={this.setRedirect}>Configurar mercadopago</Link>
-                                {this.redirectAuthMercadopago("https://auth.mercadopago.com.ar/authorization?client_id=4521684348779774&response_type=code&platform_id=mp&redirect_uri=http://localhost:3000/autorizado")}
+                                <div className="mt-1">
+                                    <li class="list-group-item"><Link to={"/empresaPanel/sucursales/"+this.state.empresa._id}>Sucursales</Link><br/></li>
+                                    <li class="list-group-item"><Link to={"/empresaPanel/categorias"}>Categorizar productos</Link><br/></li>
+                                    <li class="list-group-item"><Link to={"/empresa/"+this.state.empresa._id}>Ver página</Link><br/></li>
+                                    <li class="list-group-item"><Link onClick={this.setRedirect}>Configurar mercadopago</Link></li>
+                                    {this.redirectAuthMercadopago("https://auth.mercadopago.com.ar/authorization?client_id=4521684348779774&response_type=code&platform_id=mp&redirect_uri=http://localhost:3000/autorizado")}
+                                </div>
                             </div>
                           );
         if(this.state.empresa == false){
