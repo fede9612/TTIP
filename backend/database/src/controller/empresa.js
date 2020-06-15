@@ -31,5 +31,22 @@ module.exports = {
             if (err) return next(err);
             return res.send(categoria);
         });
+    },
+
+    eliminarCategoriaEmpresa: async (req, res, next) =>{
+        const {idEmpresa} = req.params;
+        const categoria = req.body.categoria
+        var empresa = await Empresa.findById(idEmpresa);
+        var categoriasNew = [];
+        empresa.categoriasDeProductos.map((_categoria) => {
+            if(_categoria != categoria){
+                categoriasNew.push(_categoria);
+            }
+        });
+        empresa.categoriasDeProductos = categoriasNew;
+        await empresa.save(function (err) {
+            if (err) return next(err);
+            return res.send(empresa.categoriasDeProductos);
+        });
     }
 };

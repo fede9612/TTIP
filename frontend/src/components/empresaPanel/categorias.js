@@ -8,24 +8,20 @@ class Categorias extends Component{
     constructor(props){
         super(props);
         this.state = { 
-            categorias: [],
+            categorias: this.props.empresa.categoriasDeProductos,
             categoriaModal: false
         };
         this.handlerCategoriaModal = this.handlerCategoriaModal.bind(this);
         this.agregarCategoria = this.agregarCategoria.bind(this);
     }
 
-    componentDidMount(){
-        this.setState({categorias: this.props.empresa.categoriasDeProductos})
+    eliminarCategoria(categoria){
+        axios.put('http://localhost:8080/empresa/' + this.props.empresa._id + '/categoria', {categoria: categoria})
+        .then((res) => {
+            this.props.empresa.categoriasDeProductos = res.data;
+            this.setState({categorias: this.props.empresa.categoriasDeProductos});
+        })
     }
-
-    // consultarLocales(){
-        // En vez de pasar los locales por props lo hago por acá porque si recargan la página se pierden los props y no aparecen los locales
-        // axios.get('http://localhost:8080/empresa/' + this.props.location.pathname.split('/empresaPanel/sucursales/').join(''))
-        // .then((res) => {
-            // this.setState({locales: res.data.locales});
-        // })
-    // }
 
     handlerCategoriaModal(){
         this.setState({categoriaModal: !this.state.categoriaModal})
@@ -36,13 +32,32 @@ class Categorias extends Component{
         categorias.push(categoria);
         this.setState({categorias: categorias})
     }
+
+    eliminar(categoria){
+        let {categorias} = this.state;
+        var categoriasNew = [];
+        categorias.map((_categoria) =>{
+            if(_categoria != categoria){
+                categoriasNew.push(_categoria);
+            }
+        });
+        this.setState({categorias: categoriasNew});
+    }
     
     render(){
         let categoriasList = <p>No tiene categorías cargadas aún</p>
         if(Array.isArray(this.state.categorias) && this.state.categorias.length){
             categoriasList = this.state.categorias.map((categoria) => {
                             return(
-                                <p># {categoria}</p>
+                                <li class="list-group-item">
+                                    <button onClick={() => this.eliminarCategoria(categoria)}>
+                                        <svg class="bi bi-x" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/>
+                                            <path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/>
+                                        </svg>
+                                    </button>
+                                    {categoria}
+                                </li>
                             );
                         });
         }
@@ -68,7 +83,6 @@ class Categorias extends Component{
                         </p>
                     </div>
                     <div className="mt-1">
-                        <h5>Categorias</h5>
                         {categoriasList}
                     </div>
               </div>
