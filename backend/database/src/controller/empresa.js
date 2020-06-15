@@ -20,5 +20,16 @@ module.exports = {
             if (err) return next(err);
         });
         return res.send(nuevoLocal);
+    },
+
+    nuevaCategoriaEmpresa: async (req, res, next) =>{
+        const {idEmpresa} = req.params;
+        const categoria = req.body.categoria
+        const empresa = await Empresa.findById(idEmpresa);
+        empresa.categoriasDeProductos.push(categoria);
+        await empresa.save(function (err) {
+            if (err) return next(err);
+            return res.send(categoria);
+        });
     }
 };

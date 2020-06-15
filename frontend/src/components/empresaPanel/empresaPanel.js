@@ -10,6 +10,7 @@ import Sucursales from './sucursales';
 import EmpresaPage from '../empresaPage';
 import CarritoEmpresaPanel from '../carritoEmpresaPanel';
 import ProductosPanel from '../productosPanel';
+import Categorias from './categorias';
 
 class EmpresaPanel extends Component{
 
@@ -76,6 +77,7 @@ class EmpresaPanel extends Component{
                                 <p>{ this.state.empresa.nombre }</p>
                                 <Link to={"/empresa/"+this.state.empresa._id}>Ver página</Link><br/>
                                 <Link to={"/empresaPanel/sucursales/"+this.state.empresa._id}>Sucursales</Link><br/>
+                                <Link to={"/empresaPanel/categorias"}>Categorizar productos</Link><br/>
                                 <Link onClick={this.setRedirect}>Configurar mercadopago</Link>
                                 {this.redirectAuthMercadopago("https://auth.mercadopago.com.ar/authorization?client_id=4521684348779774&response_type=code&platform_id=mp&redirect_uri=http://localhost:3000/autorizado")}
                             </div>
@@ -105,6 +107,9 @@ class EmpresaPanel extends Component{
                         <Switch>
                             <Route path="/pedidos/:id" component={CarritoEmpresaPanel}/>
                             <Route path="/productos/:id" component={ProductosPanel}/>
+                            {/* este ejemplo es pasando la empresa por props, tiene el problema que al recargar a página pierde los props */}
+                            <Route path="/empresaPanel/categorias" render={(props) => <Categorias {...props} empresa={this.state.empresa}/>}/>
+                            {/* estes ejemplo pierde los props pero busco la empresa por id */}
                             <Route path="/empresaPanel/sucursales/:id" render={(props) => <Sucursales {...props} empresa={this.state.empresa}/>}/>
                             <Route path="/empresa/:id" component={EmpresaPage}/>
                         </Switch>
