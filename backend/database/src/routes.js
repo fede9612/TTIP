@@ -43,6 +43,8 @@ router.route('/usuario/:nickname/pedidosListo/:idEmpresa').get(Usuario.getPedido
 
 //consultas de empresa
 router.route('/empresa/:idEmpresa/local').post(Empresa.nuevoLocalEmpresa);
+router.route('/empresa/:idEmpresa/categoria').post(Empresa.nuevaCategoriaEmpresa);
+router.route('/empresa/:idEmpresa/categoria').put(Empresa.eliminarCategoriaEmpresa);
 router.route('/empresa/:idEmpresa').get(Empresa.getEmpresa);
 
 //consultas de mercadopago

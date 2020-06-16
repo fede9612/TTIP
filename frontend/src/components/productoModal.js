@@ -10,7 +10,9 @@ class ProductoModal extends Component{
             producto:{
                 nombre: "",
                 precio: 0,
-                cantidad: 0
+                cantidad: 0,
+                detalle: "",
+                categoria: ""
             },
             local: props.local,
             modal: true
@@ -26,11 +28,19 @@ class ProductoModal extends Component{
 
     agregarProducto(){
         axios.post('http://localhost:8080/local/'+ this.state.local._id +'/producto', this.state.producto)
-        .then(this.props.agregarProducto(this.state.producto))
+        .then((res) => this.props.agregarProducto(res.data))
         .then(this.toggle());
     }
 
     render(){
+        let categorias = <option></option>;
+        if(this.state.local.empresa.categoriasDeProductos.length){
+            categorias = this.state.local.empresa.categoriasDeProductos.map((categoria) =>{
+                return(
+                    <option>{categoria}</option>
+                )
+            });
+        }
         return(
             <div>
                 <Modal isOpen={this.state.modal}>
@@ -42,18 +52,32 @@ class ProductoModal extends Component{
                             producto.nombre = event.target.value;
                             this.setState({producto})
                         }}/>
-                        <Label for="Nombre">Precio: </Label>
-                        <Input id="nombre" value={this.state.producto.precio} onChange={(event) =>  {
+                        <Label for="Precio">Precio: </Label>
+                        <Input id="precio" type="number" value={this.state.producto.precio} onChange={(event) =>  {
                             let { producto } = this.state;
                             producto.precio = event.target.value;
                             this.setState({producto})
                         }}/>
-                        <Label for="Nombre">Cantidad: </Label>
-                        <Input id="nombre" value={this.state.producto.cantidad} onChange={(event) =>  {
+                        <Label for="Cantidad">Cantidad: </Label>
+                        <Input id="cantidad" type="number" value={this.state.producto.cantidad} onChange={(event) =>  {
                             let { producto } = this.state;
                             producto.cantidad = event.target.value;
                             this.setState({producto})
                         }}/>
+                        <Label for="Detalle">Detalle: </Label>
+                        <Input id="Detalle" type="textarea" value={this.state.producto.detalle} onChange={(event) =>  {
+                            let { producto } = this.state;
+                            producto.detalle = event.target.value;
+                            this.setState({producto})
+                        }}/>
+                        <Label for="Detalle">Categorías: </Label>
+                        <Input id="Categoría" type="select" value={this.state.producto.categoria} onChange={(event) =>  {
+                            let { producto } = this.state;
+                            producto.categoria = event.target.value.toString();
+                            this.setState({producto})
+                        }}>
+                            {categorias}
+                        </Input>
                     </ModalBody>
                     <ModalFooter className="bg-teal-500">
                     <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full" onClick={this.agregarProducto}>Agregar</button>
