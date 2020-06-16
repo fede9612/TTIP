@@ -18,6 +18,7 @@ class Sucursales extends Component{
     }
 
     componentDidMount(){
+        console.log(this.props.empresa)
         this.consultarLocales();
     }
 
