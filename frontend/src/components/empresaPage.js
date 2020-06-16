@@ -3,6 +3,17 @@ import { BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios';
 import ProductoRowEmpresaPage from "./productoRowEmpresaPage";
+import { Row, Col } from "reactstrap";
+import {
+    FacebookShareButton,
+    WhatsappShareButton,
+    TwitterShareButton,
+    TelegramShareButton,
+    TelegramIcon,
+    TwitterIcon,
+    FacebookIcon,
+    WhatsappIcon
+  } from "react-share";
 
 
 class EmpresaPage extends Component{
@@ -129,7 +140,48 @@ class EmpresaPage extends Component{
            
   <footer class="py-5 bg-dark">
     <div class="container">
-      <p class="m-0 text-center text-white">Copyright &copy; {this.state.empresa.nombre} 2020</p>
+        <Row>
+          <Col sm="12" md={{ size: 6, offset: 3 }}>
+          <p class="text-center text-white">Copyright &copy; {this.state.empresa.nombre} 2020</p>
+          </Col>
+      </Row>
+      
+      <Row>
+          <Col sm="12" md={{ size: 6, offset: 3 }}>
+            <p className="text-center text-white">Comparte esta página</p>
+          </Col>
+      </Row>
+      <Row className="mt-1">
+          <Col className="text-center" sm="12" md={{ size: 6, offset: 3 }}>
+                <WhatsappShareButton 
+                    url={'http://localhost:3000/empresa/' + this.state.empresa._id} 
+                    title={"Visita la página web de " + this.state.empresa.nombre + " ,ingresando a esta URL: "}
+                >
+                    <WhatsappIcon size={32} round={true}/>
+                </WhatsappShareButton>
+                &nbsp;
+                <FacebookShareButton 
+                    url={'http://localhost:3000/empresa/' + this.state.empresa._id} 
+                    title={"Visita la página web de " + this.state.empresa.nombre + ", ingresando a esta URL: "}
+                >
+                    <FacebookIcon size={32} round={true}/>
+                </FacebookShareButton>
+                &nbsp;
+                <TwitterShareButton 
+                    url={'http://localhost:3000/empresa/' + this.state.empresa._id} 
+                    title={"Visita la página web de " + this.state.empresa.nombre + ", ingresando a esta URL: "}
+                >
+                    <TwitterIcon size={32} round={true}/>
+                </TwitterShareButton>
+                &nbsp;
+                <TelegramShareButton 
+                    url={'http://localhost:3000/empresa/' + this.state.empresa._id} 
+                    title={"Visita la página web de " + this.state.empresa.nombre + ", ingresando a esta URL: "}
+                >
+                    <TelegramIcon size={32} round={true}/>
+                </TelegramShareButton>
+          </Col>
+      </Row>
     </div>
     {/* <!-- /.container --> */}
   </footer>
