@@ -28,6 +28,7 @@ router.route('/carrito/:idPedido/producto/restar').put(Carrito.restarUnProducto)
 //consultas del producto
 router.route('/producto/productos').get(Producto.getPorductos);
 router.route('/producto/:nombre').get(Producto.getProducto);
+router.route('/producto/id/:idProducto').get(Producto.getProductoId);
 router.route('/producto/:idProducto').put(Producto.actualizar);
 
 //consultas del usuario
