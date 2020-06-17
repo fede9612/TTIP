@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Col, Row } from "reactstrap";
 import auth0Client from "../../Auth";
 import TarjetaDeCredito from "./tarjetaDeCredito";
+import { Link } from "react-router-dom";
 
 
 class ProductoPage extends Component{
@@ -73,6 +74,11 @@ class ProductoPage extends Component{
                                 <Col>
                                     <hr className="bg-gray-500"/>
                                     {mediosDePago}
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <Link>Ver todos los medios de pago</Link>
                                 </Col>
                             </Row>
                         </div>
