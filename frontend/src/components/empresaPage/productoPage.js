@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios';
-import { Col, Row } from "reactstrap";
+import { Col, Row, Button } from "reactstrap";
 import auth0Client from "../../Auth";
 import TarjetaDeCredito from "./tarjetaDeCredito";
 import { Link } from "react-router-dom";
@@ -16,9 +16,11 @@ class ProductoPage extends Component{
             idProducto: props.match.params.idProducto,
             empresa: false,
             producto: false,
-            mediosDePago: []
+            mediosDePago: [],
+            redirectMediosDePago: false
         }
         this.agregarProductoAlCarrito = this.agregarProductoAlCarrito.bind(this);
+        this.setRedirectMediosDePago = this.setRedirectMediosDePago.bind(this);
     }
 
     componentDidMount(){
@@ -47,6 +49,16 @@ class ProductoPage extends Component{
         }
     }
 
+    setRedirectMediosDePago(){
+        this.setState({redirectMediosDePago: !this.state.redirectMediosDePago});
+    }
+
+    redirectMediosDePago(url){
+        if(this.state.redirectMediosDePago){
+            return <Link component={() => {window.location.href = url; return null;}}/>
+        }
+    }    
+
     render(){
         let mediosDePago = this.state.mediosDePago.map((pago) => {
             return (
@@ -54,7 +66,7 @@ class ProductoPage extends Component{
             )
         });
         return(
-            <div className="md:w-full mb-2">
+            <div className="md:w-full mt-3 mb-2">
                 <Row>
                     <Col>
                     <div class="card h-100">
@@ -65,30 +77,29 @@ class ProductoPage extends Component{
                             </h4>
                             <h5>${this.state.producto.precio}</h5>
                             <p class="card-text">{this.state.producto.detalle}</p>
-                            <Row className="mt-2">
+                            <Row className="mt-4">
                                 <Col>
-                                <p>Medios de pago</p>
+                                <strong>Medios de pago</strong>
                                 </Col>
                             </Row>
                             <Row className="mt-2">
                                 <Col>
-                                    <hr className="bg-gray-500"/>
+                                    <hr className="bg-gray-500 mb-3"/>
                                     {mediosDePago}
                                 </Col>
                             </Row>
                             <Row>
                                 <Col>
-                                    <Link>Ver todos los medios de pago</Link>
+                                    <Link onClick={this.setRedirectMediosDePago}>Ver todos los medios de pago</Link>
+                                    {this.redirectMediosDePago('https://www.mercadopago.com.ar/ayuda/medios-de-pago-y-promociones_264')}
                                 </Col>
                             </Row>
-                        </div>
-                        <div class="card-footer d-flex justify-content-center">
-                            <button  type="button" class="btn btn-dark" onClick={this.agregarProductoAlCarrito}><span className="flex ml-4 mr-4">Agregar al carrito&nbsp;
-                                <svg class="bi bi-cart w-5 h-6 p-0" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
-                                </svg>
-                                </span>
-                            </button>
+                            <Row className="mt-3">
+                                <Col className="text-center">
+                                    <hr className="bg-gray-500 mb-3"/>
+                                    <Button color="danger" size="xl" block onClick={this.agregarProductoAlCarrito}><p className="text-xl">Agregar al carrito</p></Button>    
+                                </Col>
+                            </Row>
                         </div>
                     </div>
                     </Col>
