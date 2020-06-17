@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios';
 import { Col, Row } from "reactstrap";
 import auth0Client from "../../Auth";
+import TarjetaDeCredito from "./tarjetaDeCredito";
 
 
 class ProductoPage extends Component{
@@ -14,13 +14,15 @@ class ProductoPage extends Component{
             idEmpresa: props.match.params.idEmpresa,
             idProducto: props.match.params.idProducto,
             empresa: false,
-            producto: false
+            producto: false,
+            mediosDePago: []
         }
         this.agregarProductoAlCarrito = this.agregarProductoAlCarrito.bind(this);
     }
 
     componentDidMount(){
         this.consultarEmpresaProducto();
+        this.getMedioDePagosMercadolibre();
     }
 
     consultarEmpresaProducto(){
@@ -29,6 +31,11 @@ class ProductoPage extends Component{
            this.setState({empresa: res.data});
            axios.get('http://localhost:8080/producto/id/'+this.state.idProducto).then((res) => this.setState({producto: res.data})); 
         });
+    }
+
+    getMedioDePagosMercadolibre(){
+        axios.get('https://api.mercadolibre.com/sites/MLA/payment_methods?marketplace=NONE')
+        .then((res) => this.setState({mediosDePago: res.data}));
     }
 
     agregarProductoAlCarrito(){
@@ -40,8 +47,13 @@ class ProductoPage extends Component{
     }
 
     render(){
+        let mediosDePago = this.state.mediosDePago.map((pago) => {
+            return (
+                <TarjetaDeCredito name={pago.name}/>
+            )
+        });
         return(
-            <div className="md:w-full">
+            <div className="md:w-full mb-2">
                 <Row>
                     <Col>
                     <div class="card h-100">
@@ -52,6 +64,17 @@ class ProductoPage extends Component{
                             </h4>
                             <h5>${this.state.producto.precio}</h5>
                             <p class="card-text">{this.state.producto.detalle}</p>
+                            <Row className="mt-2">
+                                <Col>
+                                <p>Medios de pago</p>
+                                </Col>
+                            </Row>
+                            <Row className="mt-2">
+                                <Col>
+                                    <hr className="bg-gray-500"/>
+                                    {mediosDePago}
+                                </Col>
+                            </Row>
                         </div>
                         <div class="card-footer d-flex justify-content-center">
                             <button  type="button" class="btn btn-dark" onClick={this.agregarProductoAlCarrito}><span className="flex ml-4 mr-4">Agregar al carrito&nbsp;
