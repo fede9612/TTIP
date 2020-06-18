@@ -5,6 +5,7 @@ import { Col, Row, Button } from "reactstrap";
 import auth0Client from "../../Auth";
 import TarjetaDeCredito from "./tarjetaDeCredito";
 import { Link } from "react-router-dom";
+import { WhatsappShareButton, WhatsappIcon, FacebookShareButton, FacebookIcon, TwitterShareButton, TwitterIcon, TelegramShareButton, TelegramIcon } from "react-share";
 
 
 class ProductoPage extends Component{
@@ -69,7 +70,7 @@ class ProductoPage extends Component{
             <div className="md:w-full mt-3 mb-2">
                 <Row>
                     <Col>
-                    <div class="card h-100">
+                    <div class="card h-100 bg-gray-100">
                         <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></img></a>
                         <div class="card-body">
                             <h4 class="card-title">
@@ -98,6 +99,39 @@ class ProductoPage extends Component{
                                 <Col className="text-center">
                                     <hr className="bg-gray-500 mb-3"/>
                                     <Button color="danger" size="xl" block onClick={this.agregarProductoAlCarrito}><p className="text-xl">Agregar al carrito</p></Button>    
+                                    <hr className="bg-gray-500 mt-3"/>
+                                </Col>
+                            </Row>
+                            <Row className="mt-3">
+                                <Col className="text-center" sm="12" md={{ size: 6, offset: 3 }}>
+                                        <p className="text-xl mb-1">Comparte este producto</p>
+                                        <WhatsappShareButton 
+                                            url={'http://localhost:3000/empresa/' + this.state.empresa._id + "/" + this.state.producto._id} 
+                                            title={this.state.producto.nombre + " en la página de " + this.state.empresa.nombre}
+                                        >
+                                            <WhatsappIcon size={32} round={true}/>
+                                        </WhatsappShareButton>
+                                        &nbsp;
+                                        <FacebookShareButton 
+                                            url={'http://localhost:3000/empresa/' + this.state.empresa._id + "/" + this.state.producto._id} 
+                                            title={this.state.producto.nombre + " en la página de " + this.state.empresa.nombre}
+                                        >
+                                            <FacebookIcon size={32} round={true}/>
+                                        </FacebookShareButton>
+                                        &nbsp;
+                                        <TwitterShareButton 
+                                            url={'http://localhost:3000/empresa/' + this.state.empresa._id + "/" + this.state.producto._id} 
+                                            title={this.state.producto.nombre + " en la página de " + this.state.empresa.nombre}
+                                        >
+                                            <TwitterIcon size={32} round={true}/>
+                                        </TwitterShareButton>
+                                        &nbsp;
+                                        <TelegramShareButton 
+                                            url={'http://localhost:3000/empresa/' + this.state.empresa._id + "/" + this.state.producto._id} 
+                                            title={this.state.producto.nombre + " en la página de " + this.state.empresa.nombre}
+                                        >
+                                            <TelegramIcon size={32} round={true}/>
+                                        </TelegramShareButton>
                                 </Col>
                             </Row>
                         </div>
