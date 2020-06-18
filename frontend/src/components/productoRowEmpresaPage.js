@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from 'axios';
 import auth0Client from '../Auth';
+import { Link } from "react-router-dom";
 
 class ProductoRowEmpresaPage extends Component{
 
@@ -14,7 +15,6 @@ class ProductoRowEmpresaPage extends Component{
     }
 
     agregarProductoAlCarrito(){
-        console.log(auth0Client.getProfile());
         if(auth0Client.getProfile() == undefined){
             auth0Client.signIn("http://localhost:3000/empresa/" + this.state.empresa._id);
         }else{
@@ -29,7 +29,7 @@ class ProductoRowEmpresaPage extends Component{
                 <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></img></a>
                 <div class="card-body">
                     <h4 class="card-title">
-                    <a href="#">{this.props.producto.nombre}</a>
+                    <Link to={"/empresa/"+this.state.empresa._id+"/"+this.props.producto._id}>{this.props.producto.nombre}</Link>
                     </h4>
                     <h5>${this.props.producto.precio}</h5>
                     <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>

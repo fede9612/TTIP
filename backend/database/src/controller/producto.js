@@ -13,6 +13,12 @@ module.exports = {
         return res.send(producto)
     },
 
+    getProductoId: async (req, res, next) => {
+        const {idProducto} = req.params;
+        const producto = await Producto.findById(idProducto);
+        return res.send(producto)
+    },
+
     actualizar: async (req, res, next) => {
         const {idProducto} = req.params
         Producto.findByIdAndUpdate(idProducto, req.body, function (err, producto) {

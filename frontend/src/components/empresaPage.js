@@ -14,7 +14,7 @@ import {
     FacebookIcon,
     WhatsappIcon
   } from "react-share";
-
+import ProductoPage from "./empresaPage/productoPage";
 
 class EmpresaPage extends Component{
 
@@ -52,11 +52,6 @@ class EmpresaPage extends Component{
     }
 
     render(){
-        // let productos = this.state.productos.map((producto) =>{
-        //     return (
-        //         <ProductoRowEmpresaPage producto={producto} empresa={this.state.empresa}/>
-        //     )
-        // })
         return(
             <Router>
             <div>
@@ -92,39 +87,12 @@ class EmpresaPage extends Component{
                 {/* <!-- /.col-lg-3 --> */}
 
                 <div class="col-lg-9">
-
-                    <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
-                    <ol class="carousel-indicators">
-                        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                    </ol>
-                    <div class="carousel-inner" role="listbox">
-                        <div class="carousel-item active">
-                        <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="First slide"></img>
-                        </div>
-                        <div class="carousel-item">
-                        <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Second slide"></img>
-                        </div>
-                        <div class="carousel-item">
-                        <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Third slide"></img>
-                        </div>
-                    </div>
-                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
-                    </div>
-
                     <div class="row">
                         <Switch>
                             {this.state.categorias.map((categoria) =>{
                                 return <Route path={"/empresa/:id/" + categoria} render={(props) => <ProductosCategorizados {...props} productos={this.state.productos} empresa={this.state.empresa} categoria={categoria}/>}/>    
                             })}
+                            <Route path="/empresa/:idEmpresa/:idProducto" component={ProductoPage}/>
                             <Route path="/empresa/:id" render={(props) => <Productos {...props} productos={this.state.productos} empresa={this.state.empresa}/>}/>
                         </Switch>
                     </div>
@@ -155,7 +123,7 @@ class EmpresaPage extends Component{
           <Col className="text-center" sm="12" md={{ size: 6, offset: 3 }}>
                 <WhatsappShareButton 
                     url={'http://localhost:3000/empresa/' + this.state.empresa._id} 
-                    title={"Visita la página web de " + this.state.empresa.nombre + " ,ingresando a esta URL: "}
+                    title={"Visita la página web de " + this.state.empresa.nombre + ", ingresando a esta URL: "}
                 >
                     <WhatsappIcon size={32} round={true}/>
                 </WhatsappShareButton>
@@ -192,24 +160,87 @@ class EmpresaPage extends Component{
 }
 
 function Productos(props){ 
+    let productos;
+    productos = props.productos.map((producto) =>{
+                    return (
+                            <ProductoRowEmpresaPage producto={producto} empresa={props.empresa}/>
+                    )
+                })
     return(
-        props.productos.map((producto) =>{
-            return (
-                <ProductoRowEmpresaPage producto={producto} empresa={props.empresa}/>
-            )
-        })
+        <div>
+            <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                        </ol>
+                        <div class="carousel-inner" role="listbox">
+                            <div class="carousel-item active">
+                            <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="First slide"></img>
+                            </div>
+                            <div class="carousel-item">
+                            <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Second slide"></img>
+                            </div>
+                            <div class="carousel-item">
+                            <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Third slide"></img>
+                            </div>
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+            </div>
+            <Row>
+                {productos}
+            </Row>
+        </div>
     );
 }
 
 function ProductosCategorizados(props){
     const productosCategorizados = props.productos.filter((prod) => prod.categoria == props.categoria); 
-
+    let productos;
+    productos = productosCategorizados.map((producto) =>{
+                    return (
+                        <ProductoRowEmpresaPage producto={producto} empresa={props.empresa}/>
+                    )
+                })
     return(
-        productosCategorizados.map((producto) =>{
-            return (
-                <ProductoRowEmpresaPage producto={producto} empresa={props.empresa}/>
-            )
-        })
+        <div>
+            <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                        </ol>
+                        <div class="carousel-inner" role="listbox">
+                            <div class="carousel-item active">
+                            <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="First slide"></img>
+                            </div>
+                            <div class="carousel-item">
+                            <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Second slide"></img>
+                            </div>
+                            <div class="carousel-item">
+                            <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Third slide"></img>
+                            </div>
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+            </div>
+            <Row>
+                {productos}
+            </Row>
+        </div>
     );
 }
 
