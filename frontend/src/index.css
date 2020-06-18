@@ -18,3 +18,21 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* CSS para que se vea el input del mapa modal al agregar un local */
+.pac-container{
+  background-color: #FFF;
+  z-index: 2001;
+  position: fixed;
+  display: inline-block;
+  float: left;
+}
+
+.modal{
+  z-index: 2000;
+}
+
+.modal-backdrop{
+  z-index: 1000;
+}
+/* CSS para que se vea el input del mapa modal al agregar un local */
