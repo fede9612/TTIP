@@ -33,7 +33,7 @@ module.exports = {
         const {idLocal} = req.params;
         const nuevoProducto = new Producto(req.body);
         const local = await Local.findById(idLocal);
-        nuevoProducto.local = local;
+        nuevoProducto.local = local._id;
         await nuevoProducto.save();
         local.productos.push(nuevoProducto);
         await local.save(function (err) {
