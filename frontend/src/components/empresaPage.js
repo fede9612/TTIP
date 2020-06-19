@@ -210,7 +210,7 @@ function ProductosCategorizados(props){
                     )
                 })
     return(
-        <div>
+        <div className="w-full">
             <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
                         <ol class="carousel-indicators">
                             <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>

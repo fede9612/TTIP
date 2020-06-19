@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios';
-import { Col, Row, Button } from "reactstrap";
+import { Col, Row, Button, ListGroupItem, ListGroup } from "reactstrap";
 import auth0Client from "../../Auth";
 import TarjetaDeCredito from "./tarjetaDeCredito";
 import { Link } from "react-router-dom";
 import { WhatsappShareButton, WhatsappIcon, FacebookShareButton, FacebookIcon, TwitterShareButton, TwitterIcon, TelegramShareButton, TelegramIcon } from "react-share";
+import ProductoRowEmpresaPage from "../productoRowEmpresaPage";
 
 
 class ProductoPage extends Component{
@@ -17,6 +18,7 @@ class ProductoPage extends Component{
             idProducto: props.match.params.idProducto,
             empresa: false,
             producto: false,
+            productos: [],
             mediosDePago: [],
             redirectMediosDePago: false
         }
@@ -33,8 +35,19 @@ class ProductoPage extends Component{
         axios.get('http://localhost:8080/empresa/'+this.state.idEmpresa)
         .then((res) => {
            this.setState({empresa: res.data});
-           axios.get('http://localhost:8080/producto/id/'+this.state.idProducto).then((res) => this.setState({producto: res.data})); 
+           axios.get('http://localhost:8080/producto/id/'+this.state.idProducto)
+           .then((res) => {
+               this.setState({producto: res.data})
+               this.consultarProductos();
+            }); 
         });
+    }
+
+    consultarProductos(){
+        this.state.empresa.locales.map((local) => {
+            axios.get('http://localhost:8080/local/' + local._id + '/productos/visibles')
+            .then((res) => this.setState({productos: this.state.productos.concat(res.data)}));
+        })
     }
 
     getMedioDePagosMercadolibre(){
@@ -138,9 +151,36 @@ class ProductoPage extends Component{
                     </div>
                     </Col>
                 </Row>
+                <Row className="mt-4">
+                    <Col>
+                        <ListGroup>
+                            <ListGroupItem className="bg-dark text-white">Productos Relacionados</ListGroupItem> 
+                            <ListGroupItem>
+                                <ProductosRelacionados productos={this.state.productos} categoria={this.state.producto.categoria} empresa={this.state.empresa}/>
+                            </ListGroupItem>
+                        </ListGroup>
+                    </Col>
+                </Row>
             </div>
         )
     }
+}
+
+function ProductosRelacionados(props){
+    const productosRelacionados = props.productos.filter((prod) => prod.categoria == props.categoria).slice(0, 5);
+    let productos;
+    productos = productosRelacionados.map((producto) =>{
+                    return (
+                        <ProductoRowEmpresaPage producto={producto} empresa={props.empresa}/>
+                    )
+                })
+    return(
+        <div className="w-full">
+            <Row>
+                {productos}
+            </Row>
+        </div>
+    );
 }
 
 export default ProductoPage;
