@@ -77,9 +77,9 @@ class LocalModal extends Component{
                             <Col>
                                 <Map
                                     google={this.props.google}
-                                    center={{lat: 18.5204, lng: 73.8567}}
+                                    center={{lat: -34.60254489046751, lng: -58.38109651818849}}
                                     height='300px'
-                                    zoom={15}
+                                    zoom={13}
                                     cargarLatYLong={this.cargarLatYLong}
                                 />
                             </Col>
