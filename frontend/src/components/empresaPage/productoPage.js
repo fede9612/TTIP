@@ -151,12 +151,14 @@ class ProductoPage extends Component{
                     </div>
                     </Col>
                 </Row>
-                <Row className="mt-4">
+                <Row className="mt-4 mb-3">
                     <Col>
                         <ListGroup>
-                            <ListGroupItem className="bg-dark text-white">Productos Relacionados</ListGroupItem> 
+                            <ListGroupItem className="bg-dark text-white text-lg">Productos Relacionados</ListGroupItem> 
                             <ListGroupItem>
-                                <ProductosRelacionados productos={this.state.productos} categoria={this.state.producto.categoria} empresa={this.state.empresa}/>
+                                <ProductosRelacionados 
+                                    productos={this.state.productos.filter((prod) => prod._id != this.state.producto._id)} 
+                                    categoria={this.state.producto.categoria} empresa={this.state.empresa}/>
                             </ListGroupItem>
                         </ListGroup>
                     </Col>
