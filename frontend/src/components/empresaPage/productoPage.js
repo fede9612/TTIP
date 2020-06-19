@@ -169,7 +169,7 @@ class ProductoPage extends Component{
 }
 
 function ProductosRelacionados(props){
-    const productosRelacionados = props.productos.filter((prod) => prod.categoria == props.categoria).slice(0, 5);
+    const productosRelacionados = props.productos.filter((prod) => prod.categoria == props.categoria).slice(0, 6);
     let productos;
     productos = productosRelacionados.map((producto) =>{
                     return (
