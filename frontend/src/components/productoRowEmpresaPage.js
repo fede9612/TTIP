@@ -9,9 +9,12 @@ class ProductoRowEmpresaPage extends Component{
         super(props);
         this.state = {
             producto: props.producto,
-            empresa: props.empresa
+            empresa: props.empresa,
+            redirect: false
         };
         this.agregarProductoAlCarrito = this.agregarProductoAlCarrito.bind(this);
+        this.setRedirect = this.setRedirect.bind(this);
+        this.redirectSelf = this.redirectSelf.bind(this);
     }
 
     agregarProductoAlCarrito(){
@@ -22,6 +25,16 @@ class ProductoRowEmpresaPage extends Component{
         }
     }
 
+    setRedirect(){
+        this.setState({redirect: !this.state.redirect});
+    }
+
+    redirectSelf(url){
+        if(this.state.redirect){
+            return <Link component={() => {window.location.href = url; return null;}}/>
+        }
+    }
+
     render(){
         return(
             <div class="col-lg-4 col-md-6 mb-4">
@@ -29,7 +42,11 @@ class ProductoRowEmpresaPage extends Component{
                 <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></img></a>
                 <div class="card-body">
                     <h4 class="card-title">
-                    <Link to={"/empresa/"+this.state.empresa._id+"/"+this.props.producto._id}>{this.props.producto.nombre}</Link>
+                    <Link 
+                        to={"/empresa/"+this.state.empresa._id+"/"+this.props.producto._id} 
+                        onClick={this.setRedirect}>{this.props.producto.nombre}
+                    </Link>
+                    {this.redirectSelf("/empresa/"+this.state.empresa._id+"/"+this.props.producto._id)}
                     </h4>
                     <h5>${this.props.producto.precio}</h5>
                     <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
