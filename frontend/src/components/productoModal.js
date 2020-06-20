@@ -12,7 +12,8 @@ class ProductoModal extends Component{
                 precio: 0,
                 cantidad: 0,
                 detalle: "",
-                categoria: ""
+                categoria: "",
+                image: null
             },
             local: props.local,
             modal: true
@@ -27,7 +28,19 @@ class ProductoModal extends Component{
     }
 
     agregarProducto(){
-        axios.post('http://localhost:8080/local/'+ this.state.local._id +'/producto', this.state.producto)
+        var formData = new FormData();
+        formData.append('nombre', this.state.producto.nombre);
+        formData.append('precio', this.state.producto.precio);
+        formData.append('cantidad', this.state.producto.cantidad);
+        formData.append('detalle', this.state.producto.detalle);
+        formData.append('categoria', this.state.producto.categoria);
+        formData.append('image', this.state.producto.image);
+        const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }
+        axios.post('http://localhost:8080/local/'+ this.state.local._id +'/producto', formData, config)
         .then((res) => this.props.agregarProducto(res.data))
         .then(this.toggle());
     }
@@ -70,8 +83,14 @@ class ProductoModal extends Component{
                             producto.detalle = event.target.value;
                             this.setState({producto})
                         }}/>
-                        <Label for="Detalle">Categorías: </Label>
-                        <Input id="Categoría" type="select" value={this.state.producto.categoria} onChange={(event) =>  {
+                        <Label for="Imagen">Imagen: </Label>
+                        <Input id="Imagen" type="file" onChange={(event) =>  {
+                            let { producto } = this.state;
+                            producto.image = event.target.files[0];
+                            this.setState({producto})
+                        }}/>
+                        <Label for="Categoria">Categorías: </Label>
+                        <Input id="Categoria" type="select" value={this.state.producto.categoria} onChange={(event) =>  {
                             let { producto } = this.state;
                             producto.categoria = event.target.value.toString();
                             this.setState({producto})
