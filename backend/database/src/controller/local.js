@@ -32,6 +32,10 @@ module.exports = {
     nuevoProductoLocal: async (req, res, next) =>{
         const {idLocal} = req.params;
         const nuevoProducto = new Producto(req.body);
+        if(req.file){
+            const {filename} = req.file;
+            nuevoProducto.setImgUrl(filename);
+        }
         const local = await Local.findById(idLocal);
         nuevoProducto.local = local._id;
         await nuevoProducto.save();
