@@ -91,7 +91,7 @@ class CarritoDeCompra extends Component{
                         return(
                             <tbody>
                                 <tr>
-                                    <td className="flex"><img src="http://placehold.it/700x400" alt="" className="w-16 h-20"></img><a href="#">{producto.nombre}</a></td>
+                                    <td className="flex"><img src={producto.imgUrl ? producto.imgUrl : "http://placehold.it/700x400"} alt="" className="w-16 h-20"></img><a href="#">{producto.nombre}</a></td>
                                     <td>
                                         <p>
                                             <button onClick={() => this.restarUnProducto(pedido, producto)}>

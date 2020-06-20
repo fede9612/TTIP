@@ -38,7 +38,7 @@ class ProductoRow extends Component{
         return(
             <div className="mt-2 mr-2 border-r border-b border-l border-t border-gray-500 rounded-t rounded-b">
                 <div className="thumbnail mt-2 mr-2 ml-2">
-                    <img src={this.state.producto.imgUrl} alt="..." className="h-40 w-40"/>
+                    <img src={this.state.producto.imgUrl ? this.state.producto.imgUrl : "http://placehold.it/700x400"} alt="..." className="h-40 w-40"/>
                     
                     <h5>{this.state.producto.nombre}</h5>
                     <p>${this.state.producto.precio}<span> stock: {this.state.producto.cantidad}</span></p>
