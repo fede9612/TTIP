@@ -84,7 +84,7 @@ class ProductoPage extends Component{
                 <Row>
                     <Col>
                     <div class="card h-100 bg-gray-100">
-                        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></img></a>
+                        <img class="card-img-top" src={this.state.producto.imgUrl ? this.state.producto.imgUrl : "http://placehold.it/700x400"} alt=""></img>
                         <div class="card-body">
                             <h4 class="card-title">
                                 {this.state.producto.nombre}

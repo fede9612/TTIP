@@ -6,11 +6,12 @@ const Usuario = require('./controller/usuario');
 const Empresa = require('./controller/empresa');
 const Carrito = require('./controller/carrito');
 const Mercadopago = require('./controller/mercadopago');
+const uploadImg = require('./storage/storage');
 router.get('/',(req,res)=>res.send('ok'));
 
 //consultas de local
 router.route('/local/:idLocal').get(Local.getById);
-router.route('/local/:idLocal/producto').post(Local.nuevoProductoLocal);
+router.route('/local/:idLocal/producto').post(uploadImg.single('image') ,Local.nuevoProductoLocal);
 router.route('/local/:idLocal/productos').get(Local.getPorductosLocal);
 router.route('/local/:idLocal/productos/visibles').get(Local.getPorductosLocalVisibles);
 router.route('/local/:idLocal/:idProducto').delete(Local.eliminarProductoLocal);

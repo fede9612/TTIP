@@ -2,10 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 let productoSchema = new mongoose.Schema({
-    nombre: {
-        type: String
-        
-    },
+    nombre: { type: String },
     precio: {
         type: Number,
         default: 0
@@ -18,15 +15,18 @@ let productoSchema = new mongoose.Schema({
         type: String,
         default: "Otro"
     },
-    detalle:{
-        type: String
-    },
+    detalle:{ type: String },
+    imgUrl:{ type: String },
     oculto: {
         type: Boolean,
         default: false
     },
     local: {type: Schema.Types.ObjectId, ref: 'local'}
 });
+
+productoSchema.methods.setImgUrl = function setImgUrl(location) {
+    this.imgUrl = location
+}
 
 const Producto = mongoose.model('producto', productoSchema);
 module.exports = { productoSchema, Producto }
