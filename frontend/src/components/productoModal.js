@@ -95,6 +95,7 @@ class ProductoModal extends Component{
                             producto.categoria = event.target.value.toString();
                             this.setState({producto})
                         }}>
+                            <option>Seleccione una categoría</option>
                             {categorias}
                         </Input>
                     </ModalBody>
