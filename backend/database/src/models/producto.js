@@ -24,8 +24,8 @@ let productoSchema = new mongoose.Schema({
     local: {type: Schema.Types.ObjectId, ref: 'local'}
 });
 
-productoSchema.methods.setImgUrl = function setImgUrl(filename) {
-    this.imgUrl = 'http://localhost:8080/public/' + filename
+productoSchema.methods.setImgUrl = function setImgUrl(location) {
+    this.imgUrl = location
 }
 
 const Producto = mongoose.model('producto', productoSchema);

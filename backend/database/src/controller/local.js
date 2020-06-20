@@ -33,8 +33,9 @@ module.exports = {
         const {idLocal} = req.params;
         const nuevoProducto = new Producto(req.body);
         if(req.file){
-            const {filename} = req.file;
-            nuevoProducto.setImgUrl(filename);
+            console.log(req.file.location);
+            const {location} = req.file;
+            nuevoProducto.setImgUrl(location);
         }
         const local = await Local.findById(idLocal);
         nuevoProducto.local = local._id;
