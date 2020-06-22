@@ -9,7 +9,7 @@ class Categorias extends Component{
     constructor(props){
         super(props);
         this.state = { 
-            categorias: this.props.empresa.categoriasDeProductos,
+            categorias: props.empresa.categoriasDeProductos,
             categoriaModal: false,
             eliminarCategoriaModal: false
         };

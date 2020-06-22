@@ -10,6 +10,7 @@ import CarritoEmpresaPanel from '../carritoEmpresaPanel';
 import ProductosPanel from '../productosPanel';
 import Categorias from './categorias';
 import VendedorMercadopago from './vendedorMercadopago';
+import PlanesDePagos from './planesDePagos';
 
 class EmpresaPanel extends Component{
 
@@ -49,27 +50,51 @@ class EmpresaPanel extends Component{
     }
     
     render(){
+        var panel;
+        if(this.state.usuario.habilitado){
+            panel = <EmpresaHabilitada 
+                        empresaModal={this.state.empresaModal} handlerEmpresaModal={this.handlerEmpresaModal} consultarEmpresa={this.consultarEmpresa}
+                        usuario={this.state.usuario} empresa={this.state.empresa}    
+                    />
+        }else{
+            panel = <PlanesDePagos/>
+        }
+        return(
+            <div>
+                {panel}
+            </div>
+        )
+    }
+}
+
+class EmpresaHabilitada extends Component{
+    
+    constructor(props){
+        super(props);
+    }
+
+    render(){
         let empresaModal;
-        if(this.state.empresaModal){
-            empresaModal = <EmpresaModal handlerClick={this.handlerEmpresaModal} consultarEmpresa={this.consultarEmpresa} usuario={this.state.usuario}/>     
+        if(this.props.empresaModal){
+            empresaModal = <EmpresaModal handlerClick={this.props.handlerEmpresaModal} consultarEmpresa={this.props.consultarEmpresa} usuario={this.props.usuario}/>     
         }
         let infoEmpresa = (
                             <div className="w-4/5">
-                                <p>{ this.state.empresa.nombre }</p>
+                                <p>{ this.props.empresa.nombre }</p>
                                 <div className="mt-1">
-                                    <li class="list-group-item"><Link to={"/empresaPanel/sucursales/"+this.state.empresa._id}>Sucursales</Link><br/></li>
+                                    <li class="list-group-item"><Link to={"/empresaPanel/sucursales/"+this.props.empresa._id}>Sucursales</Link><br/></li>
                                     <li class="list-group-item"><Link to={"/empresaPanel/categorias"}>Categorizar productos</Link><br/></li>
-                                    <li class="list-group-item"><Link to={"/empresa/"+this.state.empresa._id}>Ver página</Link><br/></li>
+                                    <li class="list-group-item"><Link to={"/empresa/"+this.props.empresa._id}>Ver página</Link><br/></li>
                                     <li class="list-group-item"><Link to={"/empresaPanel/mercadopago"}>Mercadopago</Link></li>
                                 </div>
                             </div>
                           );
-        if(this.state.empresa == false){
+        if(this.props.empresa == false){
             infoEmpresa = (
                 <div>
                     <p>Antes de crear una sucuarsal cree una empresa</p>
                     <button className="bg-green-500 hover:bg-green-700 text-white font-bold px-2 ml-2 h-7 border-b-4 border-l-4 border-t-4 border-r-4 rounded-full"
-                        onClick={this.handlerEmpresaModal}>
+                        onClick={this.props.handlerEmpresaModal}>
                         Agregar                
                     </button>
                     {empresaModal}
@@ -91,9 +116,9 @@ class EmpresaPanel extends Component{
                             <Route path="/productos/:id" component={ProductosPanel}/>
                             <Route path="/empresaPanel/mercadopago" component={VendedorMercadopago}/>
                             {/* este ejemplo es pasando la empresa por props, tiene el problema que al recargar a página pierde los props */}
-                            <Route path="/empresaPanel/categorias" render={(props) => <Categorias {...props} empresa={this.state.empresa}/>}/>
+                            <Route path="/empresaPanel/categorias" render={(props) => <Categorias {...props} empresa={this.props.empresa}/>}/>
                             {/* estes ejemplo pierde los props pero busco la empresa por id */}
-                            <Route path="/empresaPanel/sucursales/:id" render={(props) => <Sucursales {...props} empresa={this.state.empresa}/>}/>
+                            <Route path="/empresaPanel/sucursales/:id" render={(props) => <Sucursales {...props} empresa={this.props.empresa}/>}/>
                             <Route path="/empresa/:id" component={EmpresaPage}/>
                         </Switch>
                     </div>
