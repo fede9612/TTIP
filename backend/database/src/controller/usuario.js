@@ -151,5 +151,15 @@ module.exports = {
         }
         await usuario.save(function (err) {if (err) return next(err)});     
         return res.send(usuario);
+    },
+
+    habilitarPlan: async (req, res, next) =>{
+        const {idUsuario} = req.params;
+        var usuario = await Usuario.findById(idUsuario);
+        usuario.habilitado = true;
+        usuario.save(function (err){
+            if (err) return next(err)
+            res.sendStatus(200);
+        })
     }
 };

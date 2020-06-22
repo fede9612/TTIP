@@ -42,6 +42,7 @@ router.route('/usuario/:nickname/pedidos').get(Usuario.getPedidos);
 router.route('/usuario/:nickname/pedido/:idEmpresa').get(Usuario.getPedido);
 router.route('/usuario/:nickname/pedidosPendiente/:idEmpresa').get(Usuario.getPedidosPendientes);
 router.route('/usuario/:nickname/pedidosListo/:idEmpresa').get(Usuario.getPedidosListos);
+router.route('/usuario/:idUsuario/plan').put(Usuario.habilitarPlan);
 
 //consultas de empresa
 router.route('/empresa/:idEmpresa/local').post(Empresa.nuevoLocalEmpresa);

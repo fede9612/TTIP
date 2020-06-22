@@ -7,9 +7,14 @@ class PlanesDePagos extends Component{
 
     constructor(props){
         super(props);
-        this.state = { 
-          
+        this.state = {
         };
+        this.habilitarPlanBasico = this.habilitarPlanBasico.bind(this);
+    }
+
+    habilitarPlanBasico(){
+        axios.put('http://localhost:8080/usuario/' + this.props.usuario._id + '/plan')
+        .then(this.props.consultarEmpresa());
     }
     
     render(){
@@ -58,7 +63,7 @@ class PlanesDePagos extends Component{
                                         <span>1 sucursal</span>
                                     </CardText>
                                     <CardText className="mt-2">
-                                        <Button className="w-full text-lg" color="success">Prueba gratis 30 días</Button>
+                                        <Button className="w-full text-lg" color="success" onClick={this.habilitarPlanBasico}>Prueba gratis 30 días</Button>
                                     </CardText>
                                 </CardBody>
                             </Card>

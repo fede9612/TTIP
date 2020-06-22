@@ -26,7 +26,7 @@ class EmpresaPanel extends Component{
     }
 
     componentDidMount(){
-        this.consultarEmpresa(); 
+        this.consultarEmpresa();
     }
 
     handlerLocalModal(){
@@ -57,7 +57,7 @@ class EmpresaPanel extends Component{
                         usuario={this.state.usuario} empresa={this.state.empresa}    
                     />
         }else{
-            panel = <PlanesDePagos/>
+            panel = <PlanesDePagos usuario={this.state.usuario} consultarEmpresa={this.consultarEmpresa}/>
         }
         return(
             <div>
