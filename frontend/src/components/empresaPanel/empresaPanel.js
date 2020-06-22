@@ -11,6 +11,7 @@ import ProductosPanel from '../productosPanel';
 import Categorias from './categorias';
 import VendedorMercadopago from './vendedorMercadopago';
 import PlanesDePagos from './planesDePagos';
+import CargandoInformacion from '../cargandoInfo';
 
 class EmpresaPanel extends Component{
 
@@ -19,13 +20,15 @@ class EmpresaPanel extends Component{
         this.state = { 
             empresa: false,
             usuario: false,
-            empresaModal: false
+            empresaModal: false,
+            panel: false
         };
         this.handlerEmpresaModal = this.handlerEmpresaModal.bind(this);
         this.consultarEmpresa = this.consultarEmpresa.bind(this);
     }
 
     componentDidMount(){
+        this.cargando();
         this.consultarEmpresa();
     }
 
@@ -45,11 +48,19 @@ class EmpresaPanel extends Component{
             axios.get('http://localhost:8080/usuario/' + res.data._id + '/empresa')
             .then((res) => {
                 this.setState({empresa : res.data});
+                this.cargarPanel();
             }) 
         });
     }
     
-    render(){
+    cargando(){
+        var panel = (
+           <CargandoInformacion/>
+        )
+        this.setState({panel: panel});
+    }
+
+    cargarPanel(){
         var panel;
         if(this.state.usuario.habilitado){
             panel = <EmpresaHabilitada 
@@ -59,9 +70,14 @@ class EmpresaPanel extends Component{
         }else{
             panel = <PlanesDePagos usuario={this.state.usuario} consultarEmpresa={this.consultarEmpresa}/>
         }
+        this.setState({panel: panel});
+    }
+
+    render(){
+        
         return(
             <div>
-                {panel}
+                {this.state.panel}
             </div>
         )
     }

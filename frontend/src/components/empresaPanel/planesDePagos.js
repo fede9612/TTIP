@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios';
-import { Modal, ModalBody, Label, Input, ModalFooter, Row, Col, Container, Card, CardHeader, CardBody, CardTitle, CardText, CardFooter, Button } from 'reactstrap';
+import { Row, Col, Container, Card, CardHeader, CardBody, CardTitle, CardText, Button } from 'reactstrap';
 
 class PlanesDePagos extends Component{
 
