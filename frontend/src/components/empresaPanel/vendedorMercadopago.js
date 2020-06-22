@@ -56,10 +56,9 @@ class VendedorMercadopago extends Component{
                             </p>    
                             <ListGroupItem color="warning" className="mt-1">
                                 <p>    
-                                    Al permitir nos dará acceso a que podamos depositar sus ingresos, recibirá el 100% del valor de sus ventas. 
-                                    No nos quedaremos con ningún porcentaje, <span className="text-red-600">toda la ganancia es suya. </span>
-                                     Para más información de los terminos y condiciones haga click 
-                                     <Link onClick={this.setRedirectTerminos}> aquí.</Link>
+                                    Al permitir nos dará acceso a que podamos depositar sus ingresos, para más información de los terminos y condiciones haga click 
+                                     <Link onClick={this.setRedirectTerminos}> aquí.</Link> No le cobraremos niguna comisión, <span className="text-red-600">toda la ganancia es suya. </span>
+                                     Solo se le restará el porcentaje que Mercadopago cobra de comisión de un 4,45% de cada pago acreditado (+ IVA). 
                                      {this.redirectTerminosMercadopago("https://www.mercadopago.com.ar/ayuda/terminos-y-condiciones_299")} 
                                 </p>
                             </ListGroupItem>
