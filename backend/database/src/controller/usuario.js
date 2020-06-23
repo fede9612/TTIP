@@ -2,6 +2,7 @@ const Empresa = require('../models/empresa').Empresa;
 const Usuario = require('../models/usuario').Usuario;
 const Carrito = require('../models/carrito').Carrito;
 const Producto = require('../models/producto').Producto;
+const Pago = require('../models/pago').Pago;
 const Local = require('../models/local');
 
 module.exports = {
@@ -157,6 +158,15 @@ module.exports = {
         const {idUsuario} = req.params;
         var usuario = await Usuario.findById(idUsuario);
         usuario.habilitado = true;
+        var pago = new Pago();
+        pago.usuario = usuario._id;
+        pago.monto = 500;
+        await pago.save();
+        if(usuario.pagos){
+            usuario.pagos.push(pago);
+        }else{
+            usuario.pagos = [pago._id];
+        }
         usuario.save(function (err){
             if (err) return next(err)
             res.sendStatus(200);

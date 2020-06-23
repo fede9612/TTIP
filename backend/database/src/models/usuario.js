@@ -7,7 +7,8 @@ let usuarioSchema = new mongoose.Schema({
     },
     empresa: {type: Schema.Types.ObjectId, ref: 'Empresa'},
     carritosDePedido: [{type: Schema.Types.ObjectId, ref: 'Carrito'}],
-    habilitado: {type: Boolean, default: false}
+    habilitado: {type: Boolean, default: false},
+    pagos: [{type: Schema.Types.ObjectId, ref: 'pago'}]
 });
 
 const Usuario = mongoose.model('usuario', usuarioSchema);
