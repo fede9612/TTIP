@@ -71,7 +71,7 @@ class EmpresaPanel extends Component{
         if(this.state.usuario.habilitado){
             panel = <EmpresaHabilitada 
                         empresaModal={this.state.empresaModal} handlerEmpresaModal={this.handlerEmpresaModal} consultarEmpresa={this.consultarEmpresa}
-                        usuario={this.state.usuario} empresa={this.state.empresa} diasDeSuscripcion={7}   
+                        usuario={this.state.usuario} empresa={this.state.empresa} diasDeSuscripcion={this.state.diasDeSuscripcion}   
                     />
         }else{
             panel = <PlanesDePagos usuario={this.state.usuario} consultarEmpresa={this.consultarEmpresa}/>
