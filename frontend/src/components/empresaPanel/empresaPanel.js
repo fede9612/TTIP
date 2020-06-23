@@ -45,11 +45,14 @@ class EmpresaPanel extends Component{
         axios.get('http://localhost:8080/usuario/' + auth0Client.getProfile().nickname)
         .then((res) => {
             this.setState({usuario:res.data});
-            axios.get('http://localhost:8080/usuario/' + res.data._id + '/empresa')
-            .then((res) => {
-                this.setState({empresa : res.data});
-                this.cargarPanel();
-            }) 
+            axios.get('http://localhost:8080/pago/' + res.data._id)
+            .then(() => {
+                axios.get('http://localhost:8080/usuario/' + this.state.usuario._id + '/empresa')
+                .then((res) => {
+                    this.setState({empresa : res.data});
+                    this.cargarPanel();
+                }) 
+            })
         });
     }
     

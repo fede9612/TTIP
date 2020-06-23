@@ -7,6 +7,7 @@ const Empresa = require('./controller/empresa');
 const Carrito = require('./controller/carrito');
 const Mercadopago = require('./controller/mercadopago');
 const uploadImg = require('./storage/storage');
+const Pago = require('./controller/pago');
 router.get('/',(req,res)=>res.send('ok'));
 
 //consultas de local
@@ -54,5 +55,8 @@ router.route('/empresa/:idEmpresa').get(Empresa.getEmpresa);
 router.route('/mercadopago').post(Mercadopago.getIdPreference);
 router.route('/mercadopago/:idVendedor').post(Mercadopago.getIdPreference);
 router.route('/mercadopago/vendedor/:nickname').post(Mercadopago.nuevoVendedor);
+
+//consultas de pago
+router.route('/pago/:idUsuario').get(Pago.getEstadoDelPlan);
 
 module.exports = router;

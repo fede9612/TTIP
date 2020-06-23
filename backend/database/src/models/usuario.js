@@ -11,5 +11,9 @@ let usuarioSchema = new mongoose.Schema({
     pagos: [{type: Schema.Types.ObjectId, ref: 'pago'}]
 });
 
+usuarioSchema.methods.getUltimoPago = function getUltimoPago() {
+    return this.pagos.reverse()[0];
+}
+
 const Usuario = mongoose.model('usuario', usuarioSchema);
 module.exports = { usuarioSchema, Usuario }
