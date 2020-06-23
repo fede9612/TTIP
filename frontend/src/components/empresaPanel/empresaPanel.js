@@ -12,6 +12,7 @@ import Categorias from './categorias';
 import VendedorMercadopago from './vendedorMercadopago';
 import PlanesDePagos from './planesDePagos';
 import CargandoInformacion from '../cargandoInfo';
+import { ListGroupItem } from 'reactstrap';
 
 class EmpresaPanel extends Component{
 
@@ -21,7 +22,8 @@ class EmpresaPanel extends Component{
             empresa: false,
             usuario: false,
             empresaModal: false,
-            panel: false
+            panel: false,
+            diasDeSuscripcion: 0
         };
         this.handlerEmpresaModal = this.handlerEmpresaModal.bind(this);
         this.consultarEmpresa = this.consultarEmpresa.bind(this);
@@ -46,7 +48,8 @@ class EmpresaPanel extends Component{
         .then((res) => {
             this.setState({usuario:res.data});
             axios.get('http://localhost:8080/pago/' + res.data._id)
-            .then(() => {
+            .then((res) => {
+                this.setState({diasDeSuscripcion: 30 - res.data})
                 axios.get('http://localhost:8080/usuario/' + this.state.usuario._id + '/empresa')
                 .then((res) => {
                     this.setState({empresa : res.data});
@@ -68,7 +71,7 @@ class EmpresaPanel extends Component{
         if(this.state.usuario.habilitado){
             panel = <EmpresaHabilitada 
                         empresaModal={this.state.empresaModal} handlerEmpresaModal={this.handlerEmpresaModal} consultarEmpresa={this.consultarEmpresa}
-                        usuario={this.state.usuario} empresa={this.state.empresa}    
+                        usuario={this.state.usuario} empresa={this.state.empresa} diasDeSuscripcion={this.state.diasDeSuscripcion}   
                     />
         }else{
             panel = <PlanesDePagos usuario={this.state.usuario} consultarEmpresa={this.consultarEmpresa}/>
@@ -101,11 +104,14 @@ class EmpresaHabilitada extends Component{
                             <div className="w-4/5">
                                 <p>{ this.props.empresa.nombre }</p>
                                 <div className="mt-1">
-                                    <li class="list-group-item"><Link to={"/empresaPanel/sucursales/"+this.props.empresa._id}>Sucursales</Link><br/></li>
-                                    <li class="list-group-item"><Link to={"/empresaPanel/categorias"}>Categorizar productos</Link><br/></li>
-                                    <li class="list-group-item"><Link to={"/empresa/"+this.props.empresa._id}>Ver página</Link><br/></li>
-                                    <li class="list-group-item"><Link to={"/empresaPanel/mercadopago"}>Mercadopago</Link></li>
+                                    <ListGroupItem><Link to={"/empresaPanel/sucursales/"+this.props.empresa._id}>Sucursales</Link><br/></ListGroupItem>
+                                    <ListGroupItem><Link to={"/empresaPanel/categorias"}>Categorizar productos</Link><br/></ListGroupItem>
+                                    <ListGroupItem><Link to={"/empresa/"+this.props.empresa._id}>Ver página</Link><br/></ListGroupItem>
+                                    <ListGroupItem><Link to={"/empresaPanel/mercadopago"}>Mercadopago</Link></ListGroupItem>
                                 </div>
+                                <ListGroupItem className="mt-2" color={this.props.diasDeSuscripcion <= 7 ? "danger" : "warning"}>
+                                    <span>Usted cuenta con {this.props.diasDeSuscripcion} días de suscripción restantes</span>
+                                </ListGroupItem>
                             </div>
                           );
         if(this.props.empresa == false){
