@@ -3,8 +3,8 @@
 Este repositorio abarca una aplicación para presentar como trabajo final para la UNQUI.
 
 ## Tema
-#### Directorio de pymes con control de stock.
-En este directorio podrás buscar y obtener información según el rubro de pymes que selecciones o producto. Además las pequeñas empresas podrán llevar un manejo de su stock. 
+#### Ecommerce.
+Este servicio de Ecommerce te ofrece la posibilidad de tener tu propia página web para poder ofrecer tus productos. Cuenta con la integración de Mercadopago para que puedas recibir el dinero de tus ventas por este medio. Además de poder controlar el stock de tus locales, manejar los pedidos por cada local, recibir notificaciones vía mail de los nuevos pedidos, compartir tu página en redes sociales como Whatsapp, Facebook, Twitter y Telegram como también productos en especifico y la incorporación de un chat privado con el comprador.
 
 ## Tecnologías
 ### Listado de tecnologías utilizadas en este proyecto.
