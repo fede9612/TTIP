@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios';
+import { Link } from 'react-router-dom'
 import { Row, Col, Container, Card, CardHeader, CardBody, CardTitle, CardText, Button } from 'reactstrap';
 
 class PlanesDePagos extends Component{
@@ -8,19 +9,36 @@ class PlanesDePagos extends Component{
     constructor(props){
         super(props);
         this.state = {
+            redirect: false
         };
         this.habilitarPlanBasico = this.habilitarPlanBasico.bind(this);
     }
 
     habilitarPlanBasico(){
         axios.put('http://localhost:8080/usuario/' + this.props.usuario._id + '/plan')
-        .then(this.props.consultarEmpresa());
+        .then(this.setRedirect());
+    }
+
+    setRedirect(){
+        this.setState({redirect: !this.state.redirect});
     }
     
-    render(){
+    redirectEmpresaPanel(url){
+        if(this.state.redirect){
+            return <Link component={() => {window.location.href = url; return null;}}/>
+        }
+    }
 
+    render(){
+        var boton;
+        if(Array.isArray(this.props.usuario.pagos) && this.props.usuario.pagos.length){
+            boton = <Button className="w-full text-lg" color="success">Suscribirse</Button>
+        }else{
+            boton = <Button className="w-full text-lg" color="success" onClick={this.habilitarPlanBasico}>Prueba gratis 30 días</Button>
+        }
         return(
               <Container className="container" fluid={true}>
+                  {this.redirectEmpresaPanel('http://localhost:3000/empresaPanel')}
                   <Row>
                         <Col className="text-center">
                             <span className="text-6xl">Precios</span>
@@ -63,7 +81,7 @@ class PlanesDePagos extends Component{
                                         <span>1 sucursal</span>
                                     </CardText>
                                     <CardText className="mt-2">
-                                        <Button className="w-full text-lg" color="success" onClick={this.habilitarPlanBasico}>Prueba gratis 30 días</Button>
+                                        {boton}
                                     </CardText>
                                 </CardBody>
                             </Card>
