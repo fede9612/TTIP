@@ -71,7 +71,7 @@ class EmpresaPanel extends Component{
         if(this.state.usuario.habilitado){
             panel = <EmpresaHabilitada 
                         empresaModal={this.state.empresaModal} handlerEmpresaModal={this.handlerEmpresaModal} consultarEmpresa={this.consultarEmpresa}
-                        usuario={this.state.usuario} empresa={this.state.empresa} diasDeSuscripcion={this.state.diasDeSuscripcion}   
+                        usuario={this.state.usuario} empresa={this.state.empresa} diasDeSuscripcion={7}   
                     />
         }else{
             panel = <PlanesDePagos usuario={this.state.usuario} consultarEmpresa={this.consultarEmpresa}/>
@@ -97,6 +97,18 @@ class EmpresaHabilitada extends Component{
 
     render(){
         let empresaModal;
+        let mensajeDiasDeSuscripcion = <span>{this.props.diasDeSuscripcion} días de suscripción</span>
+        if(this.props.diasDeSuscripcion <= 7){
+            mensajeDiasDeSuscripcion = (<div>
+                                            <p>
+                                                Usted cuento con {this.props.diasDeSuscripcion} días de suscripción, 
+                                                renueva su suscripción <strong className="text-black">aquí</strong>. 
+                                            </p>
+                                            <span>
+                                                Los días restantes se sumaran a la nueva suscripción.
+                                            </span>
+                                        </div>)
+        }
         if(this.props.empresaModal){
             empresaModal = <EmpresaModal handlerClick={this.props.handlerEmpresaModal} consultarEmpresa={this.props.consultarEmpresa} usuario={this.props.usuario}/>     
         }
@@ -109,8 +121,8 @@ class EmpresaHabilitada extends Component{
                                     <ListGroupItem><Link to={"/empresa/"+this.props.empresa._id}>Ver página</Link><br/></ListGroupItem>
                                     <ListGroupItem><Link to={"/empresaPanel/mercadopago"}>Mercadopago</Link></ListGroupItem>
                                 </div>
-                                <ListGroupItem className="mt-2" color={this.props.diasDeSuscripcion <= 7 ? "danger" : "warning"}>
-                                    <span>Usted cuenta con {this.props.diasDeSuscripcion} días de suscripción restantes</span>
+                                <ListGroupItem className="mt-2 mb-2" color={this.props.diasDeSuscripcion <= 7 ? "danger" : "warning"}>
+                                    {mensajeDiasDeSuscripcion}
                                 </ListGroupItem>
                             </div>
                           );
