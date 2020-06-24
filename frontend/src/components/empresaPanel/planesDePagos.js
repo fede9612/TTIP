@@ -25,12 +25,12 @@ class PlanesDePagos extends Component{
     suscripcionAPlanBasico(){
         var productos = [{
             nombre: 'Servicio plan básico',
-            precio: 500,
+            precio: 1,
             cantidad: 1
         }]
-        axios.get('http://localhost:8080/usuario/federicoferreyra2' + process.env.NICKNAME_COBRO_PLAN)
+        axios.get('http://localhost:8080/usuario/federicoferreyra2')
         .then((res) => {
-            axios.post('http://localhost:8080/mercadopago/' + res.data._id, {productos, redirect: "http://localhost:3000/empresaPanel"})
+            axios.post('http://localhost:8080/mercadopago/' + res.data._id, {productos, redirect: "http://localhost:3000/"})
                 .then((res) => {
                     this.setState({idPreference: res.data});
                     this.setRedirectPlanBasico();
