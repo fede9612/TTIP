@@ -20,4 +20,6 @@ Este servicio de Ecommerce te ofrece la posibilidad de tener tu propia página w
 
 ## Backend
 ### database
-* Para iniciar el database necesitamos declarar las variables de entorno MAIL y PASSMAIL que utilizan el servicio SMTP para el envío de correos electrónicos, ejemplo: MAIL=mail@gmail.com PASSMAIL=password node server.js
+##### Para iniciar el database necesitamos declarar las variables de entorno:
+* MAIL y PASSMAIL que utilizan el servicio SMTP para el envío de correos electrónicos, ejemplo: MAIL=mail@gmail.com PASSMAIL=password node server.js.
+* AWS_ACCES_KEY y AWS_ACCES_KEY_ID para los servicios S3 de AWS, en esta aplicación se utilizan para almacenar las imagenes.
