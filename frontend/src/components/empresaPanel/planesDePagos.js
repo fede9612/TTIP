@@ -9,14 +9,43 @@ class PlanesDePagos extends Component{
     constructor(props){
         super(props);
         this.state = {
-            redirect: false
+            redirect: false,
+            redirectPlanBasico: false,
+            idPreference: false
         };
         this.habilitarPlanBasico = this.habilitarPlanBasico.bind(this);
+        this.suscripcionAPlanBasico = this.suscripcionAPlanBasico.bind(this);
     }
 
     habilitarPlanBasico(){
         axios.put('http://localhost:8080/usuario/' + this.props.usuario._id + '/plan')
         .then(this.setRedirect());
+    }
+
+    suscripcionAPlanBasico(){
+        var productos = [{
+            nombre: 'Servicio plan básico',
+            precio: 500,
+            cantidad: 1
+        }]
+        axios.get('http://localhost:8080/usuario/federicoferreyra2' + process.env.NICKNAME_COBRO_PLAN)
+        .then((res) => {
+            axios.post('http://localhost:8080/mercadopago/' + res.data._id, {productos, redirect: "http://localhost:3000/empresaPanel"})
+                .then((res) => {
+                    this.setState({idPreference: res.data});
+                    this.setRedirectPlanBasico();
+                });
+        })
+    }
+
+    setRedirectPlanBasico(){
+        this.setState({redirectPlanBasico: !this.state.redirectPlanBasico});
+    }
+
+    redirectPagarPlanBasico(url){
+        if(this.state.redirectPlanBasico){
+            return <Link component={() => {window.location.href = url; return null;}}/>
+        }
     }
 
     setRedirect(){
@@ -32,7 +61,10 @@ class PlanesDePagos extends Component{
     render(){
         var boton;
         if(Array.isArray(this.props.usuario.pagos) && this.props.usuario.pagos.length){
-            boton = <Button className="w-full text-lg" color="success">Suscribirse</Button>
+            boton = <div>
+                        <Button className="w-full text-lg" color="success" onClick={this.suscripcionAPlanBasico}>Suscribirse</Button>
+                        {this.redirectPagarPlanBasico(this.state.idPreference)}
+                    </div>
         }else{
             boton = <Button className="w-full text-lg" color="success" onClick={this.habilitarPlanBasico}>Prueba gratis 30 días</Button>
         }
