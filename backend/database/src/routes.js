@@ -1,5 +1,6 @@
 const express = require('express');
 const router = new express.Router;
+const axios = require('axios')
 const Local = require('./controller/local');
 const Producto = require('./controller/producto');
 const Usuario = require('./controller/usuario');
@@ -53,6 +54,12 @@ router.route('/empresa/:idEmpresa').get(Empresa.getEmpresa);
 
 //consultas de mercadopago
 router.route('/mercadopago').post(Mercadopago.getIdPreference);
+router.post('/mercadopago/notificaciones', (req,res)=>{
+    console.log(req.query.id); res.sendStatus(200)
+    
+    axios.get('https://api.mercadopago.com/v1/payments/'+ req.query.id +'?access_token=' + process.env.ACCESS_TOKEN_PROD_MARKETPLACE)
+    .then((res) => console.log(res.data))
+});
 router.route('/mercadopago/:idVendedor').post(Mercadopago.getIdPreference);
 router.route('/mercadopago/vendedor/:nickname').post(Mercadopago.nuevoVendedor);
 

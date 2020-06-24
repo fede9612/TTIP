@@ -39,6 +39,9 @@ module.exports = {
         })
         let preference = {
             items: items,
+            // payer: {
+            //     email: req.body.payer.email
+            // },
             back_urls: {
                 "success": req.body.redirect,
                 "failure": "http://localhost:3000/",
@@ -47,8 +50,6 @@ module.exports = {
             //Esto me retorna automáticamente cuando el pago fue success
             auto_return: "approved"
           };
-
-        
           
         mercadopago.preferences.create(preference)
         .then(function(response){
