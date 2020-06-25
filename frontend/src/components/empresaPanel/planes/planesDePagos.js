@@ -28,12 +28,10 @@ class PlanesDePagos extends Component{
             precio: 1,
             cantidad: 1
         }]
-        var payer = {
-            email: this.props.usuario.mail
-        }
+        var reference = `usuario:${this.props.usuario._id}`
         axios.get('http://localhost:8080/usuario/federicoferreyra2')
         .then((res) => {
-            axios.post('http://localhost:8080/mercadopago/' + res.data._id, {productos, redirect: "http://localhost:3000/confirmacionPlan", payer})
+            axios.post('http://localhost:8080/mercadopago/' + res.data._id, {productos, redirect: "http://localhost:3000/confirmacionPlan", reference})
                 .then((res) => {
                     this.setState({idPreference: res.data});
                     this.setRedirectPlanBasico();

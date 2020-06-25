@@ -1,6 +1,5 @@
 const express = require('express');
 const router = new express.Router;
-const axios = require('axios')
 const Local = require('./controller/local');
 const Producto = require('./controller/producto');
 const Usuario = require('./controller/usuario');

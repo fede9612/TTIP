@@ -1,6 +1,8 @@
 const mercadopago = require('mercadopago');
+const axios = require('axios');
 const VendedorMercadopago = require('../models/vendedoresMercadopago').VendedorMercadopago;
 const Usuario = require('../models/usuario').Usuario;
+const Pago = require('../models/pago').Pago;
 
 module.exports = {
 
@@ -37,10 +39,9 @@ module.exports = {
                 quantity: producto.cantidad
             })
         })
-        console.log(req.body.payer.email)
         let preference = {
             items: items,
-            external_reference: `${req.body.payer.email}`,
+            external_reference: `${req.body.reference}`,
             back_urls: {
                 "success": req.body.redirect,
                 "failure": "http://localhost:3000/",
@@ -62,9 +63,31 @@ module.exports = {
     },
 
     notificaciones: async (req, res, next) => {
-        console.log(req.query.id); res.sendStatus(200)
+        res.sendStatus(200)
 
         axios.get('https://api.mercadopago.com/v1/payments/'+ req.query.id +'?access_token=' + process.env.ACCESS_TOKEN_PROD_MARKETPLACE)
-        .then((res) => console.log(res.data))
+        .then(async (res) => {
+            //Si la compra está aprovada y acreditada
+            if(res.data.status == 'approved' && res.data.status_detail == 'accredited'){    
+                // Si lo primero que viene en el preference es usuario: quiere decir que se debe a un pago de suscripción
+                if(res.data.external_reference.substring(0,8) == "usuario:"){
+                    const idUsuario = res.data.external_reference.split('usuario:').join('')
+                    var usuario = await Usuario.findById(idUsuario);
+                    var pago = new Pago();
+                    pago.usuario = usuario._id;
+                    pago.monto = res.data.transaction_details.total_paid_amount;
+                    await pago.save();
+                    if(usuario.pagos){
+                        usuario.pagos.push(pago);
+                    }else{
+                        usuario.pagos = [pago._id];
+                    }
+                    usuario.habilitado = true;
+                    usuario.save(function (err){
+                        if (err) return next(err)     
+                    })
+                }
+            }
+        });
     }
 };
