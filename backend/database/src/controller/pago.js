@@ -15,7 +15,7 @@ module.exports = {
                 res.sendStatus(200);
             })
         }else{
-            return res.json(moment(Date.now()).diff(moment(usuario.getUltimoPago()), 'days'));
+            return res.json(moment(Date.now()).diff(moment(usuario.getUltimoPago().fecha), 'days'));
         }
     }
 }
