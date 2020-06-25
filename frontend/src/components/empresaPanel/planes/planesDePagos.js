@@ -33,7 +33,7 @@ class PlanesDePagos extends Component{
         }
         axios.get('http://localhost:8080/usuario/federicoferreyra2')
         .then((res) => {
-            axios.post('http://localhost:8080/mercadopago/' + res.data._id, {productos, redirect: "http://localhost:3000/", payer})
+            axios.post('http://localhost:8080/mercadopago/' + res.data._id, {productos, redirect: "http://localhost:3000/confirmacionPlan", payer})
                 .then((res) => {
                     this.setState({idPreference: res.data});
                     this.setRedirectPlanBasico();

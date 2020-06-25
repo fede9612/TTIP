@@ -37,11 +37,10 @@ module.exports = {
                 quantity: producto.cantidad
             })
         })
+        console.log(req.body.payer.email)
         let preference = {
             items: items,
-            // payer: {
-            //     email: req.body.payer.email
-            // },
+            external_reference: `${req.body.payer.email}`,
             back_urls: {
                 "success": req.body.redirect,
                 "failure": "http://localhost:3000/",
@@ -60,5 +59,12 @@ module.exports = {
         }).catch(function(error){
             console.log(error);
         });
+    },
+
+    notificaciones: async (req, res, next) => {
+        console.log(req.query.id); res.sendStatus(200)
+
+        axios.get('https://api.mercadopago.com/v1/payments/'+ req.query.id +'?access_token=' + process.env.ACCESS_TOKEN_PROD_MARKETPLACE)
+        .then((res) => console.log(res.data))
     }
 };

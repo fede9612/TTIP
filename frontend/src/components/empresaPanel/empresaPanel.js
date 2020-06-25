@@ -10,7 +10,7 @@ import CarritoEmpresaPanel from '../carritoEmpresaPanel';
 import ProductosPanel from '../productosPanel';
 import Categorias from './categorias';
 import VendedorMercadopago from './vendedorMercadopago';
-import PlanesDePagos from './planesDePagos';
+import PlanesDePagos from './planes/planesDePagos';
 import CargandoInformacion from '../cargandoInfo';
 import { ListGroupItem } from 'reactstrap';
 
