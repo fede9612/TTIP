@@ -19,7 +19,7 @@ module.exports = {
             if (err) return next(err);
         })
         if(pedido.confirmado){
-            const vendedor = await Usuario.findOne(req.body.idVendedor);
+            const vendedor = await Usuario.findById(req.body.idVendedor);
             mails.nuevoPedido(vendedor.mail+'@gmail.com').catch(console.error + 'envio al local');
         } 
         return res.json(pedido);

@@ -6,6 +6,13 @@ const Usuario = require('../models/usuario').Usuario;
 const Pago = require('../models/pago').Pago;
 const Carrito = require('../models/carrito').Carrito;
 
+function obtenerVendedor(pedido){
+    var usuario;
+    axios.get('http://localhost:8080/local/' + pedido.local)
+    .then((res) => {usuario = res.data.empresa.usuario; console.log(usuario, res.data.empresa.usuario)});
+    return usuario;
+}
+
 module.exports = {
 
     nuevoVendedor: async (req, res, next) => {
@@ -70,7 +77,6 @@ module.exports = {
         axios.get('https://api.mercadopago.com/v1/payments/'+ req.query.id +'?access_token=' + process.env.ACCESS_TOKEN_PROD_MARKETPLACE)
         .then(async (res) => {
             //Si la compra está aprovada y acreditada
-            console.log(parseStringData(res.data.external_reference));
             if(res.data.status == 'approved' && res.data.status_detail == 'accredited'){    
                 // Si lo primero que viene en el preference es usuario: quiere decir que se debe a un pago de suscripción
                 if(parseStringData(res.data.external_reference).plan){
@@ -94,8 +100,13 @@ module.exports = {
                 if(parseStringData(res.data.external_reference).compra){
                     const idPedido = parseStringData(res.data.external_reference).pedido;
                     var pedido = await Carrito.findById(idPedido);
-                    console.log(pedido)
-                    //Falta poner el pedido en pendiente y mandar el mail a la empresa
+                    pedido.confirmado = true;
+                    axios.get('http://localhost:8080/local/' + pedido.local)
+                    .then((res) => { 
+                        console.log(res.data.empresa.usuario)
+                        axios.put('http://localhost:8080/carrito/' + pedido._id + '/usuario', {pedido, idVendedor: res.data.empresa.usuario})
+                    });
+                    
                 }
             }
         });
