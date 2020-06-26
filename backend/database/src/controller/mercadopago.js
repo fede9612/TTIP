@@ -1,5 +1,6 @@
 const mercadopago = require('mercadopago');
 const axios = require('axios');
+var parseStringData = require('parse-string-data');
 const VendedorMercadopago = require('../models/vendedoresMercadopago').VendedorMercadopago;
 const Usuario = require('../models/usuario').Usuario;
 const Pago = require('../models/pago').Pago;
@@ -63,16 +64,16 @@ module.exports = {
     },
 
     notificaciones: async (req, res, next) => {
+        //Esta respuesta se envía porque así lo pide mercadopago para saber que nuestro server está prendido
         res.sendStatus(200)
-
         axios.get('https://api.mercadopago.com/v1/payments/'+ req.query.id +'?access_token=' + process.env.ACCESS_TOKEN_PROD_MARKETPLACE)
         .then(async (res) => {
             //Si la compra está aprovada y acreditada
             if(res.data.status == 'approved' && res.data.status_detail == 'accredited'){    
                 // Si lo primero que viene en el preference es usuario: quiere decir que se debe a un pago de suscripción
-                if(res.data.external_reference.substring(0,8) == "usuario:"){
-                    const idUsuario = res.data.external_reference.split('usuario:').join('')
-                    var usuario = await Usuario.findById(idUsuario);
+                if(parseStringData(res.data.external_reference).plan){
+                    const usuarioReference = parseStringData(res.data.external_reference);
+                    var usuario = await Usuario.findById(usuarioReference._id);
                     var pago = new Pago();
                     pago.usuario = usuario._id;
                     pago.monto = res.data.transaction_details.total_paid_amount;
