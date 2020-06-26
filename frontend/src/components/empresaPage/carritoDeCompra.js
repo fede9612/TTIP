@@ -56,10 +56,12 @@ class CarritoDeCompra extends Component{
                 productos.push(producto);    
             })
         })
-        console.log(this.state.pedidos)
+        var pedido = this.props.pedidos.find((pedido) => {return !pedido.confirmado})
+        var reference = `{pedido:${pedido._id}, compra: true, plan: false}`;
         axios.get('http://localhost:8080/local/' + local).then((res) =>{
             console.log(res.data.empresa.usuario)
-            axios.post('http://localhost:8080/mercadopago/' + res.data.empresa.usuario, {productos, redirect: "http://localhost:3000/empresa/"+this.props.id+"/aprovado"})
+            // "http://localhost:3000/empresa/"+this.props.id+"/aprovado"
+            axios.post('http://localhost:8080/mercadopago/' + res.data.empresa.usuario, {productos, redirect: "http://localhost:3000/empresa/"+this.props.id, reference})
             .then((res) => {
                 this.setState({idPreference: res.data});
                 this.setRedirect();
@@ -84,6 +86,7 @@ class CarritoDeCompra extends Component{
     }
 
     render(){  
+        console.log(this.props.pedidos.find((pedido) => {return !pedido.confirmado}));
             let productosList;
             if(Array.isArray(this.props.pedidos) && this.props.pedidos.length){
                 productosList = this.props.pedidos.map((pedido) => {
