@@ -6,13 +6,6 @@ const Usuario = require('../models/usuario').Usuario;
 const Pago = require('../models/pago').Pago;
 const Carrito = require('../models/carrito').Carrito;
 
-function obtenerVendedor(pedido){
-    var usuario;
-    axios.get('http://localhost:8080/local/' + pedido.local)
-    .then((res) => {usuario = res.data.empresa.usuario; console.log(usuario, res.data.empresa.usuario)});
-    return usuario;
-}
-
 module.exports = {
 
     nuevoVendedor: async (req, res, next) => {
@@ -85,6 +78,9 @@ module.exports = {
                     var pago = new Pago();
                     pago.usuario = usuario._id;
                     pago.monto = res.data.transaction_details.total_paid_amount;
+                    var fecha = new Date();
+                    fecha.setDate(fecha.getDate() + parseStringData(res.data.external_reference).diasPendientes);
+                    pago.fecha = fecha;
                     await pago.save();
                     if(usuario.pagos){
                         usuario.pagos.push(pago);

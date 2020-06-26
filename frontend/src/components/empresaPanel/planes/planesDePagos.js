@@ -28,7 +28,7 @@ class PlanesDePagos extends Component{
             precio: 1,
             cantidad: 1
         }]
-        var reference = `{_id: ${this.props.usuario._id}, plan: true, compra: false}`
+        var reference = `{_id: ${this.props.usuario._id}, diasPendientes: ${this.props.diasPendientes}, plan: true, compra: false}`
         axios.get('http://localhost:8080/usuario/federicoferreyra2')
         .then((res) => {
             axios.post('http://localhost:8080/mercadopago/' + res.data._id, {productos, redirect: "http://localhost:3000/confirmacionPlan", reference})
@@ -78,7 +78,8 @@ class PlanesDePagos extends Component{
                         </Col>
                   </Row>
                   <Row className="mt-6">
-                        <Col lg={{size: 3, offset:3}}>
+                        <Col></Col>
+                        <Col lg={{size: 3}}>
                             <Card>
                                 <CardHeader className="text-center" tag="h4">Básico</CardHeader>
                                 <CardBody className="text-center">
@@ -111,29 +112,6 @@ class PlanesDePagos extends Component{
                                         <svg class="bi bi-caret-right-fill inline-block" color="green" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M12.14 8.753l-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
                                         </svg>
-                                        <span>1 sucursal</span>
-                                    </CardText>
-                                    <CardText className="mt-2">
-                                        {boton}
-                                    </CardText>
-                                </CardBody>
-                            </Card>
-                        </Col>
-                        <Col lg={{size: 3}}>
-                            <Card>
-                                <CardHeader className="text-center" tag="h4">Full</CardHeader>
-                                <CardBody className="text-center">
-                                    <CardTitle><span className="text-5xl">$700</span><span> / mes</span></CardTitle>
-                                    <CardText>
-                                        <svg class="bi bi-caret-right-fill inline-block" color="green" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M12.14 8.753l-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
-                                        </svg>
-                                        <span>Plan Básico</span>
-                                    </CardText>
-                                    <CardText>
-                                        <svg class="bi bi-caret-right-fill inline-block" color="green" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M12.14 8.753l-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
-                                        </svg>
                                         <span>Infinitas sucursales</span>
                                     </CardText>
                                     <CardText>
@@ -143,11 +121,12 @@ class PlanesDePagos extends Component{
                                         <span>Soporte vía Whatsapp</span>
                                     </CardText>
                                     <CardText className="mt-2">
-                                        <Button className="w-full text-lg" color="success">Prueba gratis 30 días</Button>
+                                        {boton}
                                     </CardText>
                                 </CardBody>
                             </Card>
                         </Col>
+                        <Col></Col>
                   </Row>
               </Container>
         )

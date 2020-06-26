@@ -8,7 +8,7 @@ module.exports = {
     getEstadoDelPlan: async (req, res, next) =>{
         const {idUsuario} = req.params;
         const usuario = await Usuario.findById(idUsuario).populate('pagos');
-        if((moment(Date.now()).diff(moment(usuario.getUltimoPago()), 'days')) == 30){
+        if((moment(Date.now()).diff(moment(usuario.getUltimoPago().fecha), 'days')) == 30){
             usuario.habilitado = false;
             usuario.save(function (err){
                 if (err) return next(err)

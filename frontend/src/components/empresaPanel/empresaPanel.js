@@ -74,7 +74,7 @@ class EmpresaPanel extends Component{
                         usuario={this.state.usuario} empresa={this.state.empresa} diasDeSuscripcion={this.state.diasDeSuscripcion}   
                     />
         }else{
-            panel = <PlanesDePagos usuario={this.state.usuario} consultarEmpresa={this.consultarEmpresa}/>
+            panel = <PlanesDePagos usuario={this.state.usuario} consultarEmpresa={this.consultarEmpresa} diasPendientes={0}/>
         }
         this.setState({panel: panel});
     }
@@ -102,7 +102,7 @@ class EmpresaHabilitada extends Component{
             mensajeDiasDeSuscripcion = (<div>
                                             <p>
                                                 Usted cuento con {this.props.diasDeSuscripcion} días de suscripción, 
-                                                renueva su suscripción <strong className="text-black">aquí</strong>. 
+                                                renueva su suscripción <strong className="text-black"><Link to="/empresaPanel/planes">aquí</Link></strong>. 
                                             </p>
                                             <span>
                                                 Los días restantes se sumaran a la nueva suscripción.
@@ -157,6 +157,7 @@ class EmpresaHabilitada extends Component{
                             {/* estes ejemplo pierde los props pero busco la empresa por id */}
                             <Route path="/empresaPanel/sucursales/:id" render={(props) => <Sucursales {...props} empresa={this.props.empresa}/>}/>
                             <Route path="/empresa/:id" component={EmpresaPage}/>
+                            <Route path="/empresaPanel/planes" render={(props) => <PlanesDePagos usuario={this.props.usuario} consultarEmpresa={this.props.consultarEmpresa} diasPendientes={this.props.diasDeSuscripcion}/>}/>
                         </Switch>
                     </div>
                 </div>
