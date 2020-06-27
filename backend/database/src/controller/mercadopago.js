@@ -72,7 +72,6 @@ module.exports = {
             //Si la compra está aprovada y acreditada
             if(res.data.status == 'approved' && res.data.status_detail == 'accredited'){    
                 // Si lo primero que viene en el preference es usuario: quiere decir que se debe a un pago de suscripción
-                console.log(parseStringData(res.data.external_reference).pedidos)
                 if(parseStringData(res.data.external_reference).plan){
                     const usuarioReference = parseStringData(res.data.external_reference);
                     var usuario = await Usuario.findById(usuarioReference._id);
@@ -97,11 +96,9 @@ module.exports = {
                 if(parseStringData(res.data.external_reference).compra){
                     parseStringData(res.data.external_reference).pedidos.map(async (pedido) =>{
                         var pedido = await Carrito.findById(pedido.idPedido);
-                        console.log(pedido);
                         pedido.confirmado = true;
                         axios.get('http://localhost:8080/local/' + pedido.local)
                         .then((res) => { 
-                            console.log(res.data.empresa.usuario)
                             axios.put('http://localhost:8080/carrito/' + pedido._id + '/usuario', {pedido, idVendedor: res.data.empresa.usuario})
                         });
                     })

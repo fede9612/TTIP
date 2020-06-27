@@ -21,7 +21,11 @@ module.exports = {
         })
         if(pedido.confirmado){
             //Buscar el local y restarle el stock de sos productos con la cantidad de productos comprados
-            
+            pedido.pedidos.map( async (producto) => {
+                var _producto = await Producto.findById(producto._id);
+                _producto.cantidad -= producto.cantidad;
+                await _producto.save();
+            })
             const vendedor = await Usuario.findById(req.body.idVendedor);
             mails.nuevoPedido(vendedor.mail+'@gmail.com').catch(console.error + 'envio al local');
         } 
