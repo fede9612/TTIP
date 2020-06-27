@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
+import '../styles/pagination.css'
 import axios from 'axios';
+import ReactPaginate from 'react-paginate';
 import ProductoRowEmpresaPage from "./productoRowEmpresaPage";
 import { Row, Col } from "reactstrap";
 import {
@@ -25,7 +27,12 @@ class EmpresaPage extends Component{
             empresa: false,
             productos: [],
             categorias: [],
-            mostrarCategorias: false
+            mostrarCategorias: false,
+            offset: 0,  
+            elements: [], 
+            perPage: 9, 
+            currentPage: 0,
+            pageCount: 0
         }
         this.getEmpresa = this.getEmpresa.bind(this);
         this.mostrarCategorias = this.mostrarCategorias.bind(this);
@@ -42,10 +49,32 @@ class EmpresaPage extends Component{
             this.setState({categorias: res.data.categoriasDeProductos});
             this.state.empresa.locales.map((local) => {
                 axios.get('http://localhost:8080/local/' + local._id + '/productos/visibles')
-                .then((res) => this.setState({productos: this.state.productos.concat(res.data)}));
+                .then((res) => {
+                    this.setState({productos: this.state.productos.concat(res.data), pageCount: Math.ceil(res.data.length / this.state.perPage)});
+                    this.setElementsForCurrentPage();
+                });
             })
         });
     }
+
+    setElementsForCurrentPage() {
+        this.setState({pageCount: Math.ceil(this.state.productos.length / this.state.perPage)})
+        console.log(this.state.productos)
+        let elements = this.state.productos
+                      .slice(this.state.offset, this.state.offset + this.state.perPage)
+                      .map(producto =>
+          ( <ProductoRowEmpresaPage producto={producto} empresa={this.state.empresa}/>)
+        );
+        this.setState({ elements: elements });
+    }
+
+    handlePageClick = (data) => {
+        const selectedPage = data.selected;
+        const offset = selectedPage * this.state.perPage;
+        this.setState({ currentPage: selectedPage, offset: offset }, () => {
+          this.setElementsForCurrentPage();
+        });
+      }
 
     mostrarCategorias(){
         this.setState({mostrarCategorias: !this.state.mostrarCategorias});
@@ -93,7 +122,7 @@ class EmpresaPage extends Component{
                                 return <Route path={"/empresa/:id/" + categoria} render={(props) => <ProductosCategorizados {...props} productos={this.state.productos} empresa={this.state.empresa} categoria={categoria}/>}/>    
                             })}
                             <Route path="/empresa/:idEmpresa/:idProducto" component={ProductoPage}/>
-                            <Route path="/empresa/:id" render={(props) => <Productos {...props} productos={this.state.productos} empresa={this.state.empresa}/>}/>
+                            <Route path="/empresa/:id" render={(props) => <Productos {...props} pageCount={this.state.pageCount} handlePageClick={this.handlePageClick} currentPage={this.state.currentPage} elements={this.state.elements}/>}/>
                         </Switch>
                     </div>
                     {/* <!-- /.row --> */}
@@ -160,12 +189,32 @@ class EmpresaPage extends Component{
 }
 
 function Productos(props){ 
-    let productos;
-    productos = props.productos.map((producto) =>{
-                    return (
-                            <ProductoRowEmpresaPage producto={producto} empresa={props.empresa}/>
-                    )
-                })
+    // let productos;
+    // productos = props.productos.map((producto) =>{
+    //                 return (
+    //                         <ProductoRowEmpresaPage producto={producto} empresa={props.empresa}/>
+    //                 )
+    //             })
+    console.log(props.pageCount)
+    let paginationElement;
+    if (props.pageCount > 1) {
+        paginationElement = (
+            <ReactPaginate
+            previousLabel={"<Anterior"}
+            nextLabel={"Siguiente>"}
+            breakLabel={<span className="gap">...</span>}
+            pageCount={props.pageCount}
+            onPageChange={props.handlePageClick}
+            forcePage={props.currentPage}
+            containerClassName={"pagination"}
+            subContainerClassName={"pages pagination"}
+            previousLinkClassName={"previous_page"}
+            nextLinkClassName={"next_page"}
+            disabledClassName={"disabled"}
+            activeClassName={"active"}
+            />
+        );
+    }
     return(
         <div>
             <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
@@ -195,10 +244,17 @@ function Productos(props){
                         </a>
             </div>
             <Row>
-                {productos}
+                {paginationElement}
+            </Row>
+            <Row>
+                {props.elements}
+            </Row>
+            <Row>
+                {paginationElement}
             </Row>
         </div>
     );
+    
 }
 
 function ProductosCategorizados(props){
