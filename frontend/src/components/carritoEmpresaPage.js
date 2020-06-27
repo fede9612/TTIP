@@ -20,7 +20,7 @@ class CarritoEmpresaPage extends Component{
             productoModal: false,
             redirect: false,
             idPreference: "",
-            mostrarLinksPedido: false,
+            mostrarLinksPedido: true,
         };
         this.mostrarLinksPedido = this.mostrarLinksPedido.bind(this);
         this.consultarPedidosSinConfirmar = this.consultarPedidosSinConfirmar.bind(this);

@@ -10,6 +10,9 @@ import CarritoEmpresaPanel from '../carritoEmpresaPanel';
 import ProductosPanel from '../productosPanel';
 import Categorias from './categorias';
 import VendedorMercadopago from './vendedorMercadopago';
+import PlanesDePagos from './planes/planesDePagos';
+import CargandoInformacion from '../cargandoInfo';
+import { ListGroupItem } from 'reactstrap';
 
 class EmpresaPanel extends Component{
 
@@ -18,14 +21,17 @@ class EmpresaPanel extends Component{
         this.state = { 
             empresa: false,
             usuario: false,
-            empresaModal: false
+            empresaModal: false,
+            panel: false,
+            diasDeSuscripcion: 0
         };
         this.handlerEmpresaModal = this.handlerEmpresaModal.bind(this);
         this.consultarEmpresa = this.consultarEmpresa.bind(this);
     }
 
     componentDidMount(){
-        this.consultarEmpresa(); 
+        this.cargando();
+        this.consultarEmpresa();
     }
 
     handlerLocalModal(){
@@ -41,35 +47,91 @@ class EmpresaPanel extends Component{
         axios.get('http://localhost:8080/usuario/' + auth0Client.getProfile().nickname)
         .then((res) => {
             this.setState({usuario:res.data});
-            axios.get('http://localhost:8080/usuario/' + res.data._id + '/empresa')
+            axios.get('http://localhost:8080/pago/' + res.data._id)
             .then((res) => {
-                this.setState({empresa : res.data});
-            }) 
+                this.setState({diasDeSuscripcion: 30 - res.data})
+                axios.get('http://localhost:8080/usuario/' + this.state.usuario._id + '/empresa')
+                .then((res) => {
+                    this.setState({empresa : res.data});
+                    this.cargarPanel();
+                }) 
+            })
         });
     }
     
+    cargando(){
+        var panel = (
+           <CargandoInformacion/>
+        )
+        this.setState({panel: panel});
+    }
+
+    cargarPanel(){
+        var panel;
+        if(this.state.usuario.habilitado){
+            panel = <EmpresaHabilitada 
+                        empresaModal={this.state.empresaModal} handlerEmpresaModal={this.handlerEmpresaModal} consultarEmpresa={this.consultarEmpresa}
+                        usuario={this.state.usuario} empresa={this.state.empresa} diasDeSuscripcion={this.state.diasDeSuscripcion}   
+                    />
+        }else{
+            panel = <PlanesDePagos usuario={this.state.usuario} consultarEmpresa={this.consultarEmpresa} diasPendientes={0}/>
+        }
+        this.setState({panel: panel});
+    }
+
+    render(){
+        
+        return(
+            <div>
+                {this.state.panel}
+            </div>
+        )
+    }
+}
+
+class EmpresaHabilitada extends Component{
+    
+    constructor(props){
+        super(props);
+    }
+
     render(){
         let empresaModal;
-        if(this.state.empresaModal){
-            empresaModal = <EmpresaModal handlerClick={this.handlerEmpresaModal} consultarEmpresa={this.consultarEmpresa} usuario={this.state.usuario}/>     
+        let mensajeDiasDeSuscripcion = <span>{this.props.diasDeSuscripcion} días de suscripción</span>
+        if(this.props.diasDeSuscripcion <= 7){
+            mensajeDiasDeSuscripcion = (<div>
+                                            <p>
+                                                Usted cuento con {this.props.diasDeSuscripcion} días de suscripción, 
+                                                renueva su suscripción <strong className="text-black"><Link to="/empresaPanel/planes">aquí</Link></strong>. 
+                                            </p>
+                                            <span>
+                                                Los días restantes se sumaran a la nueva suscripción.
+                                            </span>
+                                        </div>)
+        }
+        if(this.props.empresaModal){
+            empresaModal = <EmpresaModal handlerClick={this.props.handlerEmpresaModal} consultarEmpresa={this.props.consultarEmpresa} usuario={this.props.usuario}/>     
         }
         let infoEmpresa = (
                             <div className="w-4/5">
-                                <p>{ this.state.empresa.nombre }</p>
+                                <p>{ this.props.empresa.nombre }</p>
                                 <div className="mt-1">
-                                    <li class="list-group-item"><Link to={"/empresaPanel/sucursales/"+this.state.empresa._id}>Sucursales</Link><br/></li>
-                                    <li class="list-group-item"><Link to={"/empresaPanel/categorias"}>Categorizar productos</Link><br/></li>
-                                    <li class="list-group-item"><Link to={"/empresa/"+this.state.empresa._id}>Ver página</Link><br/></li>
-                                    <li class="list-group-item"><Link to={"/empresaPanel/mercadopago"}>Mercadopago</Link></li>
+                                    <ListGroupItem><Link to={"/empresaPanel/sucursales/"+this.props.empresa._id}>Sucursales</Link><br/></ListGroupItem>
+                                    <ListGroupItem><Link to={"/empresaPanel/categorias"}>Categorizar productos</Link><br/></ListGroupItem>
+                                    <ListGroupItem><Link to={"/empresa/"+this.props.empresa._id}>Ver página</Link><br/></ListGroupItem>
+                                    <ListGroupItem><Link to={"/empresaPanel/mercadopago"}>Mercadopago</Link></ListGroupItem>
                                 </div>
+                                <ListGroupItem className="mt-2 mb-2" color={this.props.diasDeSuscripcion <= 7 ? "danger" : "warning"}>
+                                    {mensajeDiasDeSuscripcion}
+                                </ListGroupItem>
                             </div>
                           );
-        if(this.state.empresa == false){
+        if(this.props.empresa == false){
             infoEmpresa = (
                 <div>
                     <p>Antes de crear una sucuarsal cree una empresa</p>
                     <button className="bg-green-500 hover:bg-green-700 text-white font-bold px-2 ml-2 h-7 border-b-4 border-l-4 border-t-4 border-r-4 rounded-full"
-                        onClick={this.handlerEmpresaModal}>
+                        onClick={this.props.handlerEmpresaModal}>
                         Agregar                
                     </button>
                     {empresaModal}
@@ -91,10 +153,11 @@ class EmpresaPanel extends Component{
                             <Route path="/productos/:id" component={ProductosPanel}/>
                             <Route path="/empresaPanel/mercadopago" component={VendedorMercadopago}/>
                             {/* este ejemplo es pasando la empresa por props, tiene el problema que al recargar a página pierde los props */}
-                            <Route path="/empresaPanel/categorias" render={(props) => <Categorias {...props} empresa={this.state.empresa}/>}/>
+                            <Route path="/empresaPanel/categorias" render={(props) => <Categorias {...props} empresa={this.props.empresa}/>}/>
                             {/* estes ejemplo pierde los props pero busco la empresa por id */}
-                            <Route path="/empresaPanel/sucursales/:id" render={(props) => <Sucursales {...props} empresa={this.state.empresa}/>}/>
+                            <Route path="/empresaPanel/sucursales/:id" render={(props) => <Sucursales {...props} empresa={this.props.empresa}/>}/>
                             <Route path="/empresa/:id" component={EmpresaPage}/>
+                            <Route path="/empresaPanel/planes" render={(props) => <PlanesDePagos usuario={this.props.usuario} consultarEmpresa={this.props.consultarEmpresa} diasPendientes={this.props.diasDeSuscripcion}/>}/>
                         </Switch>
                     </div>
                 </div>

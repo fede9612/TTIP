@@ -6,6 +6,7 @@ import auth0Client from '../Auth';
 import PrivateRoute from './privateRoute';
 import CarritoUsuarioPanel from './carritoUsuarioPanel';
 import AuthMercadopago from './mercadopago/authMercadopago';
+import ConfirmacionCompraPlan from './empresaPanel/planes/confirmacionCompraPlan';
 
 class Navegacion extends Component {
     constructor(props){
@@ -77,6 +78,7 @@ class Navegacion extends Component {
                         <PrivateRoute urlRedirect={"http://localhost:3000/"} path="/empresaPanel" component={EmpresaPanel} checkingSession={this.state.checkingSession}/>
                         <PrivateRoute urlRedirect={"http://localhost:3000/"} path="/carritos" component={CarritoUsuarioPanel}/>
                         <Route path="/autorizado" component={AuthMercadopago}/>
+                        <Route path="/confirmacionPlan" component={ConfirmacionCompraPlan}/>
                     </Switch>
                 </div>
             </Router>

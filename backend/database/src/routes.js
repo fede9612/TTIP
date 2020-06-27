@@ -7,6 +7,7 @@ const Empresa = require('./controller/empresa');
 const Carrito = require('./controller/carrito');
 const Mercadopago = require('./controller/mercadopago');
 const uploadImg = require('./storage/storage');
+const Pago = require('./controller/pago');
 router.get('/',(req,res)=>res.send('ok'));
 
 //consultas de local
@@ -42,6 +43,7 @@ router.route('/usuario/:nickname/pedidos').get(Usuario.getPedidos);
 router.route('/usuario/:nickname/pedido/:idEmpresa').get(Usuario.getPedido);
 router.route('/usuario/:nickname/pedidosPendiente/:idEmpresa').get(Usuario.getPedidosPendientes);
 router.route('/usuario/:nickname/pedidosListo/:idEmpresa').get(Usuario.getPedidosListos);
+router.route('/usuario/:idUsuario/plan').put(Usuario.habilitarPlan);
 
 //consultas de empresa
 router.route('/empresa/:idEmpresa/local').post(Empresa.nuevoLocalEmpresa);
@@ -51,7 +53,11 @@ router.route('/empresa/:idEmpresa').get(Empresa.getEmpresa);
 
 //consultas de mercadopago
 router.route('/mercadopago').post(Mercadopago.getIdPreference);
+router.route('/mercadopago/notificaciones').post(Mercadopago.notificaciones);
 router.route('/mercadopago/:idVendedor').post(Mercadopago.getIdPreference);
 router.route('/mercadopago/vendedor/:nickname').post(Mercadopago.nuevoVendedor);
+
+//consultas de pago
+router.route('/pago/:idUsuario').get(Pago.getEstadoDelPlan);
 
 module.exports = router;

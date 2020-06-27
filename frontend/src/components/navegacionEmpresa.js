@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link, withRouter} from 'react-router-dom';
 import auth0Client from '../Auth';
 import PrivateRoute from './privateRoute';
-import ChatPedido from './chatPedido';
 import EmpresaPage from './empresaPage';
 import CarritoEmpresaPage from './carritoEmpresaPage';
 import CompraAprovada from './empresaPage/compraAprovada';

@@ -2,6 +2,7 @@ const Carrito = require('../models/carrito').Carrito;
 const Producto = require('../models/producto').Producto;
 const Usuario = require('../models/usuario').Usuario;
 const mails = require('../../src/mails');
+const Local = require('../models/local');
 
 module.exports = {
     
@@ -19,7 +20,13 @@ module.exports = {
             if (err) return next(err);
         })
         if(pedido.confirmado){
-            const vendedor = await Usuario.findOne(req.body.idVendedor);
+            //Buscar el local y restarle el stock de sos productos con la cantidad de productos comprados
+            pedido.pedidos.map( async (producto) => {
+                var _producto = await Producto.findById(producto._id);
+                _producto.cantidad -= producto.cantidad;
+                await _producto.save();
+            })
+            const vendedor = await Usuario.findById(req.body.idVendedor);
             mails.nuevoPedido(vendedor.mail+'@gmail.com').catch(console.error + 'envio al local');
         } 
         return res.json(pedido);
