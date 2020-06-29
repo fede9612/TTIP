@@ -29,7 +29,6 @@ class ProductosCategorizados extends Component{
     }
 
     componentWillMount(){
-        console.log(this.props.match.params.categoria)
         this.getProductos();
     }
 
