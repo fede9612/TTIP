@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import '../../styles/pagination.css'
 import axios from 'axios';
 import ReactPaginate from 'react-paginate';
-import { Row, Col, Container } from "reactstrap";
+import { Row } from "reactstrap";
 import ProductoRowEmpresaPage from "../productoRowEmpresaPage";
 import Categoria from "./categoria";
 
@@ -12,7 +12,8 @@ class ProductosCategorizados extends Component{
     constructor(props){
         super(props);
         this.state = {
-            idEmpresa: false,
+            idEmpresa: props.match.params.id,
+            categoria: props.match.params.categoria,
             empresa: false,
             productos: [],
             offset: 0,  
@@ -28,15 +29,12 @@ class ProductosCategorizados extends Component{
     }
 
     componentWillMount(){
+        console.log(this.props.match.params.categoria)
         this.getProductos();
     }
 
     getProductos(){
-        //Esto devuelve ["", "enoresa", "idEmpresa", "categoria"]
-        //window.location.pathname.split('/')
-        const idEmpresa = window.location.pathname.split('/')[2];
-        const categoria = window.location.pathname.split('/')[3];
-        axios.get("http://localhost:8080/empresa/" + idEmpresa)
+        axios.get("http://localhost:8080/empresa/" + this.state.idEmpresa)
         .then((res) => {
             this.setState({empresa: res.data});
             this.setState({categorias: res.data.categoriasDeProductos});
@@ -45,7 +43,7 @@ class ProductosCategorizados extends Component{
                 .then((res) => {
                     var productosCategorizados = []; 
                     res.data.map((prod) => {
-                        if(prod.categoria == decodeURI(categoria)){
+                        if(prod.categoria == decodeURI(this.state.categoria)){
                             productosCategorizados.push(prod);
                         }
                     })

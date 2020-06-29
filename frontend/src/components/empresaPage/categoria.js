@@ -25,7 +25,7 @@ class Categoria extends Component {
         return (
             <div>
                 <Link onClick={this.setRedirect} class="list-group-item">{this.props.categoria}</Link>
-                {this.redirectCategoria("/empresa/" + this.props.empresa._id + "/" + this.props.categoria)}
+                {this.redirectCategoria("/empresa/" + this.props.empresa._id + "/categoria/" + this.props.categoria)}
             </div>
         );
     }
