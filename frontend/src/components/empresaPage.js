@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
-import '../styles/pagination.css'
+import '../styles/pagination.css';
 import axios from 'axios';
 import ReactPaginate from 'react-paginate';
 import ProductoRowEmpresaPage from "./productoRowEmpresaPage";
@@ -17,6 +17,8 @@ import {
     WhatsappIcon
   } from "react-share";
 import ProductoPage from "./empresaPage/productoPage";
+import ProductosCategorizados from "./empresaPage/productosCategorizados";
+import Categoria from "./empresaPage/categoria";
 
 class EmpresaPage extends Component{
 
@@ -32,7 +34,8 @@ class EmpresaPage extends Component{
             elements: [], 
             perPage: 9, 
             currentPage: 0,
-            pageCount: 0
+            pageCount: 0,
+            redirect: false
         }
         this.getEmpresa = this.getEmpresa.bind(this);
         this.mostrarCategorias = this.mostrarCategorias.bind(this);
@@ -59,12 +62,8 @@ class EmpresaPage extends Component{
 
     setElementsForCurrentPage() {
         this.setState({pageCount: Math.ceil(this.state.productos.length / this.state.perPage)})
-        console.log(this.state.productos)
         let elements = this.state.productos
-                      .slice(this.state.offset, this.state.offset + this.state.perPage)
-                      .map(producto =>
-          ( <ProductoRowEmpresaPage producto={producto} empresa={this.state.empresa}/>)
-        );
+                      .slice(this.state.offset, this.state.offset + this.state.perPage);
         this.setState({ elements: elements });
     }
 
@@ -74,7 +73,7 @@ class EmpresaPage extends Component{
         this.setState({ currentPage: selectedPage, offset: offset }, () => {
           this.setElementsForCurrentPage();
         });
-      }
+    }
 
     mostrarCategorias(){
         this.setState({mostrarCategorias: !this.state.mostrarCategorias});
@@ -104,7 +103,7 @@ class EmpresaPage extends Component{
                             <div class="card-body">
                                 <div class="list-group">
                                     {this.state.categorias.map((categoria) =>{
-                                        return <Link to={"/empresa/" + this.state.empresa._id + "/" + categoria} class="list-group-item">{categoria}</Link>    
+                                        return <Categoria categoria={categoria} empresa={this.state.empresa}/>    
                                 })}
                                 </div>
                             </div>
@@ -118,11 +117,8 @@ class EmpresaPage extends Component{
                 <div class="col-lg-9">
                     <div class="row">
                         <Switch>
-                            {this.state.categorias.map((categoria) =>{
-                                return <Route path={"/empresa/:id/" + categoria} render={(props) => <ProductosCategorizados {...props} productos={this.state.productos} empresa={this.state.empresa} categoria={categoria}/>}/>    
-                            })}
                             <Route path="/empresa/:idEmpresa/:idProducto" component={ProductoPage}/>
-                            <Route path="/empresa/:id" render={(props) => <Productos {...props} pageCount={this.state.pageCount} handlePageClick={this.handlePageClick} currentPage={this.state.currentPage} elements={this.state.elements}/>}/>
+                            <Route path="/empresa/:id" render={(props) => <Productos {...props} empresa={this.state.empresa} pageCount={this.state.pageCount} handlePageClick={this.handlePageClick} currentPage={this.state.currentPage} elements={this.state.elements}/>}/>
                         </Switch>
                     </div>
                     {/* <!-- /.row --> */}
@@ -189,13 +185,7 @@ class EmpresaPage extends Component{
 }
 
 function Productos(props){ 
-    // let productos;
-    // productos = props.productos.map((producto) =>{
-    //                 return (
-    //                         <ProductoRowEmpresaPage producto={producto} empresa={props.empresa}/>
-    //                 )
-    //             })
-    console.log(props.pageCount)
+
     let paginationElement;
     if (props.pageCount > 1) {
         paginationElement = (
@@ -215,6 +205,8 @@ function Productos(props){
             />
         );
     }
+    var productos;
+    productos = props.elements.map(producto => <ProductoRowEmpresaPage producto={producto} empresa={props.empresa}/>)
     return(
         <div>
             <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
@@ -247,7 +239,7 @@ function Productos(props){
                 {paginationElement}
             </Row>
             <Row>
-                {props.elements}
+                {productos}
             </Row>
             <Row>
                 {paginationElement}
@@ -257,47 +249,6 @@ function Productos(props){
     
 }
 
-function ProductosCategorizados(props){
-    const productosCategorizados = props.productos.filter((prod) => prod.categoria == props.categoria); 
-    let productos;
-    productos = productosCategorizados.map((producto) =>{
-                    return (
-                        <ProductoRowEmpresaPage producto={producto} empresa={props.empresa}/>
-                    )
-                })
-    return(
-        <div className="w-full">
-            <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
-                        <ol class="carousel-indicators">
-                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                        </ol>
-                        <div class="carousel-inner" role="listbox">
-                            <div class="carousel-item active">
-                            <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="First slide"></img>
-                            </div>
-                            <div class="carousel-item">
-                            <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Second slide"></img>
-                            </div>
-                            <div class="carousel-item">
-                            <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Third slide"></img>
-                            </div>
-                        </div>
-                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
-            </div>
-            <Row>
-                {productos}
-            </Row>
-        </div>
-    );
-}
+
 
 export default EmpresaPage;
