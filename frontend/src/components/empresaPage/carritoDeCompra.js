@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios';
-import { BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
+import { Alert } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 
 class CarritoDeCompra extends Component{
@@ -13,13 +14,16 @@ class CarritoDeCompra extends Component{
             cantidadProducto: 0,
             productoModal: false,
             redirect: false,
-            idPreference: ""
+            idPreference: "",
+            alertStock: false,
+            mensajeError: ""
         };
 
         this.eliminarProducto = this.eliminarProducto.bind(this);
         this.comprar = this.comprar.bind(this);
         this.calcularTotal = this.calcularTotal.bind(this);
         this.redirectMercadopago = this.redirectMercadopago.bind(this);
+        this.setAlertStock = this.setAlertStock.bind(this);
     }
 
     eliminarProducto(pedido, producto){
@@ -58,16 +62,29 @@ class CarritoDeCompra extends Component{
                 productos.push(producto);    
             })
         })
-        // var pedido = this.props.pedidos.find((pedido) => {return !pedido.confirmado})
         var reference = `{pedidos:[${pedidos.toString()}], compra: true, plan: false}`;
-        axios.get('http://localhost:8080/local/' + local).then((res) =>{
-            console.log(res.data.empresa.usuario)
-            // "http://localhost:3000/empresa/"+this.props.id+"/aprovado"
-            axios.post('http://localhost:8080/mercadopago/' + res.data.empresa.usuario, {productos, redirect: "http://localhost:3000/empresa/"+this.props.id, reference})
-            .then((res) => {
-                this.setState({idPreference: res.data});
-                this.setRedirect();
-            });
+        //Chequeo de que haya stock antes de comprar
+        axios.post('http://localhost:8080/carrito/stock', {productos: productos})
+        .then((res) => {
+            if(res.status == 200){    
+                axios.get('http://localhost:8080/local/' + local).then((res) =>{
+                    axios.post('http://localhost:8080/mercadopago/' + res.data.empresa.usuario, {productos, redirect: "http://localhost:3000/empresa/"+this.props.id, reference})
+                    .then((res) => {
+                        this.setState({idPreference: res.data});
+                        this.setRedirect();
+                    });
+                })
+            }
+        })
+        .catch((error) => {
+            if(error.response.status == 403){
+                var nombresDeProductos = error.response.data.map((producto) => {
+                    return producto.nombre + ", ";
+                })
+                this.setState({mensajeError: nombresDeProductos.toString().substring(0, nombresDeProductos.toString().length - 2)});
+                this.mostrarAlertaDeStock();
+                this.setAlertStock();
+            }
         })
     }
 
@@ -87,6 +104,16 @@ class CarritoDeCompra extends Component{
         }
     }
 
+    setAlertStock(){
+        this.setState({alertStock: !this.state.alertStock});
+    }
+
+    mostrarAlertaDeStock(){
+        if(this.state.alertStock){
+            return <Alert color="danger">El stock de {this.state.mensajeError} que está solicitando está por debajo de su pedido, por favor reduzca la cantidad</Alert>;
+        }
+    }
+
     render(){  
         var pedidos = [];
         this.props.pedidos.map((pedido) => {
@@ -100,7 +127,7 @@ class CarritoDeCompra extends Component{
                         return(
                             <tbody>
                                 <tr>
-                                    <td className="flex"><img src={producto.imgUrl ? producto.imgUrl : "http://placehold.it/700x400"} alt="" className="w-16 h-20"></img><a href="#">{producto.nombre}</a></td>
+                                    <td><img src={producto.imgUrl ? producto.imgUrl : "http://placehold.it/700x400"} alt="" className="w-16 h-20 inline-block"></img><span>{producto.nombre}</span></td>
                                     <td>
                                         <p>
                                             <button onClick={() => this.restarUnProducto(pedido, producto)}>
@@ -143,6 +170,7 @@ class CarritoDeCompra extends Component{
                                 <div class="box">
                                     <h1>Carrito de compra</h1>
                                     <div class="table-responsive">
+                                    {this.mostrarAlertaDeStock()}
                                     <table class="table">
                                         <thead>
                                         <tr>
