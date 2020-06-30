@@ -26,6 +26,7 @@ router.route('/carrito/:idPedido/local').get(Carrito.getPedido);
 router.route('/carrito/:idPedido/producto').put(Carrito.eliminarProducto);
 router.route('/carrito/:idPedido/producto/sumar').put(Carrito.sumarUnProducto);
 router.route('/carrito/:idPedido/producto/restar').put(Carrito.restarUnProducto);
+router.route('/carrito/stock').post(Carrito.consultarStock);
 
 //consultas del producto
 router.route('/producto/productos').get(Producto.getPorductos);

@@ -94,6 +94,26 @@ module.exports = {
             mails.pedidoListo(_pedido.usuarioDelPedido.mail + '@gmail.com').catch(console.error + 'envío al comprador');
         } 
         return res.json(pedido);
+    },
+
+    consultarStock: async (req, res, next) => {
+        var error = false;
+        var productosConError = [];
+        var promises = req.body.productos.map(async (productoPedido) => {
+            var _producto = await Producto.findById(productoPedido._id);
+            if(productoPedido.cantidad > _producto.cantidad){
+                error = true;
+                productosConError.push(_producto)
+            }
+        });
+        Promise.all(promises).then(() => {
+            if(error){
+                return res.status('403').send(productosConError);
+            }
+            if(!error){
+                return res.sendStatus(200);
+            }
+        })
     }
     
 };
