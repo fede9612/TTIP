@@ -19,9 +19,8 @@ class Pedidos extends Component{
                     <div id="accordion" >
                     {
                         this.props.pedidos.map((pedido) => {
-                            console.log(pedido)
                             return(
-                                <PedidoRow pedido={pedido} id={pedido.local.empresa}/>
+                                <PedidoRow pedido={pedido} id={pedido.local.empresa} idLocal={pedido.local}/>
                             )
                         })
                     }

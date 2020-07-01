@@ -10,19 +10,23 @@ class PedidoRow extends Component{
     constructor(props){
         super(props);
         this.state = {
-            mostrarPendiente: false 
+            mostrarPendiente: false,
+            local: false
         };
         this.setMostrarPendiente = this.setMostrarPendiente.bind(this);
+        this.consultarLocal = this.consultarLocal.bind(this);
     }
 
-   
-    
-    // consultarLocal(){
-    //     axios.get('http://localhost:8080/local/' + this.state.id)
-    //     .then((res) => {
-    //       this.setState({local : res.data});
-    //     }).then(this.consultarPedidos());
-    // }
+    componentDidMount(){
+        this.consultarLocal();
+    }
+
+    consultarLocal(){
+        axios.get('http://localhost:8080/local/' + this.props.idLocal)
+        .then((res) => {
+          this.setState({local : res.data});
+        });
+    }
 
     setMostrarPendiente(){
         this.setState({mostrarPendiente: !this.state.mostrarPendiente})
@@ -34,10 +38,11 @@ class PedidoRow extends Component{
         return(
             <Router>
             <div class="card">
+                {console.log(this.state.local)}
                 <div class="card-header" id="headingOne" onClick={this.setMostrarPendiente}>
                 <h5 class="mb-0">
                     <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" onClick={this.mostrarLinksPedido}>
-                        Compra de {this.props.pedido.pedidos.length} {this.props.pedido.pedidos.length==1 ? " producto" : " productos"}
+                        Compra de {this.props.pedido.pedidos.length} {this.props.pedido.pedidos.length==1 ? " producto" : " productos"} en {this.state.local.nombre}
                     </button>  
                 </h5>
                 </div>
