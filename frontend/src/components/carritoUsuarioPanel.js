@@ -20,11 +20,13 @@ class CarritoUsuarioPanel extends Component{
         };
         this.consultarCarritos = this.consultarCarritos.bind(this);
         this.empresasVendedoras = this.empresasVendedoras.bind(this);
+        this.consultarPedidosListos = this.consultarPedidosListos.bind(this);
     }
 
     componentDidMount(){
         this.consultarCarritos(); 
         this.consultarPedidosPendientes();
+        this.consultarPedidosListos();
     }
 
     empresasVendedoras(res){
@@ -57,8 +59,20 @@ class CarritoUsuarioPanel extends Component{
           this.empresasVendedoras(res).map((idEmpresa) => {
               axios.get('http://localhost:8080/usuario/' + auth0Client.getProfile().nickname + '/pedidosPendiente/' + idEmpresa)
               .then((res) => {
-                    console.log("pedidos pendientes:", res.data)
                     this.setState({pedidosPendientes: this.state.pedidosPendientes.concat(res.data)});
+                });
+          })
+        });
+    }
+
+    consultarPedidosListos(){
+        this.setState({pedidosListos: []});
+        axios.get('http://localhost:8080/usuario/' + auth0Client.getProfile().nickname + '/pedidos')
+        .then((res) => {
+          this.empresasVendedoras(res).map((idEmpresa) => {
+              axios.get('http://localhost:8080/usuario/' + auth0Client.getProfile().nickname + '/pedidosListo/' + idEmpresa)
+              .then((res) => {
+                    this.setState({pedidosListos: this.state.pedidosListos.concat(res.data)});
                 });
           })
         });
@@ -83,13 +97,12 @@ class CarritoUsuarioPanel extends Component{
                         </div>
                     </Col>  
                     <Switch>
-                        {console.log(this.state.pedidosPendientes)}
                         <Route  path="/pedidos/pedidosPendientes" 
                                 render={(props) => <Pedidos {...props} pedidos={this.state.pedidosPendientes} titulo="pendientes"/>}
                         />
-                        {/* <Route  path="/empresa/:id/carrito/listos" 
-                                render={(props) => <Pedidos {...props} pedidos={this.state.pedidosListos} id={this.props.id} titulo="listos"/>}
-                        /> */}
+                        <Route  path="/pedidos/pedidosListos" 
+                                render={(props) => <Pedidos {...props} pedidos={this.state.pedidosListos} titulo="listos"/>}
+                        />
                         {console.log(this.state.empresas)}
                         <Route  path="/pedidos/carritos" 
                                 render={(props) => <CarritoDeCompra {...props} pedidos={this.state.pedidosSinConfirmar} consultarPedidosSinConfirmar={this.consultarCarritos}/>}
