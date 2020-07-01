@@ -95,7 +95,6 @@ class CarritoDeCompra extends Component{
     }
 
     redirectMercadopago(url){
-        console.log("url: " + url)
         if(this.state.redirect){
             return <Link component={() => { 
                     window.location.href = url; 
@@ -119,7 +118,6 @@ class CarritoDeCompra extends Component{
         this.props.pedidos.map((pedido) => {
             pedidos.push(`{producto : ${pedido._id}}`);
         })
-        console.log(`[${pedidos.toString()}]`);
             let productosList;
             if(Array.isArray(this.props.pedidos) && this.props.pedidos.length){
                 productosList = this.props.pedidos.map((pedido) => {
