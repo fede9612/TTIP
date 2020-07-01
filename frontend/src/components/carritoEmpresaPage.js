@@ -92,7 +92,7 @@ class CarritoEmpresaPage extends Component{
                        
                         <Switch>
                             <Route  path="/empresa/:id/carrito/pendientes" 
-                                    render={(props) => <Pedidos {...props} pedidos={this.state.pedidosPendientes} id={this.props.id} titulo="pendientes"/>}
+                                    render={(props) => <Pedidos {...props} pedidos={this.state.pedidosPendientes} titulo="pendientes"/>}
                             />
                             <Route  path="/empresa/:id/carrito/listos" 
                                     render={(props) => <Pedidos {...props} pedidos={this.state.pedidosListos} id={this.props.id} titulo="listos"/>}

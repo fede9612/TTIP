@@ -6,14 +6,7 @@ import PedidoRow from './pedidoRow';
 class Pedidos extends Component{
 
     constructor(props){
-        super(props);
-        this.state = { 
-        };
-        
-    }
-
-    componentDidMount(){
-         
+        super(props);        
     }
 
     render(){
@@ -28,7 +21,7 @@ class Pedidos extends Component{
                         this.props.pedidos.map((pedido) => {
                             console.log(pedido)
                             return(
-                                <PedidoRow pedido={pedido} id={this.props.id}/>
+                                <PedidoRow pedido={pedido} id={pedido.local.empresa}/>
                             )
                         })
                     }
