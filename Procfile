@@ -1,0 +1,1 @@
+web: ./backend/database/node server.js
