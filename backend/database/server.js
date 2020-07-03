@@ -6,18 +6,19 @@ const mongoose = require('mongoose');
 mongoose.set("useNewUrlParser", true);
 mongoose.set("useUnifiedTopology", true);
 
-mongoose.connect("mongodb://localhost/anydirec",()=>{
+mongoose.connect(process.env.CONNECTIONMONGODB,()=>{
     console.log("Base de datos conectada");
 });
 
 const app = express();
 
+app.use(express.static("public"));
 app.use(cors());
 app.use(bodyParser.json());
 app.use('/public', express.static(`${__dirname}/src/storage/imgs`))
 app.use(require('./src/routes'));
 
 
-let server = app.listen(8080, ()=> console.log("Server iniciado"));
+let server = app.listen(process.env.PORT || 8080, ()=> console.log("Server iniciado"));
 
 module.exports = server; 
