@@ -33,12 +33,12 @@ class ProductosCategorizados extends Component{
     }
 
     getProductos(){
-        axios.get("http://localhost:8080/empresa/" + this.state.idEmpresa)
+        axios.get(process.env.REACT_APP_URLDATABASE+'/empresa/' + this.state.idEmpresa)
         .then((res) => {
             this.setState({empresa: res.data});
             this.setState({categorias: res.data.categoriasDeProductos});
             this.state.empresa.locales.map((local) => {
-                axios.get('http://localhost:8080/local/' + local._id + '/productos/visibles')
+                axios.get(process.env.REACT_APP_URLDATABASE+'/local/' + local._id + '/productos/visibles')
                 .then((res) => {
                     var productosCategorizados = []; 
                     res.data.map((prod) => {

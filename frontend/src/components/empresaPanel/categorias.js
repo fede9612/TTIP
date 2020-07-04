@@ -20,7 +20,7 @@ class Categorias extends Component{
     }
 
     eliminarCategoria(categoria){
-        axios.put('http://localhost:8080/empresa/' + this.props.empresa._id + '/categoria', {categoria: categoria})
+        axios.put(process.env.REACT_APP_URLDATABASE+'/empresa/' + this.props.empresa._id + '/categoria', {categoria: categoria})
         .then((res) => {
             this.props.empresa.categoriasDeProductos = res.data;
             this.setState({categorias: this.props.empresa.categoriasDeProductos, eliminarCategoriaModal: !this.state.eliminarCategoriaModal});

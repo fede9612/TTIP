@@ -24,14 +24,14 @@ class ProductosPanel extends Component{
     }
     
     consultarLocal(){
-        axios.get('http://localhost:8080/local/' + this.state.id)
+        axios.get(process.env.REACT_APP_URLDATABASE+'/local/' + this.state.id)
         .then((res) => {
           this.setState({local : res.data});
         }).then(this.consultarProductos());
     }
 
     consultarProductos(){
-        axios.get('http://localhost:8080/local/' + this.state.id + '/productos')
+        axios.get(process.env.REACT_APP_URLDATABASE+'/local/' + this.state.id + '/productos')
         .then((res) => {
           this.setState({productos : res.data});
         });

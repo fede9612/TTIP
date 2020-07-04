@@ -41,10 +41,10 @@ class CarritoUsuarioPanel extends Component{
 
     consultarCarritos(){
         this.setState({pedidosSinConfirmar: []});
-        axios.get('http://localhost:8080/usuario/' + auth0Client.getProfile().nickname + '/pedidos')
+        axios.get(process.env.REACT_APP_URLDATABASE+'/usuario/' + auth0Client.getProfile().nickname + '/pedidos')
         .then((res) => {
           this.empresasVendedoras(res).map((idEmpresa) => {
-              axios.get('http://localhost:8080/usuario/' + auth0Client.getProfile().nickname + '/pedido/' + idEmpresa)
+              axios.get(process.env.REACT_APP_URLDATABASE+'/usuario/' + auth0Client.getProfile().nickname + '/pedido/' + idEmpresa)
               .then((res) => {
                     this.setState({pedidosSinConfirmar: this.state.pedidosSinConfirmar.concat(res.data)});
                 });
@@ -54,10 +54,10 @@ class CarritoUsuarioPanel extends Component{
 
     consultarPedidosPendientes(){
         this.setState({pedidosPendientes: []});
-        axios.get('http://localhost:8080/usuario/' + auth0Client.getProfile().nickname + '/pedidos')
+        axios.get(process.env.REACT_APP_URLDATABASE+'/usuario/' + auth0Client.getProfile().nickname + '/pedidos')
         .then((res) => {
           this.empresasVendedoras(res).map((idEmpresa) => {
-              axios.get('http://localhost:8080/usuario/' + auth0Client.getProfile().nickname + '/pedidosPendiente/' + idEmpresa)
+              axios.get(process.env.REACT_APP_URLDATABASE+'/usuario/' + auth0Client.getProfile().nickname + '/pedidosPendiente/' + idEmpresa)
               .then((res) => {
                     this.setState({pedidosPendientes: this.state.pedidosPendientes.concat(res.data)});
                 });
@@ -67,10 +67,10 @@ class CarritoUsuarioPanel extends Component{
 
     consultarPedidosListos(){
         this.setState({pedidosListos: []});
-        axios.get('http://localhost:8080/usuario/' + auth0Client.getProfile().nickname + '/pedidos')
+        axios.get(process.env.REACT_APP_URLDATABASE+'/usuario/' + auth0Client.getProfile().nickname + '/pedidos')
         .then((res) => {
           this.empresasVendedoras(res).map((idEmpresa) => {
-              axios.get('http://localhost:8080/usuario/' + auth0Client.getProfile().nickname + '/pedidosListo/' + idEmpresa)
+              axios.get(process.env.REACT_APP_URLDATABASE+'/usuario/' + auth0Client.getProfile().nickname + '/pedidosListo/' + idEmpresa)
               .then((res) => {
                     this.setState({pedidosListos: this.state.pedidosListos.concat(res.data)});
                 });

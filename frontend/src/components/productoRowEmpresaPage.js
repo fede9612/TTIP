@@ -21,7 +21,7 @@ class ProductoRowEmpresaPage extends Component{
         if(auth0Client.getProfile() == undefined){
             auth0Client.signIn(`${process.env.REACT_APP_URL}`+"empresa/" + this.state.empresa._id);
         }else{
-            axios.post('http://localhost:8080/usuario/' + this.state.producto.local + '/' + auth0Client.getProfile().nickname + '/pedido', this.state.producto);
+            axios.post(process.env.REACT_APP_URLDATABASE+'/usuario/' + this.state.producto.local + '/' + auth0Client.getProfile().nickname + '/pedido', this.state.producto);
         }
     }
 

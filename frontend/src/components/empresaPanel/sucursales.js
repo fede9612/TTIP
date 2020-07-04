@@ -24,7 +24,7 @@ class Sucursales extends Component{
 
     consultarLocales(){
         //En vez de pasar los locales por props lo hago por acá porque si recargan la página se pierden los props y no aparecen los locales
-        axios.get('http://localhost:8080/empresa/' + this.props.location.pathname.split('/empresaPanel/sucursales/').join(''))
+        axios.get(process.env.REACT_APP_URLDATABASE+'/empresa/' + this.props.location.pathname.split('/empresaPanel/sucursales/').join(''))
         .then((res) => {
             this.setState({locales: res.data.locales});
         })

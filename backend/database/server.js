@@ -7,7 +7,7 @@ require('dotenv').config();
 
 mongoose.set("useNewUrlParser", true);
 mongoose.set("useUnifiedTopology", true);
-mongoose.connect(process.env.CONNECTIONMONGODB,(err, res)=>{
+mongoose.connect("mongodb+srv://fede9612:fedekpo96@anydirec-buuch.mongodb.net/<dbname>?retryWrites=true&w=majority",(err, res)=>{
   if (err) {
     console.log ('ERROR al conectar:', err);
     } else {

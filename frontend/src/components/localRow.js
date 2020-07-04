@@ -29,7 +29,7 @@ class LocalRow extends Component{
     }
 
     consultarPedidos(){
-      axios.get('http://localhost:8080/local/' + this.state.local._id + '/pedidos')
+      axios.get(process.env.REACT_APP_URLDATABASE+'/local/' + this.state.local._id + '/pedidos')
       .then((res) => {
         this.setState({pedidos : res.data});
       });

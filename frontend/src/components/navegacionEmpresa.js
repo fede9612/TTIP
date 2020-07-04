@@ -18,7 +18,7 @@ class NavegacionEmpresa extends Component {
         }
         this.toggleMenu = this.toggleMenu.bind(this);
         console.log(this.props.urlHome)
-        console.log("http://localhost:8080/empresa/" + this.props.match.params.id);
+        console.log(process.env.REACT_APP_URLDATABASE+'/empresa/' + this.props.match.params.id);
     }
 
     toggleMenu(){

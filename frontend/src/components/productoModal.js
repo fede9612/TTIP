@@ -40,7 +40,7 @@ class ProductoModal extends Component{
                 'Content-Type': 'multipart/form-data'
             }
         }
-        axios.post('http://localhost:8080/local/'+ this.state.local._id +'/producto', formData, config)
+        axios.post(process.env.REACT_APP_URLDATABASE+'/local/'+ this.state.local._id +'/producto', formData, config)
         .then((res) => this.props.agregarProducto(res.data))
         .then(this.toggle());
     }

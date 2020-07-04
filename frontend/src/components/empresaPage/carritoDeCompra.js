@@ -27,17 +27,17 @@ class CarritoDeCompra extends Component{
     }
 
     eliminarProducto(pedido, producto){
-        axios.put('http://localhost:8080/carrito/' + pedido._id + '/producto/', producto)
+        axios.put(process.env.REACT_APP_URLDATABASE+'/carrito/' + pedido._id + '/producto/', producto)
         .then(this.props.consultarPedidosSinConfirmar());
     }
 
     sumarUnProducto(pedido, producto){
-        axios.put('http://localhost:8080/carrito/' + pedido._id + '/producto/sumar/', producto)
+        axios.put(process.env.REACT_APP_URLDATABASE+'/carrito/' + pedido._id + '/producto/sumar/', producto)
         .then(this.props.consultarPedidosSinConfirmar());
     }
 
     restarUnProducto(pedido, producto){
-        axios.put('http://localhost:8080/carrito/' + pedido._id + '/producto/restar/', producto)
+        axios.put(process.env.REACT_APP_URLDATABASE+'/carrito/' + pedido._id + '/producto/restar/', producto)
         .then(this.props.consultarPedidosSinConfirmar());
     }
 
@@ -64,11 +64,11 @@ class CarritoDeCompra extends Component{
         })
         var reference = `{pedidos:[${pedidos.toString()}], compra: true, plan: false}`;
         //Chequeo de que haya stock antes de comprar
-        axios.post('http://localhost:8080/carrito/stock', {productos: productos})
+        axios.post(process.env.REACT_APP_URLDATABASE+'/carrito/stock', {productos: productos})
         .then((res) => {
             if(res.status == 200){    
-                axios.get('http://localhost:8080/local/' + local).then((res) =>{
-                    axios.post('http://localhost:8080/mercadopago/' + res.data.empresa.usuario, {productos, redirect: `${process.env.REACT_APP_URL}`+"empresa/"+this.props.id, reference})
+                axios.get(process.env.REACT_APP_URLDATABASE+'/local/' + local).then((res) =>{
+                    axios.post(process.env.REACT_APP_URLDATABASE+'/mercadopago/' + res.data.empresa.usuario, {productos, redirect: `${process.env.REACT_APP_URL}`+"empresa/"+this.props.id, reference})
                     .then((res) => {
                         this.setState({idPreference: res.data});
                         this.setRedirect();

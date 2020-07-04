@@ -20,11 +20,11 @@ class ProductoRow extends Component{
     }
 
     actualizarProducto(producto){
-        axios.put('http://localhost:8080/producto/'+ producto._id, this.state.producto);
+        axios.put(process.env.REACT_APP_URLDATABASE+'/producto/'+ producto._id, this.state.producto);
     }
 
     eliminarProducto(){
-        axios.delete('http://localhost:8080/local/'+ this.props.local._id + '/' + this.state.producto._id)
+        axios.delete(process.env.REACT_APP_URLDATABASE+'/local/'+ this.props.local._id + '/' + this.state.producto._id)
         .then(this.props.eliminarProducto(this.state.producto));
     }
 

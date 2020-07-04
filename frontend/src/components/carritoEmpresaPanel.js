@@ -21,14 +21,14 @@ class CarritoEmpresaPanel extends Component{
     }
     
     consultarLocal(){
-        axios.get('http://localhost:8080/local/' + this.state.id)
+        axios.get(process.env.REACT_APP_URLDATABASE+'/local/' + this.state.id)
         .then((res) => {
           this.setState({local : res.data});
         }).then(this.consultarPedidos());
     }
 
     consultarPedidos(){
-        axios.get('http://localhost:8080/local/' + this.state.id + '/pedidos')
+        axios.get(process.env.REACT_APP_URLDATABASE+'/local/' + this.state.id + '/pedidos')
         .then((res) => {
           this.setState({pedidos : res.data});
         });
