@@ -31,7 +31,7 @@ class PlanesDePagos extends Component{
         var reference = `{_id: ${this.props.usuario._id}, diasPendientes: ${this.props.diasPendientes}, plan: true, compra: false}`
         axios.get('http://localhost:8080/usuario/federicoferreyra2')
         .then((res) => {
-            axios.post('http://localhost:8080/mercadopago/' + res.data._id, {productos, redirect: "http://localhost:3000/confirmacionPlan", reference})
+            axios.post('http://localhost:8080/mercadopago/' + res.data._id, {productos, redirect: `${process.env.REACT_APP_URL}`+"confirmacionPlan", reference})
                 .then((res) => {
                     this.setState({idPreference: res.data});
                     this.setRedirectPlanBasico();
@@ -71,7 +71,7 @@ class PlanesDePagos extends Component{
         }
         return(
               <Container className="container" fluid={true}>
-                  {this.redirectEmpresaPanel('http://localhost:3000/empresaPanel')}
+                  {this.redirectEmpresaPanel(`${process.env.REACT_APP_URL}`+'empresaPanel')}
                   <Row>
                         <Col className="text-center">
                             <span className="text-6xl">Precios</span>

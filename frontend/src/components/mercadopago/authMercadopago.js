@@ -30,7 +30,7 @@ class AuthMercadopago extends Component{
             client_secret: 'Md4pT0rvpCYjQnplJmzYqssaTae6Hdxs',
             grant_type: 'authorization_code',
             code: this.props.location.search.split('?code=').join(''),
-            redirect_uri: 'http://localhost:3000/autorizado'
+            redirect_uri: `${process.env.REACT_APP_URL}`+'autorizado'
         }
         axios.post('https://api.mercadopago.com/oauth/token', qs.stringify(body), config)
         .then(async (res) => {
@@ -48,7 +48,7 @@ class AuthMercadopago extends Component{
     redirectEmpresaPanel(){
         if(this.state.redirect){
             return <Link component={() => { 
-                    window.location.href = 'http://localhost:3000/empresaPanel'; 
+                    window.location.href = `${process.env.REACT_APP_URL}`+'empresaPanel'; 
                     return null;
                 }}/>
         }

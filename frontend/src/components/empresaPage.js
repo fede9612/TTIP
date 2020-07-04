@@ -147,28 +147,28 @@ class EmpresaPage extends Component{
       <Row className="mt-1">
           <Col className="text-center" sm="12" md={{ size: 6, offset: 3 }}>
                 <WhatsappShareButton 
-                    url={'http://localhost:3000/empresa/' + this.state.empresa._id} 
+                    url={`${process.env.REACT_APP_URL}`+'empresa/' + this.state.empresa._id} 
                     title={"Visita la página web de " + this.state.empresa.nombre + ", ingresando a esta URL: "}
                 >
                     <WhatsappIcon size={32} round={true}/>
                 </WhatsappShareButton>
                 &nbsp;
                 <FacebookShareButton 
-                    url={'http://localhost:3000/empresa/' + this.state.empresa._id} 
+                    url={`${process.env.REACT_APP_URL}`+'empresa/' + this.state.empresa._id} 
                     title={"Visita la página web de " + this.state.empresa.nombre + ", ingresando a esta URL: "}
                 >
                     <FacebookIcon size={32} round={true}/>
                 </FacebookShareButton>
                 &nbsp;
                 <TwitterShareButton 
-                    url={'http://localhost:3000/empresa/' + this.state.empresa._id} 
+                    url={`${process.env.REACT_APP_URL}`+'empresa/' + this.state.empresa._id} 
                     title={"Visita la página web de " + this.state.empresa.nombre + ", ingresando a esta URL: "}
                 >
                     <TwitterIcon size={32} round={true}/>
                 </TwitterShareButton>
                 &nbsp;
                 <TelegramShareButton 
-                    url={'http://localhost:3000/empresa/' + this.state.empresa._id} 
+                    url={`${process.env.REACT_APP_URL}`+'empresa/' + this.state.empresa._id} 
                     title={"Visita la página web de " + this.state.empresa.nombre + ", ingresando a esta URL: "}
                 >
                     <TelegramIcon size={32} round={true}/>

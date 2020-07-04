@@ -75,8 +75,8 @@ class Navegacion extends Component {
                         <Route path="/buscarproductos">
                             <BuscarProductos />
                         </Route>
-                        <PrivateRoute urlRedirect={"http://localhost:3000/"} path="/empresaPanel" component={EmpresaPanel} checkingSession={this.state.checkingSession}/>
-                        <PrivateRoute urlRedirect={"http://localhost:3000/"} path="/carritos" component={CarritoUsuarioPanel}/>
+                        <PrivateRoute urlRedirect={`${process.env.REACT_APP_URL}`} path="/empresaPanel" component={EmpresaPanel} checkingSession={this.state.checkingSession}/>
+                        <PrivateRoute urlRedirect={`${process.env.REACT_APP_URL}`} path="/carritos" component={CarritoUsuarioPanel}/>
                         <Route path="/autorizado" component={AuthMercadopago}/>
                         <Route path="/confirmacionPlan" component={ConfirmacionCompraPlan}/>
                     </Switch>
@@ -97,7 +97,7 @@ function Login(props) {
       <div>
        {!auth0Client.isAuthenticated() && (
             <button className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-green-400 lg:mt-0"
-                onClick={() => auth0Client.signIn("http://localhost:3000/")}>
+                onClick={() => auth0Client.signIn(`${process.env.REACT_APP_URL}`)}>
                 Iniciar sesión
             </button>
         )}

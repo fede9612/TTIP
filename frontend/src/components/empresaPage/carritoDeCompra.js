@@ -68,7 +68,7 @@ class CarritoDeCompra extends Component{
         .then((res) => {
             if(res.status == 200){    
                 axios.get('http://localhost:8080/local/' + local).then((res) =>{
-                    axios.post('http://localhost:8080/mercadopago/' + res.data.empresa.usuario, {productos, redirect: "http://localhost:3000/empresa/"+this.props.id, reference})
+                    axios.post('http://localhost:8080/mercadopago/' + res.data.empresa.usuario, {productos, redirect: `${process.env.REACT_APP_URL}`+"empresa/"+this.props.id, reference})
                     .then((res) => {
                         this.setState({idPreference: res.data});
                         this.setRedirect();

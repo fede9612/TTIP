@@ -43,9 +43,10 @@ class EmpresaPanel extends Component{
     }
 
     consultarEmpresa(){
-        //Acá tengo que pasar el usuario una vez que tenga el login
+        // Acá tengo que pasar el usuario una vez que tenga el login
         axios.get('http://localhost:8080/usuario/' + auth0Client.getProfile().nickname)
         .then((res) => {
+            console.log("Entro en el server")
             this.setState({usuario:res.data});
             axios.get('http://localhost:8080/pago/' + res.data._id)
             .then((res) => {

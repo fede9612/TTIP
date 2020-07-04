@@ -57,7 +57,7 @@ class ProductoPage extends Component{
 
     agregarProductoAlCarrito(){
         if(auth0Client.getProfile() == undefined){
-            auth0Client.signIn("http://localhost:3000/empresa/" + this.state.empresa._id);
+            auth0Client.signIn(`${process.env.REACT_APP_URL}`+"empresa/" + this.state.empresa._id);
         }else{
             axios.post('http://localhost:8080/usuario/' + this.state.producto.local + '/' + auth0Client.getProfile().nickname + '/pedido', this.state.producto);
         }
@@ -119,28 +119,28 @@ class ProductoPage extends Component{
                                 <Col className="text-center" sm="12" md={{ size: 6, offset: 3 }}>
                                         <p className="text-xl mb-1">Comparte este producto</p>
                                         <WhatsappShareButton 
-                                            url={'http://localhost:3000/empresa/' + this.state.empresa._id + "/" + this.state.producto._id} 
+                                            url={`${process.env.REACT_APP_URL}`+'empresa/' + this.state.empresa._id + "/" + this.state.producto._id} 
                                             title={this.state.producto.nombre + " en la página de " + this.state.empresa.nombre}
                                         >
                                             <WhatsappIcon size={32} round={true}/>
                                         </WhatsappShareButton>
                                         &nbsp;
                                         <FacebookShareButton 
-                                            url={'http://localhost:3000/empresa/' + this.state.empresa._id + "/" + this.state.producto._id} 
+                                            url={`${process.env.REACT_APP_URL}`+'empresa/' + this.state.empresa._id + "/" + this.state.producto._id} 
                                             title={this.state.producto.nombre + " en la página de " + this.state.empresa.nombre}
                                         >
                                             <FacebookIcon size={32} round={true}/>
                                         </FacebookShareButton>
                                         &nbsp;
                                         <TwitterShareButton 
-                                            url={'http://localhost:3000/empresa/' + this.state.empresa._id + "/" + this.state.producto._id} 
+                                            url={`${process.env.REACT_APP_URL}`+'empresa/' + this.state.empresa._id + "/" + this.state.producto._id} 
                                             title={this.state.producto.nombre + " en la página de " + this.state.empresa.nombre}
                                         >
                                             <TwitterIcon size={32} round={true}/>
                                         </TwitterShareButton>
                                         &nbsp;
                                         <TelegramShareButton 
-                                            url={'http://localhost:3000/empresa/' + this.state.empresa._id + "/" + this.state.producto._id} 
+                                            url={`${process.env.REACT_APP_URL}`+'empresa/' + this.state.empresa._id + "/" + this.state.producto._id} 
                                             title={this.state.producto.nombre + " en la página de " + this.state.empresa.nombre}
                                         >
                                             <TelegramIcon size={32} round={true}/>
