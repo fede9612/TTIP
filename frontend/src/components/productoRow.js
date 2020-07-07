@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import '../index.css';
 import axios from 'axios';
 
 class ProductoRow extends Component{
@@ -36,18 +37,25 @@ class ProductoRow extends Component{
             botonOcultar = <button className="bg-gray-600 hover:bg-gray-800 text-white font-bold px-2 h-7 rounded-full" onClick={this.handlerEstadoOcultoProducto}>Ocultar</button>
         }
         return(
-            <div className="mt-2 mr-2 border-r border-b border-l border-t border-gray-500 rounded-t rounded-b">
-                <div className="thumbnail mt-2 mr-2 ml-2">
-                    <img src={this.state.producto.imgUrl ? this.state.producto.imgUrl : "http://placehold.it/700x400"} alt="..." className="h-40 w-40"/>
-                    
-                    <h5>{this.state.producto.nombre}</h5>
-                    <p>${this.state.producto.precio}<span> stock: {this.state.producto.cantidad}</span></p>
-                    <p className="mb-1">
-                        <button className="bg-red-600 hover:bg-red-900 text-white font-bold px-2 h-7 rounded-full" onClick={this.eliminarProducto}>Eliminar</button><span> </span> 
-                        {botonOcultar}
-                    </p>
-                </div>                
-            </div>
+            
+                <div class="card h-100 w-10/12 md:w-5/12 sm:w-10/12 lg:w-5/12 xl:w-56 xl:m-1 m-2">
+                <img class="card-img-top h-auto" src={this.state.producto.imgUrl ? this.props.producto.imgUrl : "http://placehold.it/700x400"} alt=""></img>
+                    <div class="card-body">
+                        <h4 class="card-title mb-1">
+                            {this.state.producto.nombre}
+                        </h4>
+                        <p>${this.state.producto.precio}<span> stock: {this.state.producto.cantidad}</span></p>
+                        <hr/>
+                        <p class="card-text">{this.state.producto.detalle ? this.state.producto.detalle : "Descripción" }</p>
+                    </div>
+                    <div class="card-footer d-flex justify-content-center">
+                        <p>
+                            <button className="bg-red-600 hover:bg-red-900 text-white font-bold px-2 h-7 rounded-full" onClick={this.eliminarProducto}>Eliminar</button><span> </span> 
+                            {botonOcultar}
+                        </p>
+                    </div>
+                </div>
+            
         )
     }
 }
