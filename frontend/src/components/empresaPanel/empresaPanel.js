@@ -142,7 +142,7 @@ class EmpresaHabilitada extends Component{
         }
         return(
             <Router>
-            <div className="container mt-2">
+            <div className="container mt-2 mb-4">
                 <div class="flex flex-wrap">
                     <div class="w-full lg:w-1/4">
                         <h4>Empresa</h4>

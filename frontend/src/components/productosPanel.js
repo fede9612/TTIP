@@ -94,8 +94,8 @@ class ProductosPanel extends Component{
                             </button>
                             {productoModal}
                         </div>
-                        <hr className="mt-1"></hr>
-                        <Row>
+                        <hr className="mt-1 justify-center"></hr>
+                        <Row className>
                             {productosList}
                         </Row>
                     </div>

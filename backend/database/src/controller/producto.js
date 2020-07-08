@@ -27,6 +27,7 @@ module.exports = {
         producto.cantidad = req.body.cantidad != "" ? req.body.cantidad : 0;
         producto.detalle = req.body.detalle != 'undefined' ? req.body.detalle : "";
         producto.categoria = req.body.categoria != 'undefined' ? req.body.categoria : "";
+        producto.oculto = req.body.oculto;
         if(req.file){
             const {location} = req.file;
             producto.setImgUrl(location);

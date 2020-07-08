@@ -3,7 +3,6 @@ import '../index.css';
 import axios from 'axios';
 import EliminarModal from "./empresaPanel/eliminarModal";
 import EditarProducto from "./empresaPanel/productos/editarProducto";
-import { Tooltip } from "reactstrap";
 
 class ProductoRow extends Component{
 
@@ -18,6 +17,7 @@ class ProductoRow extends Component{
         this.handlerEliminarProductoModal = this.handlerEliminarProductoModal.bind(this);
         this.handlerEditarProductoModal = this.handlerEditarProductoModal.bind(this);
         this.eliminarProducto = this.eliminarProducto.bind(this);
+        this.setProducto = this.setProducto.bind(this);
     }
 
     handlerEstadoOcultoProducto(){
@@ -44,12 +44,16 @@ class ProductoRow extends Component{
         .then(this.props.eliminarProducto(this.state.producto));
     }
 
+    setProducto(producto){
+        this.setState({producto: producto});
+    }
+
     render(){
         let botonOcultar;
         if(this.state.producto.oculto){
             botonOcultar = <button 
                                 type="button" 
-                                className="bg-gray-600 hover:bg-gray-800 text-white font-bold px-2 h-7 rounded-full" 
+                                className="bg-gray-600 hover:bg-gray-800 text-white font-bold px-2 h-10 text-xl lg:h-6 lg:text-base rounded-full" 
                                 data-toggle="tooltip" data-placement="bottom" title="Mostrar producto en tu página web"
                                 onClick={this.handlerEstadoOcultoProducto}>
                                     <span id="TooltipMostrar">Mostrar</span>
@@ -57,7 +61,7 @@ class ProductoRow extends Component{
         }else{
             botonOcultar = <button 
                                 type="button"
-                                className="bg-gray-600 hover:bg-gray-800 text-white font-bold px-2 h-7 rounded-full" 
+                                className="bg-gray-600 hover:bg-gray-800 text-white font-bold px-2 h-10 text-xl lg:h-6 lg:text-base rounded-full" 
                                 data-toggle="tooltip" data-placement="bottom" title="Ocultar producto en tu página web"
                                 onClick={this.handlerEstadoOcultoProducto}>
                                     <span id="TooltipOcultar">Ocultar</span>
@@ -74,7 +78,11 @@ class ProductoRow extends Component{
         }
         var editarProducto;
         if(this.state.modalEditarProducto){
-            editarProducto = <EditarProducto producto={this.state.producto} handlerClick={this.handlerEditarProductoModal} />
+            editarProducto = <EditarProducto 
+                                producto={this.state.producto} 
+                                handlerClick={this.handlerEditarProductoModal} 
+                                actualizarProducto={this.setProducto}
+                            />
         }
         return(
             
@@ -90,14 +98,14 @@ class ProductoRow extends Component{
                     </div>
                     <div class="card-footer inline-flex justify-center">
                         <button className="text-gray-700 mr-3" onClick={this.handlerEliminarProductoModal}>
-                            <svg viewBox="0 0 16 16" class="bi bi-trash h-5 w-5" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <svg viewBox="0 0 16 16" class="bi bi-trash h-8 w-8 lg:h-5 lg:w-5" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
                                 <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
                             </svg>
                         </button> 
                             {eliminarProducto}
                         <button className="text-gray-700 mr-3" onClick={this.handlerEditarProductoModal}>
-                            <svg viewBox="0 0 16 16" class="bi bi-pencil-square h-5 w-5" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <svg viewBox="0 0 16 16" class="bi bi-pencil-square h-8 w-8 lg:h-5 lg:w-5" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                                 <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                             </svg>

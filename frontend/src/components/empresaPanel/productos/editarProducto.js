@@ -49,7 +49,7 @@ class EditarProducto extends Component{
             }
         }
         axios.put(process.env.REACT_APP_URLDATABASE+'/producto/'+ this.props.producto._id, formData, config)
-        // .then((res) => this.props.agregarProducto(res.data))
+        .then((res) => this.props.actualizarProducto(res.data))
         .then(this.toggle());
     }
 
@@ -108,7 +108,7 @@ class EditarProducto extends Component{
                         </Input>
                     </ModalBody>
                     <ModalFooter className="bg-teal-500">
-                    <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full" onClick={this.editarProducto}>Agregar</button>
+                    <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full" onClick={this.editarProducto}>Editar</button>
                     <button className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full" onClick={this.toggle}>Cancel</button>
                     </ModalFooter>
                 </Modal>
