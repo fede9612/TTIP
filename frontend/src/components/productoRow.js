@@ -3,6 +3,7 @@ import '../index.css';
 import axios from 'axios';
 import EliminarModal from "./empresaPanel/eliminarModal";
 import EditarProducto from "./empresaPanel/productos/editarProducto";
+import { Tooltip } from "reactstrap";
 
 class ProductoRow extends Component{
 
@@ -46,9 +47,21 @@ class ProductoRow extends Component{
     render(){
         let botonOcultar;
         if(this.state.producto.oculto){
-            botonOcultar = <button className="bg-gray-600 hover:bg-gray-800 text-white font-bold px-2 h-7 rounded-full" onClick={this.handlerEstadoOcultoProducto}>Mostrar</button>
+            botonOcultar = <button 
+                                type="button" 
+                                className="bg-gray-600 hover:bg-gray-800 text-white font-bold px-2 h-7 rounded-full" 
+                                data-toggle="tooltip" data-placement="bottom" title="Mostrar producto en tu página web"
+                                onClick={this.handlerEstadoOcultoProducto}>
+                                    <span id="TooltipMostrar">Mostrar</span>
+                            </button>
         }else{
-            botonOcultar = <button className="bg-gray-600 hover:bg-gray-800 text-white font-bold px-2 h-7 rounded-full" onClick={this.handlerEstadoOcultoProducto}>Ocultar</button>
+            botonOcultar = <button 
+                                type="button"
+                                className="bg-gray-600 hover:bg-gray-800 text-white font-bold px-2 h-7 rounded-full" 
+                                data-toggle="tooltip" data-placement="bottom" title="Ocultar producto en tu página web"
+                                onClick={this.handlerEstadoOcultoProducto}>
+                                    <span id="TooltipOcultar">Ocultar</span>
+                            </button>
         }
         var eliminarProducto;
         if(this.state.modalEliminarProducto){
@@ -91,6 +104,8 @@ class ProductoRow extends Component{
                         </button>
                             {editarProducto}
                         {botonOcultar}
+                        
+                        
                     </div>
                 </div>
             
