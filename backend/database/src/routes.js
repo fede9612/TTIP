@@ -32,7 +32,7 @@ router.route('/carrito/stock').post(Carrito.consultarStock);
 router.get('/producto/productos', Producto.getPorductos);
 router.route('/producto/:nombre').get(Producto.getProducto);
 router.route('/producto/id/:idProducto').get(Producto.getProductoId);
-router.route('/producto/:idProducto').put(Producto.actualizar);
+router.route('/producto/:idProducto').put(uploadImg.single('image'), Producto.actualizar);
 
 //consultas del usuario
 router.route('/usuario').post(Usuario.nuevoUsuario);

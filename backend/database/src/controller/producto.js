@@ -20,11 +20,19 @@ module.exports = {
     },
 
     actualizar: async (req, res, next) => {
-        const {idProducto} = req.params
-        Producto.findByIdAndUpdate(idProducto, req.body, function (err, producto) {
-            if (err) return next(err);
-            return res.json(producto);
-        })
+        const {idProducto} = req.params;
+        var producto = await Producto.findById(idProducto);
+        producto.nombre = req.body.nombre != 'undefined' ? req.body.nombre : "";
+        producto.precio = req.body.precio != "" ? req.body.precio : 0;
+        producto.cantidad = req.body.cantidad != "" ? req.body.cantidad : 0;
+        producto.detalle = req.body.detalle != 'undefined' ? req.body.detalle : "";
+        producto.categoria = req.body.categoria != 'undefined' ? req.body.categoria : "";
+        if(req.file){
+            const {location} = req.file;
+            producto.setImgUrl(location);
+        }
+        await producto.save();
+        res.json(producto);
     }
 
 };
