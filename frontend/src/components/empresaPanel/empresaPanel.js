@@ -13,6 +13,7 @@ import VendedorMercadopago from './vendedorMercadopago';
 import PlanesDePagos from './planes/planesDePagos';
 import CargandoInformacion from '../cargandoInfo';
 import { ListGroupItem } from 'reactstrap';
+import SucursalesProductos from './productos/sucursalesProductos';
 
 class EmpresaPanel extends Component{
 
@@ -119,6 +120,7 @@ class EmpresaHabilitada extends Component{
                                 <div className="mt-1">
                                     <ListGroupItem><Link to={"/empresaPanel/sucursales/"+this.props.empresa._id}>Sucursales</Link><br/></ListGroupItem>
                                     <ListGroupItem><Link to={"/empresaPanel/categorias"}>Categorizar productos</Link><br/></ListGroupItem>
+                                    <ListGroupItem><Link to={"/empresaPanel/sucursalProductos"}>Productos</Link><br/></ListGroupItem>
                                     <ListGroupItem><Link to={"/empresa/"+this.props.empresa._id}>Ver página</Link><br/></ListGroupItem>
                                     <ListGroupItem><Link to={"/empresaPanel/mercadopago"}>Mercadopago</Link></ListGroupItem>
                                 </div>
@@ -153,6 +155,7 @@ class EmpresaHabilitada extends Component{
                         <Switch>
                             <Route path="/pedidos/:id" component={CarritoEmpresaPanel}/>
                             <Route path="/productos/:id" component={ProductosPanel}/>
+                            <Route path="/empresaPanel/sucursalProductos" render={(props) => <SucursalesProductos {...props} empresa={this.props.empresa}/>}/>
                             <Route path="/empresaPanel/mercadopago" component={VendedorMercadopago}/>
                             {/* este ejemplo es pasando la empresa por props, tiene el problema que al recargar a página pierde los props */}
                             <Route path="/empresaPanel/categorias" render={(props) => <Categorias {...props} empresa={this.props.empresa}/>}/>
