@@ -28,8 +28,8 @@ class CarritoEmpresaRow extends Component{
         let { pedido } = this.state;
         pedido.pendiente = !pedido.pendiente;
         this.setState({pedido: pedido});
-        const mail = renderEmail(pedidoListo(process.env.REACT_APP_URL+'carritos'));
-        axios.put(process.env.REACT_APP_URLDATABASE+'/carrito/'+ pedido._id +'/local', {pedido: pedido, menssageHtml: mail}).then(this.props.actualizarPedidos(pedido));
+        const mail = renderEmail(pedidoListo());
+        axios.put(process.env.REACT_APP_URLDATABASE+'/carrito/'+ pedido._id +'/local', {pedido: pedido, messageHtml: mail}).then(this.props.actualizarPedidos(pedido));
     }
     
     render(){ 

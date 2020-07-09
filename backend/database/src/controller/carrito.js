@@ -26,6 +26,7 @@ module.exports = {
                 _producto.cantidad -= producto.cantidad;
                 await _producto.save();
             })
+            console.log(req.body.messageHtml);
             const vendedor = await Usuario.findById(req.body.idVendedor);
             mails.nuevoPedido(vendedor.mail+'@gmail.com').catch(console.error + 'envio al local');
         } 
@@ -91,7 +92,7 @@ module.exports = {
         })
         if(!pedido.pendiente){
             const _pedido = await Carrito.findOne(pedido).populate('local');
-            mails.pedidoListo(_pedido.usuarioDelPedido.mail + '@gmail.com', req.body.menssageHtml).catch(console.error + 'envío al comprador');
+            mails.pedidoListo(_pedido.usuarioDelPedido.mail + '@gmail.com', req.body.messageHtml).catch(console.error + 'envío al comprador');
         } 
         return res.json(pedido);
     },

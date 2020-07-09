@@ -18,13 +18,13 @@ module.exports = {
         let _text = "<h2>Tiene un nuevo pedido<h2>"
                     + "<span>Usted tiene un nuevo pedido en su local</span>"
         // send mail with defined transport object
-        var htmlStream = fs.createReadStream("/home/federico/Escritorio/Desarrollo/Trabajo Final UNQUI/backend/database/src/Nuevo pedido.html");
+        var messageHtml = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><div><div style="width:100%;background-color:#00BFA6;padding:2%" align="center"><span style="color:black;font-size:2rem">Tiene un nuevo pedido</span></div><div style="width:100%;padding-top:6%;padding-bottom:6%" align="center"><span style="font-size:1rem">Por favor revise sus pedidos en nuestra página web <a href="http://localhost:3000/">Anydirec</a></span></div><div style="width:100%;background-color:#00BFA6;padding:4%" align="center"><span style="color:black;font-size:1rem">Copyright© 2020 Anydirec</span></div></div>'
         let info = await transporter.sendMail({
           from: '"Anydirec" <foo@example.com>', // sender address
           to: mail, // list of receivers
           subject: "Nuevo pedido",
           text: _text,
-          html: htmlStream
+          html: messageHtml
         });
 
         console.log("Message sent: %s", info.messageId);
