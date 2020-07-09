@@ -86,12 +86,12 @@ module.exports = {
 
     actualizarPedicoLocal: async (req, res, next) => {
         const {idPedido} = req.params;
-        pedido = await Carrito.findByIdAndUpdate(idPedido, req.body, function (err) {
+        pedido = await Carrito.findByIdAndUpdate(idPedido, req.body.pedido, function (err) {
             if (err) return next(err);
         })
         if(!pedido.pendiente){
             const _pedido = await Carrito.findOne(pedido).populate('local');
-            mails.pedidoListo(_pedido.usuarioDelPedido.mail + '@gmail.com').catch(console.error + 'envío al comprador');
+            mails.pedidoListo(_pedido.usuarioDelPedido.mail + '@gmail.com', req.body.menssageHtml).catch(console.error + 'envío al comprador');
         } 
         return res.json(pedido);
     },

@@ -35,7 +35,7 @@ module.exports = {
         // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
       },
 
-      pedidoListo: async function(mail) {        
+      pedidoListo: async function(mail, menssageHtml) {        
         // create reusable transporter object using the default SMTP transport
        let transporter = nodemailer.createTransport({
          host: "smtp.gmail.com",
@@ -49,13 +49,12 @@ module.exports = {
        
        let _text = "Su pedido está listo";
        // send mail with defined transport object
-       var htmlStream = fs.createReadStream("/home/federico/Escritorio/Desarrollo/Trabajo Final UNQUI/backend/database/src/Pedido listo.html");
        let info = await transporter.sendMail({
         from: '"Anydirec" <foo@example.com>', // sender address
         to: mail, // list of receivers
         subject: "Su pedido está listo",
         text: _text,
-        html: htmlStream
+        html: menssageHtml
        });
 
        console.log("Message sent: %s", info.messageId);

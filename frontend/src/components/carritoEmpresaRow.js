@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import axios from 'axios';
 import ChatPedido from "./chatPedido";
 import { BrowserRouter as Router, Link, Switch, Route } from "react-router-dom";
+import {pedidoListo} from "./mails/pedidoMail";
+import renderEmail from "react-html-email/lib/renderEmail";
 
 class CarritoEmpresaRow extends Component{
 
@@ -26,7 +28,8 @@ class CarritoEmpresaRow extends Component{
         let { pedido } = this.state;
         pedido.pendiente = !pedido.pendiente;
         this.setState({pedido: pedido});
-        axios.put(process.env.REACT_APP_URLDATABASE+'/carrito/'+ pedido._id +'/local', pedido).then(this.props.actualizarPedidos(pedido));
+        const mail = renderEmail(pedidoListo(process.env.REACT_APP_URL+'carritos'));
+        axios.put(process.env.REACT_APP_URLDATABASE+'/carrito/'+ pedido._id +'/local', {pedido: pedido, menssageHtml: mail}).then(this.props.actualizarPedidos(pedido));
     }
     
     render(){ 

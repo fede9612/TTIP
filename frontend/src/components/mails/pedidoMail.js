@@ -1,0 +1,26 @@
+import React from 'react';
+import {Image} from 'react-html-email';
+
+export function pedidoListo(urlCarrito){
+        // var productosList = productos.map((producto) => {
+        //     return <p>{producto}</p>
+        // });
+        return(
+                <div> 
+                    <div style={{width:"100%", backgroundColor:"#00BFA6", padding:"2%"}} align="center">
+                        <span style={{color:"black", fontSize:"2rem"}}>
+                            Su pedido está listo
+                        </span>
+                    </div>
+                    <div style={{width:"100%", paddingTop:"6%", paddingBottom:"6%"}} align="center">
+                        <Image style={{width:"35%", marginBottom:"4px"}} src="https://imgs-anydirec.s3-sa-east-1.amazonaws.com/happy_notification.png"></Image>
+                        <span style={{fontSize:"1rem"}}>Por favor revise sus pedidos listos en {urlCarrito}</span>
+                    </div>
+                    <div style={{width:"100%", backgroundColor:"#00BFA6", padding:"4%"}} align="center">
+                        <span style={{color:"black", fontSize:"1rem"}}>
+                            Copyright© 2020 Anydirec
+                        </span>
+                    </div>
+                </div>
+        )
+    }
