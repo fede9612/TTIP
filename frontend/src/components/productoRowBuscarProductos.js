@@ -13,7 +13,7 @@ class ProductoRowBuscarProductos extends Component{
     }
 
     agregarProductoAlCarrito(){
-        axios.post('http://localhost:8080/usuario/' + this.state.producto.local._id + '/' + auth0Client.getProfile().nickname + '/pedido', this.state.producto);
+        axios.post(process.env.REACT_APP_URLDATABASE+'/usuario/' + this.state.producto.local._id + '/' + auth0Client.getProfile().nickname + '/pedido', this.state.producto);
     }
 
     render(){

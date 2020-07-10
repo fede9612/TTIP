@@ -13,6 +13,7 @@ import VendedorMercadopago from './vendedorMercadopago';
 import PlanesDePagos from './planes/planesDePagos';
 import CargandoInformacion from '../cargandoInfo';
 import { ListGroupItem } from 'reactstrap';
+import SucursalesProductos from './productos/sucursalesProductos';
 
 class EmpresaPanel extends Component{
 
@@ -21,11 +22,9 @@ class EmpresaPanel extends Component{
         this.state = { 
             empresa: false,
             usuario: false,
-            empresaModal: false,
             panel: false,
             diasDeSuscripcion: 0
         };
-        this.handlerEmpresaModal = this.handlerEmpresaModal.bind(this);
         this.consultarEmpresa = this.consultarEmpresa.bind(this);
     }
 
@@ -38,19 +37,16 @@ class EmpresaPanel extends Component{
         this.setState({localModal: !this.state.localModal})
     }
 
-    handlerEmpresaModal(){
-        this.setState({empresaModal: !this.state.empresaModal})
-    }
-
     consultarEmpresa(){
-        //Acá tengo que pasar el usuario una vez que tenga el login
-        axios.get('http://localhost:8080/usuario/' + auth0Client.getProfile().nickname)
+        // Acá tengo que pasar el usuario una vez que tenga el login
+        axios.get(process.env.REACT_APP_URLDATABASE+'/usuario/' + auth0Client.getProfile().nickname)
         .then((res) => {
+            console.log("Entro en el server")
             this.setState({usuario:res.data});
-            axios.get('http://localhost:8080/pago/' + res.data._id)
+            axios.get(process.env.REACT_APP_URLDATABASE+'/pago/' + res.data._id)
             .then((res) => {
                 this.setState({diasDeSuscripcion: 30 - res.data})
-                axios.get('http://localhost:8080/usuario/' + this.state.usuario._id + '/empresa')
+                axios.get(process.env.REACT_APP_URLDATABASE+'/usuario/' + this.state.usuario._id + '/empresa')
                 .then((res) => {
                     this.setState({empresa : res.data});
                     this.cargarPanel();
@@ -70,11 +66,11 @@ class EmpresaPanel extends Component{
         var panel;
         if(this.state.usuario.habilitado){
             panel = <EmpresaHabilitada 
-                        empresaModal={this.state.empresaModal} handlerEmpresaModal={this.handlerEmpresaModal} consultarEmpresa={this.consultarEmpresa}
-                        usuario={this.state.usuario} empresa={this.state.empresa} diasDeSuscripcion={this.state.diasDeSuscripcion}   
+                        consultarEmpresa={this.consultarEmpresa} usuario={this.state.usuario} 
+                        empresa={this.state.empresa} diasDeSuscripcion={this.state.diasDeSuscripcion}   
                     />
         }else{
-            panel = <PlanesDePagos usuario={this.state.usuario} consultarEmpresa={this.consultarEmpresa} diasPendientes={0}/>
+            panel = <PlanesDePagos usuario={this.state.usuario} consultarEmpresa={this.consultarEmpresa} diasPendientes={this.state.diasDeSuscripcion}/>
         }
         this.setState({panel: panel});
     }
@@ -93,6 +89,12 @@ class EmpresaHabilitada extends Component{
     
     constructor(props){
         super(props);
+        this.state = {empresaModal: false}
+        this.handlerEmpresaModal = this.handlerEmpresaModal.bind(this);
+    }
+
+    handlerEmpresaModal(){
+        this.setState({empresaModal: !this.state.empresaModal})
     }
 
     render(){
@@ -109,8 +111,8 @@ class EmpresaHabilitada extends Component{
                                             </span>
                                         </div>)
         }
-        if(this.props.empresaModal){
-            empresaModal = <EmpresaModal handlerClick={this.props.handlerEmpresaModal} consultarEmpresa={this.props.consultarEmpresa} usuario={this.props.usuario}/>     
+        if(this.state.empresaModal){
+            empresaModal = <EmpresaModal handlerClick={this.handlerEmpresaModal} consultarEmpresa={this.props.consultarEmpresa} usuario={this.props.usuario}/>     
         }
         let infoEmpresa = (
                             <div className="w-4/5">
@@ -118,6 +120,7 @@ class EmpresaHabilitada extends Component{
                                 <div className="mt-1">
                                     <ListGroupItem><Link to={"/empresaPanel/sucursales/"+this.props.empresa._id}>Sucursales</Link><br/></ListGroupItem>
                                     <ListGroupItem><Link to={"/empresaPanel/categorias"}>Categorizar productos</Link><br/></ListGroupItem>
+                                    <ListGroupItem><Link to={"/empresaPanel/sucursalProductos"}>Productos</Link><br/></ListGroupItem>
                                     <ListGroupItem><Link to={"/empresa/"+this.props.empresa._id}>Ver página</Link><br/></ListGroupItem>
                                     <ListGroupItem><Link to={"/empresaPanel/mercadopago"}>Mercadopago</Link></ListGroupItem>
                                 </div>
@@ -129,9 +132,10 @@ class EmpresaHabilitada extends Component{
         if(this.props.empresa == false){
             infoEmpresa = (
                 <div>
+                    {console.log(this.props)}
                     <p>Antes de crear una sucuarsal cree una empresa</p>
                     <button className="bg-green-500 hover:bg-green-700 text-white font-bold px-2 ml-2 h-7 border-b-4 border-l-4 border-t-4 border-r-4 rounded-full"
-                        onClick={this.props.handlerEmpresaModal}>
+                        onClick={this.handlerEmpresaModal}>
                         Agregar                
                     </button>
                     {empresaModal}
@@ -140,7 +144,7 @@ class EmpresaHabilitada extends Component{
         }
         return(
             <Router>
-            <div className="container mt-2">
+            <div className="container mt-2 mb-4">
                 <div class="flex flex-wrap">
                     <div class="w-full lg:w-1/4">
                         <h4>Empresa</h4>
@@ -151,6 +155,7 @@ class EmpresaHabilitada extends Component{
                         <Switch>
                             <Route path="/pedidos/:id" component={CarritoEmpresaPanel}/>
                             <Route path="/productos/:id" component={ProductosPanel}/>
+                            <Route path="/empresaPanel/sucursalProductos" render={(props) => <SucursalesProductos {...props} empresa={this.props.empresa}/>}/>
                             <Route path="/empresaPanel/mercadopago" component={VendedorMercadopago}/>
                             {/* este ejemplo es pasando la empresa por props, tiene el problema que al recargar a página pierde los props */}
                             <Route path="/empresaPanel/categorias" render={(props) => <Categorias {...props} empresa={this.props.empresa}/>}/>

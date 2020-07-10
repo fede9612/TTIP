@@ -21,7 +21,7 @@ class CategoriaModal extends Component{
     }
 
     agregarCategoria(){
-        axios.post('http://localhost:8080/empresa/'+ this.state.empresa._id +'/categoria', {categoria: this.state.categoria})
+        axios.post(process.env.REACT_APP_URLDATABASE+'/empresa/'+ this.state.empresa._id +'/categoria', {categoria: this.state.categoria})
         .then((res) => {this.props.agregar(res.data)})
         .then(this.toggle());
     }

@@ -65,7 +65,7 @@ class VendedorMercadopago extends Component{
                             <Row className="mt-3">
                                 <Col sm="12" md={{ size: 6, offset: 4 }}>
                                     <Button className="bg-green-600 hover:bg-green-800" size="lg" onClick={this.setRedirect}>Configurar mercadopago</Button>
-                                    {this.redirectAuthMercadopago("https://auth.mercadopago.com.ar/authorization?client_id=4521684348779774&response_type=code&platform_id=mp&redirect_uri=http://localhost:3000/autorizado")}  
+                                    {this.redirectAuthMercadopago("https://auth.mercadopago.com.ar/authorization?client_id=4521684348779774&response_type=code&platform_id=mp&redirect_uri=" + `${process.env.REACT_APP_URL}` + "autorizado")}  
                                 </Col>
                             </Row>
                         </ListGroupItem>

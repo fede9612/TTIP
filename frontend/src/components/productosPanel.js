@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios';
 import ProductoRow from './productoRow';
 import ProductoModal from './productoModal';
+import { Col, Row } from 'reactstrap';
 
 class ProductosPanel extends Component{
 
@@ -24,14 +25,14 @@ class ProductosPanel extends Component{
     }
     
     consultarLocal(){
-        axios.get('http://localhost:8080/local/' + this.state.id)
+        axios.get(process.env.REACT_APP_URLDATABASE+'/local/' + this.state.id)
         .then((res) => {
           this.setState({local : res.data});
         }).then(this.consultarProductos());
     }
 
     consultarProductos(){
-        axios.get('http://localhost:8080/local/' + this.state.id + '/productos')
+        axios.get(process.env.REACT_APP_URLDATABASE+'/local/' + this.state.id + '/productos')
         .then((res) => {
           this.setState({productos : res.data});
         });
@@ -63,11 +64,10 @@ class ProductosPanel extends Component{
         let productosList;
         if(Array.isArray(this.state.productos) && this.state.productos.length){
             productosList = this.state.productos.map((producto) => {
-                console.log(producto)
                 return(
-                    <div key={producto._id} className="w-1/3 inline-block">
-                    <ProductoRow producto={producto} local={this.state.local} eliminarProducto={this.eliminarProducto}/>
-                    </div>
+                    
+                        <ProductoRow producto={producto} local={this.state.local} eliminarProducto={this.eliminarProducto}/>
+                    
                 );
             });
         }else{
@@ -85,7 +85,7 @@ class ProductosPanel extends Component{
         return(
             <div className="mt-2">
                 
-                    <div class="w-4/5">
+                    <div class="">
                         <div>
                             <h4 className="inline-block">Productos de { this.state.local.nombre }</h4>
                             <button className="bg-green-500 hover:bg-green-700 text-white font-bold px-2 ml-2 h-7 border-b-4 border-l-4 border-t-4 border-r-4 rounded-full"
@@ -95,9 +95,9 @@ class ProductosPanel extends Component{
                             {productoModal}
                         </div>
                         <hr className="mt-1"></hr>
-                        <div className="w-full mt-1">
+                        <Row className="justify-center lg:justify-start">
                             {productosList}
-                        </div>
+                        </Row>
                     </div>
                    
              

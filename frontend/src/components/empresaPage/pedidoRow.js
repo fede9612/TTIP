@@ -22,7 +22,7 @@ class PedidoRow extends Component{
     }
 
     consultarLocal(){
-        axios.get('http://localhost:8080/local/' + this.props.idLocal)
+        axios.get(process.env.REACT_APP_URLDATABASE+'/local/' + this.props.idLocal)
         .then((res) => {
           this.setState({local : res.data});
         });

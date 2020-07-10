@@ -26,6 +26,7 @@ module.exports = {
                 _producto.cantidad -= producto.cantidad;
                 await _producto.save();
             })
+            console.log(req.body.messageHtml);
             const vendedor = await Usuario.findById(req.body.idVendedor);
             mails.nuevoPedido(vendedor.mail+'@gmail.com').catch(console.error + 'envio al local');
         } 
@@ -86,12 +87,12 @@ module.exports = {
 
     actualizarPedicoLocal: async (req, res, next) => {
         const {idPedido} = req.params;
-        pedido = await Carrito.findByIdAndUpdate(idPedido, req.body, function (err) {
+        pedido = await Carrito.findByIdAndUpdate(idPedido, req.body.pedido, function (err) {
             if (err) return next(err);
         })
         if(!pedido.pendiente){
             const _pedido = await Carrito.findOne(pedido).populate('local');
-            mails.pedidoListo(_pedido.usuarioDelPedido.mail + '@gmail.com').catch(console.error + 'envío al comprador');
+            mails.pedidoListo(_pedido.usuarioDelPedido.mail + '@gmail.com', req.body.messageHtml).catch(console.error + 'envío al comprador');
         } 
         return res.json(pedido);
     },

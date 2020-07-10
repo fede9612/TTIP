@@ -18,7 +18,7 @@ class NavegacionEmpresa extends Component {
         }
         this.toggleMenu = this.toggleMenu.bind(this);
         console.log(this.props.urlHome)
-        console.log("http://localhost:8080/empresa/" + this.props.match.params.id);
+        console.log(process.env.REACT_APP_URLDATABASE+'/empresa/' + this.props.match.params.id);
     }
 
     toggleMenu(){
@@ -77,7 +77,7 @@ class NavegacionEmpresa extends Component {
                         </div>
                     </nav>
                     <Switch>
-                        <PrivateRoute urlRedirect={"http://localhost:3000/empresa/" + this.props.match.params.id} path="/empresa/:id/carrito" component={CarritoEmpresaPage} prop={this.props.match.params.id}/>
+                        <PrivateRoute urlRedirect={`${process.env.REACT_APP_URL}`+'empresa/' + this.props.match.params.id} path="/empresa/:id/carrito" component={CarritoEmpresaPage} prop={this.props.match.params.id}/>
                         <Route path="/empresa/:id/aprovado" component={CompraAprovada}/>
                         <Route path={"/empresa/:id/categoria/:categoria"} component={ProductosCategorizados}/>
                         <Route path="/empresa/:id" component={EmpresaPage}/>

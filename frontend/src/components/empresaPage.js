@@ -46,12 +46,12 @@ class EmpresaPage extends Component{
     }
 
     getEmpresa(){
-        axios.get("http://localhost:8080/empresa/" + this.state.id)
+        axios.get(process.env.REACT_APP_URLDATABASE+'/empresa/' + this.state.id)
         .then((res) => {
             this.setState({empresa: res.data});
             this.setState({categorias: res.data.categoriasDeProductos});
             this.state.empresa.locales.map((local) => {
-                axios.get('http://localhost:8080/local/' + local._id + '/productos/visibles')
+                axios.get(process.env.REACT_APP_URLDATABASE+'/local/' + local._id + '/productos/visibles')
                 .then((res) => {
                     this.setState({productos: this.state.productos.concat(res.data), pageCount: Math.ceil(res.data.length / this.state.perPage)});
                     this.setElementsForCurrentPage();
@@ -147,28 +147,28 @@ class EmpresaPage extends Component{
       <Row className="mt-1">
           <Col className="text-center" sm="12" md={{ size: 6, offset: 3 }}>
                 <WhatsappShareButton 
-                    url={'http://localhost:3000/empresa/' + this.state.empresa._id} 
+                    url={`${process.env.REACT_APP_URL}`+'empresa/' + this.state.empresa._id} 
                     title={"Visita la página web de " + this.state.empresa.nombre + ", ingresando a esta URL: "}
                 >
                     <WhatsappIcon size={32} round={true}/>
                 </WhatsappShareButton>
                 &nbsp;
                 <FacebookShareButton 
-                    url={'http://localhost:3000/empresa/' + this.state.empresa._id} 
+                    url={`${process.env.REACT_APP_URL}`+'empresa/' + this.state.empresa._id} 
                     title={"Visita la página web de " + this.state.empresa.nombre + ", ingresando a esta URL: "}
                 >
                     <FacebookIcon size={32} round={true}/>
                 </FacebookShareButton>
                 &nbsp;
                 <TwitterShareButton 
-                    url={'http://localhost:3000/empresa/' + this.state.empresa._id} 
+                    url={`${process.env.REACT_APP_URL}`+'empresa/' + this.state.empresa._id} 
                     title={"Visita la página web de " + this.state.empresa.nombre + ", ingresando a esta URL: "}
                 >
                     <TwitterIcon size={32} round={true}/>
                 </TwitterShareButton>
                 &nbsp;
                 <TelegramShareButton 
-                    url={'http://localhost:3000/empresa/' + this.state.empresa._id} 
+                    url={`${process.env.REACT_APP_URL}`+'empresa/' + this.state.empresa._id} 
                     title={"Visita la página web de " + this.state.empresa.nombre + ", ingresando a esta URL: "}
                 >
                     <TelegramIcon size={32} round={true}/>

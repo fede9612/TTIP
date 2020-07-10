@@ -97,9 +97,9 @@ module.exports = {
                     parseStringData(res.data.external_reference).pedidos.map(async (pedido) =>{
                         var pedido = await Carrito.findById(pedido.idPedido);
                         pedido.confirmado = true;
-                        axios.get('http://localhost:8080/local/' + pedido.local)
+                        axios.get(process.env.REACT_APP_URLDATABASE+'/local/' + pedido.local)
                         .then((res) => { 
-                            axios.put('http://localhost:8080/carrito/' + pedido._id + '/usuario', {pedido, idVendedor: res.data.empresa.usuario})
+                            axios.put(process.env.REACT_APP_URLDATABASE+'/carrito/' + pedido._id + '/usuario', {pedido, idVendedor: res.data.empresa.usuario})
                         });
                     })
                     

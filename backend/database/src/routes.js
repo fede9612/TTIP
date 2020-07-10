@@ -29,10 +29,10 @@ router.route('/carrito/:idPedido/producto/restar').put(Carrito.restarUnProducto)
 router.route('/carrito/stock').post(Carrito.consultarStock);
 
 //consultas del producto
-router.route('/producto/productos').get(Producto.getPorductos);
+router.get('/producto/productos', Producto.getPorductos);
 router.route('/producto/:nombre').get(Producto.getProducto);
 router.route('/producto/id/:idProducto').get(Producto.getProductoId);
-router.route('/producto/:idProducto').put(Producto.actualizar);
+router.route('/producto/:idProducto').put(uploadImg.single('image'), Producto.actualizar);
 
 //consultas del usuario
 router.route('/usuario').post(Usuario.nuevoUsuario);

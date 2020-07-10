@@ -2,24 +2,32 @@ import React, { Component } from "react";
 import { Modal, ModalHeader, ModalBody, ModalFooter, Input, Label } from 'reactstrap';
 import axios from 'axios';
 
-class ProductoModal extends Component{
+class EditarProducto extends Component{
 
     constructor(props){
         super(props);
         this.state = {
             producto:{
-                nombre: "",
-                precio: 0,
-                cantidad: 0,
-                detalle: "",
-                categoria: "",
-                image: null
+                nombre: props.producto.nombre,
+                precio: props.producto.precio,
+                cantidad: props.producto.cantidad,
+                detalle: props.producto.detalle,
+                categoria: props.producto.categoria,
+                image: props.producto.image
             },
-            local: props.local,
+            local: false,
             modal: true
         };
         this.toggle = this.toggle.bind(this);
-        this.agregarProducto = this.agregarProducto.bind(this);
+        this.editarProducto = this.editarProducto.bind(this);
+    }
+
+    componentDidMount(){
+        this.consultarLocal();
+    }
+
+    consultarLocal(){
+        axios.get(process.env.REACT_APP_URLDATABASE+'/local/'+this.props.producto.local).then(res => this.setState({local: res.data}));
     }
 
     toggle(){
@@ -27,7 +35,7 @@ class ProductoModal extends Component{
         this.props.handlerClick();
     }
 
-    agregarProducto(){
+    editarProducto(){
         var formData = new FormData();
         formData.append('nombre', this.state.producto.nombre);
         formData.append('precio', this.state.producto.precio);
@@ -40,14 +48,14 @@ class ProductoModal extends Component{
                 'Content-Type': 'multipart/form-data'
             }
         }
-        axios.post(process.env.REACT_APP_URLDATABASE+'/local/'+ this.state.local._id +'/producto', formData, config)
-        .then((res) => this.props.agregarProducto(res.data))
+        axios.put(process.env.REACT_APP_URLDATABASE+'/producto/'+ this.props.producto._id, formData, config)
+        .then((res) => this.props.actualizarProducto(res.data))
         .then(this.toggle());
     }
 
     render(){
         let categorias = <option></option>;
-        if(this.state.local.empresa.categoriasDeProductos.length){
+        if(this.state.local){
             categorias = this.state.local.empresa.categoriasDeProductos.map((categoria) =>{
                 return(
                     <option>{categoria}</option>
@@ -100,7 +108,7 @@ class ProductoModal extends Component{
                         </Input>
                     </ModalBody>
                     <ModalFooter className="bg-teal-500">
-                    <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full" onClick={this.agregarProducto}>Agregar</button>
+                    <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full" onClick={this.editarProducto}>Editar</button>
                     <button className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full" onClick={this.toggle}>Cancel</button>
                     </ModalFooter>
                 </Modal>
@@ -109,4 +117,4 @@ class ProductoModal extends Component{
     }
 }
 
-export default ProductoModal;
+export default EditarProducto;
