@@ -67,7 +67,6 @@ module.exports = {
     notificaciones: async (req, res, next) => {
         //Esta respuesta se envía porque así lo pide mercadopago para saber que nuestro server está prendido
         res.sendStatus(200)
-        console.log(req.query.id, "id dle pago")
         axios.get('https://api.mercadopago.com/v1/payments/'+ req.query.id +'?access_token=' + process.env.ACCESS_TOKEN_PROD_MARKETPLACE)
         .then(async (res) => {
             //Si la compra está aprovada y acreditada
