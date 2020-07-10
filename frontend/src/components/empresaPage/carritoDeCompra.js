@@ -191,7 +191,12 @@ class CarritoDeCompra extends Component{
                                 
                                     <div class="box-footer d-flex justify-content-between flex-column flex-lg-row">
                                     <div class="right">
-                                        <button type="submit" class="btn btn-primary" onClick={this.comprar}>Continuar comprando <i class="fa fa-chevron-right"></i></button>
+                                        <button 
+                                            type="submit" 
+                                            class={(Array.isArray(this.props.pedidos) && this.props.pedidos.length) ? "btn btn-primary" : "hidden btn btn-primary"} 
+                                            onClick={this.comprar}>
+                                                Continuar comprando <i class="fa fa-chevron-right"></i>
+                                        </button>
                                         {this.redirectMercadopago(this.state.idPreference)}
                                     </div>
                                     </div>
