@@ -80,9 +80,15 @@ module.exports = {
                 productos.push(producto);
             }
         })
-        pedido.pedidos = productos;
-        await pedido.save();
-        return res.json(pedido);
+        //Elimina el pedido si no tiene productos pedidos
+        if(productos.length == 0){
+            await Carrito.deleteOne({_id: pedido._id})
+            return res.json([])
+        }else{
+            pedido.pedidos = productos;
+            await pedido.save();
+            return res.json(pedido);
+        }
     },
 
     actualizarPedicoLocal: async (req, res, next) => {
