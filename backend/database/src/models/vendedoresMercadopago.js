@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 let vendedorMercadopagoSchema = new mongoose.Schema({
-    vendedor: {type: Schema.Types.ObjectId, ref: 'usuario'},
+	vendedor: {type: Schema.Types.ObjectId, ref: 'usuario'},
+	fecha_configuracion: {type: Date, default: Date.now()},
     access_token: {type: String},
 	token_type: {type: String},
 	expires_in: {type: Number},

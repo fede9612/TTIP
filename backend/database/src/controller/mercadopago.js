@@ -18,6 +18,7 @@ module.exports = {
             vendedor.save();
             return res.sendStatus(200);
         }else{
+            req.body.fecha_configuracion = Date.now();
             await VendedorMercadopago.findByIdAndUpdate(encontrado._id, req.body, function (err, producto) {
                 if (err) return next(err);
                 return res.sendStatus(202);
