@@ -26,8 +26,8 @@ class AuthMercadopago extends Component{
             }
         }
         const body = {
-            client_id: '4521684348779774',
-            client_secret: 'Md4pT0rvpCYjQnplJmzYqssaTae6Hdxs',
+            client_id: `${process.env.REACT_APP_MARKETPLACE_APP_ID}`,
+            client_secret: `${process.env.REACT_APP_MARKETPLACE_SECRET_KEY}`,
             grant_type: 'authorization_code',
             code: this.props.location.search.split('?code=').join(''),
             redirect_uri: `${process.env.REACT_APP_URL}`+'autorizado'

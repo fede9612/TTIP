@@ -68,7 +68,7 @@ class CarritoDeCompra extends Component{
         .then((res) => {
             if(res.status == 200){    
                 axios.get(process.env.REACT_APP_URLDATABASE+'/local/' + local).then((res) =>{
-                    axios.post(process.env.REACT_APP_URLDATABASE+'/mercadopago/' + res.data.empresa.usuario, {productos, redirect: `${process.env.REACT_APP_URL}`+"empresa/"+this.props.id, reference})
+                    axios.post(process.env.REACT_APP_URLDATABASE+'/mercadopago/' + res.data.empresa.usuario, {productos, redirect: `${process.env.REACT_APP_URL}`+"empresa/"+res.data.empresa._id+"/aprovado", reference})
                     .then((res) => {
                         this.setState({idPreference: res.data});
                         this.setRedirect();
