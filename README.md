@@ -23,3 +23,5 @@ Este servicio de Ecommerce te ofrece la posibilidad de tener tu propia página w
 ##### Para iniciar el database necesitamos declarar las variables de entorno:
 * MAIL y PASSMAIL que utilizan el servicio SMTP para el envío de correos electrónicos, ejemplo: MAIL=mail@gmail.com PASSMAIL=password node server.js.
 * AWS_ACCES_KEY y AWS_ACCES_KEY_ID para los servicios S3 de AWS, en esta aplicación se utilizan para almacenar las imagenes.
+* ACCESS_TOKEN_PROD_MARKETPLACE es el access token del marketplace de Mercadopago
+* URLDATABASE es la URL del servidor backend database
