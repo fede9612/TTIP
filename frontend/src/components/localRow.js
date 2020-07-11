@@ -47,16 +47,18 @@ class LocalRow extends Component{
                   <div className="mb-2">
                     <spam> 
                       <Link to={"/pedidos/"+this.state.local._id}>
-                        <span className="text-lg">Pedidos</span>
-                        <spam class={this.calcularPendientes() == 0 ? "bg-green-600 text-white p-2 radius-18" : "bg-red-600 text-white p-2 radius-18" }>
+                        <button className="text-lg">Pedidos</button>
+                        <button class={this.calcularPendientes() == 0 ? "bg-green-600 text-white p-2 radius-18" : "bg-red-600 text-white p-2 radius-18" }>
                           {this.calcularPendientes()}
-                        </spam>
+                        </button>
                       </Link>
                     </spam> 
                     <spam className="ml-3 text-lg">
                       Productos: 
                         <spam>{Array.isArray(this.state.local.productos) ? this.state.local.productos.length : 0 } </spam>
-                        <Link className="bg-blue-700 text-white p-2 border-solid rounded" to={"/productos/"+this.state.local._id}>Administar</Link>
+                        <Link className="bg-blue-700 text-white p-2 border-solid rounded" to={"/productos/"+this.state.local._id}>
+                          <button>Administar</button>
+                        </Link>
                     </spam>
                   </div>
                   <div className="flex items-center">
