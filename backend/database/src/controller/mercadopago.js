@@ -68,10 +68,11 @@ module.exports = {
     notificaciones: async (req, res, next) => {
         //Esta respuesta se envía porque así lo pide mercadopago para saber que nuestro server está prendido
         res.sendStatus(200)
-        axios.get('https://api.mercadopago.com/v1/payments/'+ req.query.id +'?access_token=' + process.env.ACCESS_TOKEN_PROD_MARKETPLACE)
+        axios.get("https://api.mercadopago.com/v1/payments/"+req.query.id+"?access_token="+process.env.ACCESS_TOKEN_PROD_MARKETPLACE)
         .then(async (res) => {
             //Si la compra está aprovada y acreditada
-            if(res.data.status == 'approved' && res.data.status_detail == 'accredited'){    
+            if(res.data.status == 'approved' && res.data.status_detail == 'accredited'){  
+                console.log(parseStringData(res.data.external_reference));  
                 // Si lo primero que viene en el preference es usuario: quiere decir que se debe a un pago de suscripción
                 if(parseStringData(res.data.external_reference).plan){
                     const usuarioReference = parseStringData(res.data.external_reference);
@@ -98,9 +99,9 @@ module.exports = {
                     parseStringData(res.data.external_reference).pedidos.map(async (pedido) =>{
                         var pedido = await Carrito.findById(pedido.idPedido);
                         pedido.confirmado = true;
-                        axios.get(process.env.REACT_APP_URLDATABASE+'/local/' + pedido.local)
+                        axios.get(process.env.URLDATABASE+'/local/' + pedido.local)
                         .then((res) => { 
-                            axios.put(process.env.REACT_APP_URLDATABASE+'/carrito/' + pedido._id + '/usuario', {pedido, idVendedor: res.data.empresa.usuario})
+                            axios.put(process.env.URLDATABASE+'/carrito/' + pedido._id + '/usuario', {pedido, idVendedor: res.data.empresa.usuario})
                         });
                     })
                     
