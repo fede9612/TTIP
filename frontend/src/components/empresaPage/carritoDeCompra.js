@@ -68,7 +68,7 @@ class CarritoDeCompra extends Component{
         .then((res) => {
             if(res.status == 200){    
                 axios.get(process.env.REACT_APP_URLDATABASE+'/local/' + local).then((res) =>{
-                    axios.post(process.env.REACT_APP_URLDATABASE+'/mercadopago/' + res.data.empresa.usuario, {productos, redirect: `${process.env.REACT_APP_URL}`+"empresa/"+this.props.id, reference})
+                    axios.post(process.env.REACT_APP_URLDATABASE+'/mercadopago/' + res.data.empresa.usuario, {productos, redirect: `${process.env.REACT_APP_URL}`+"empresa/"+res.data.empresa._id+"/aprovado", reference})
                     .then((res) => {
                         this.setState({idPreference: res.data});
                         this.setRedirect();
@@ -191,7 +191,12 @@ class CarritoDeCompra extends Component{
                                 
                                     <div class="box-footer d-flex justify-content-between flex-column flex-lg-row">
                                     <div class="right">
-                                        <button type="submit" class="btn btn-primary" onClick={this.comprar}>Continuar comprando <i class="fa fa-chevron-right"></i></button>
+                                        <button 
+                                            type="submit" 
+                                            class={(Array.isArray(this.props.pedidos) && this.props.pedidos.length) ? "btn btn-primary" : "hidden btn btn-primary"} 
+                                            onClick={this.comprar}>
+                                                Continuar comprando <i class="fa fa-chevron-right"></i>
+                                        </button>
                                         {this.redirectMercadopago(this.state.idPreference)}
                                     </div>
                                     </div>

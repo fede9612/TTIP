@@ -29,7 +29,9 @@ class SucursalesProductos extends Component {
            sucursales = this.state.locales.map((local) => {
                 return (
                             <div className="inline-block">
-                                <button className="btn btn-primary mr-2 mb-2"><Link className="text-white" to={"/productos/"+local._id}>{local.nombre}</Link></button>
+                                <Link className="text-white" to={"/productos/"+local._id}>
+                                    <button className="btn btn-primary mr-2 mb-2">{local.nombre}</button>
+                                </Link>
                             </div>
                 )
             })
