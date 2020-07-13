@@ -183,7 +183,7 @@ class EmpresaHabilitada extends Component{
                             <Route path="/empresaPanel/categorias" render={(props) => <Categorias {...props} empresa={this.props.empresa}/>}/>
                             {/* estes ejemplo pierde los props pero busco la empresa por id */}
                             <Route path="/empresaPanel/sucursales/:id" render={(props) => <Sucursales {...props} empresa={this.props.empresa}/>}/>
-                            <Route path="/empresaPanel/pagina" render={(props) => <ConfigurarPagina {...props} empresa={this.props.empresa}/>}/>
+                            <Route path="/empresaPanel/pagina" render={(props) => <ConfigurarPagina {...props} empresa={this.props.empresa} consultarEmpresa={this.props.consultarEmpresa}/>}/>
                             <Route path="/empresa/:alias" component={EmpresaPage}/>
                             <Route path="/empresaPanel/planes" render={(props) => <PlanesDePagos usuario={this.props.usuario} consultarEmpresa={this.props.consultarEmpresa} diasPendientes={this.props.diasDeSuscripcion}/>}/>
                         </Switch>
