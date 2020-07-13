@@ -46,7 +46,7 @@ class EmpresaPage extends Component{
     }
 
     getEmpresa(){
-        axios.get(process.env.REACT_APP_URLDATABASE+'/empresa/' + this.state.id)
+        axios.get(process.env.REACT_APP_URLDATABASE+'/empresa/alias/' + this.props.match.params.alias)
         .then((res) => {
             this.setState({empresa: res.data});
             this.setState({categorias: res.data.categoriasDeProductos});
@@ -117,7 +117,7 @@ class EmpresaPage extends Component{
                 <div class="col-lg-9">
                     <div class="row">
                         <Switch>
-                            <Route path="/empresa/:idEmpresa/:idProducto" component={ProductoPage}/>
+                            <Route path="/empresa/:aliasEmpresa/:idProducto" component={ProductoPage}/>
                             <Route path="/empresa/:id" render={(props) => <Productos {...props} empresa={this.state.empresa} pageCount={this.state.pageCount} handlePageClick={this.handlePageClick} currentPage={this.state.currentPage} elements={this.state.elements}/>}/>
                         </Switch>
                     </div>
@@ -147,28 +147,28 @@ class EmpresaPage extends Component{
       <Row className="mt-1">
           <Col className="text-center" sm="12" md={{ size: 6, offset: 3 }}>
                 <WhatsappShareButton 
-                    url={`${process.env.REACT_APP_URL}`+'empresa/' + this.state.empresa._id} 
+                    url={`${process.env.REACT_APP_URL}`+'empresa/' + this.state.empresa.alias} 
                     title={"Visita la página web de " + this.state.empresa.nombre + ", ingresando a esta URL: "}
                 >
                     <WhatsappIcon size={32} round={true}/>
                 </WhatsappShareButton>
                 &nbsp;
                 <FacebookShareButton 
-                    url={`${process.env.REACT_APP_URL}`+'empresa/' + this.state.empresa._id} 
+                    url={`${process.env.REACT_APP_URL}`+'empresa/' + this.state.empresa.alias} 
                     title={"Visita la página web de " + this.state.empresa.nombre + ", ingresando a esta URL: "}
                 >
                     <FacebookIcon size={32} round={true}/>
                 </FacebookShareButton>
                 &nbsp;
                 <TwitterShareButton 
-                    url={`${process.env.REACT_APP_URL}`+'empresa/' + this.state.empresa._id} 
+                    url={`${process.env.REACT_APP_URL}`+'empresa/' + this.state.empresa.alias} 
                     title={"Visita la página web de " + this.state.empresa.nombre + ", ingresando a esta URL: "}
                 >
                     <TwitterIcon size={32} round={true}/>
                 </TwitterShareButton>
                 &nbsp;
                 <TelegramShareButton 
-                    url={`${process.env.REACT_APP_URL}`+'empresa/' + this.state.empresa._id} 
+                    url={`${process.env.REACT_APP_URL}`+'empresa/' + this.state.empresa.alias} 
                     title={"Visita la página web de " + this.state.empresa.nombre + ", ingresando a esta URL: "}
                 >
                     <TelegramIcon size={32} round={true}/>

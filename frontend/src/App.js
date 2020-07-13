@@ -10,7 +10,7 @@ class App extends Component {
     return (
       <div>
         <Switch>
-          <Route path="/empresa/:id" component={PageEmpresa}/>
+          <Route path="/empresa/:alias" component={PageEmpresa}/>
           <Route path="/" component={Navegacion}/>
         </Switch>
       </div>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link, withRouter} from 'react-router-dom';
+import axios from 'axios';
 import auth0Client from '../Auth';
 import PrivateRoute from './privateRoute';
 import EmpresaPage from './empresaPage';
@@ -11,34 +12,45 @@ class NavegacionEmpresa extends Component {
     constructor(props){
         super(props);
         this.state = {
+            empresa: false,
             menuModal : false,
             checkingSession: true,
             urlHome: props.urlHome,
             redirect: false
         }
         this.toggleMenu = this.toggleMenu.bind(this);
+        this.consultarEmpresa = this.consultarEmpresa.bind(this);
         console.log(this.props.urlHome)
         console.log(process.env.REACT_APP_URLDATABASE+'/empresa/' + this.props.match.params.id);
     }
-
-    toggleMenu(){
-        this.setState({menuModal: !this.state.menuModal});
+    
+    UNSAFE_componentWillMount(){
+        this.consultarEmpresa();
     }
 
     async componentDidMount() {
         if (this.props.location.pathname === '/empresaPanel') {
-          this.setState({checkingSession:false});
-          return;
+            this.setState({checkingSession:false});
+            return;
         }
         try {
-          await auth0Client.silentAuth();
-          this.forceUpdate();
+            await auth0Client.silentAuth();
+            this.forceUpdate();
         } catch (err) {
-          if (err.error !== 'login_required') console.log(err.error);
+            if (err.error !== 'login_required') console.log(err.error);
         }
         this.setState({checkingSession:false});
-      }
+    }
+
+    consultarEmpresa(){
+        axios.get(`${process.env.REACT_APP_URLDATABASE}`+'/empresa/alias/'+this.props.match.params.alias)
+        .then((res) => this.setState({empresa: res.data}));
+    }
     
+    toggleMenu(){
+        this.setState({menuModal: !this.state.menuModal});
+    }
+
     setRedirect = () => {
         this.setState({
           redirect: true
@@ -47,7 +59,7 @@ class NavegacionEmpresa extends Component {
 
     redirectHome(){
         if(this.state.redirect){
-            return <Link component={() => window.location.href = "/empresa/" + this.props.match.params.id}/>
+            return <Link component={() => window.location.href = "/empresa/" + this.state.empresa.alias}/>
         }
     }
     
@@ -70,17 +82,18 @@ class NavegacionEmpresa extends Component {
                                 </button>
                             </li>
                             <li class="nav-item">
-                                <Link to={"/empresa/" + this.props.match.params.id + "/carrito"} class="nav-link" onClick={this.toggleMenu}>Carrito</Link>
+                                {console.log(this.state.empresa)}
+                                <Link to={"/empresa/" + this.state.empresa._id + "/carrito"} class="nav-link" onClick={this.toggleMenu}>Carrito</Link>
                             </li>
                             </ul>
                         </div>
                         </div>
                     </nav>
                     <Switch>
-                        <PrivateRoute urlRedirect={`${process.env.REACT_APP_URL}`+'empresa/' + this.props.match.params.id} path="/empresa/:id/carrito" component={CarritoEmpresaPage} prop={this.props.match.params.id}/>
+                        <PrivateRoute urlRedirect={`${process.env.REACT_APP_URL}`+'empresa/' + this.state.empresa.alias} path="/empresa/:id/carrito" component={CarritoEmpresaPage} prop={this.state.empresa._id}/>
                         <Route path="/empresa/:id/aprovado" component={CompraAprovada}/>
                         <Route path={"/empresa/:id/categoria/:categoria"} component={ProductosCategorizados}/>
-                        <Route path="/empresa/:id" component={EmpresaPage}/>
+                        <Route path="/empresa/:alias" component={EmpresaPage}/>
                     </Switch>
                 </div>
             </Router>

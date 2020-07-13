@@ -14,7 +14,7 @@ class ProductoPage extends Component{
     constructor(props){
         super(props);
         this.state = {
-            idEmpresa: props.match.params.idEmpresa,
+            aliasEmpresa: props.match.params.aliasEmpresa,
             idProducto: props.match.params.idProducto,
             empresa: false,
             producto: false,
@@ -32,7 +32,7 @@ class ProductoPage extends Component{
     }
 
     consultarEmpresaProducto(){
-        axios.get(process.env.REACT_APP_URLDATABASE+'/empresa/'+this.state.idEmpresa)
+        axios.get(process.env.REACT_APP_URLDATABASE+'/empresa/alias/'+this.state.aliasEmpresa)
         .then((res) => {
            this.setState({empresa: res.data});
            axios.get(process.env.REACT_APP_URLDATABASE+'/producto/id/'+this.state.idProducto)

@@ -43,10 +43,10 @@ class ProductoRowEmpresaPage extends Component{
                 <div class="card-body">
                     <h4 class="card-title">
                     <Link 
-                        to={"/empresa/"+this.state.empresa._id+"/"+this.props.producto._id} 
+                        to={"/empresa/"+this.state.empresa.alias+"/"+this.props.producto._id} 
                         onClick={this.setRedirect}>{this.props.producto.nombre}
                     </Link>
-                    {this.redirectSelf("/empresa/"+this.state.empresa._id+"/"+this.props.producto._id)}
+                    {this.redirectSelf("/empresa/"+this.state.empresa.alias+"/"+this.props.producto._id)}
                     </h4>
                     <h5>${this.props.producto.precio}</h5>
                     <p class="card-text">{this.props.producto.detalle ? this.props.producto.detalle : "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!" }</p>
