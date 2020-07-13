@@ -48,5 +48,11 @@ module.exports = {
             if (err) return next(err);
             return res.send(empresa.categoriasDeProductos);
         });
+    },
+
+    getEmpresaAlias: async (req, res, next) =>{
+        const {aliasEmpresa} = req.params;
+        const empresa = await Empresa.findOne({alias: aliasEmpresa}).populate("locales");;
+        return res.send(empresa);
     }
 };

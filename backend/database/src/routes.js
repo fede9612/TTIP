@@ -51,6 +51,8 @@ router.route('/empresa/:idEmpresa/local').post(Empresa.nuevoLocalEmpresa);
 router.route('/empresa/:idEmpresa/categoria').post(Empresa.nuevaCategoriaEmpresa);
 router.route('/empresa/:idEmpresa/categoria').put(Empresa.eliminarCategoriaEmpresa);
 router.route('/empresa/:idEmpresa').get(Empresa.getEmpresa);
+router.route('/empresa/alias/:aliasEmpresa').get(Empresa.getEmpresaAlias);
+
 
 //consultas de mercadopago
 router.route('/mercadopago').post(Mercadopago.getIdPreference);
