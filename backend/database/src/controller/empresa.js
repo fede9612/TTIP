@@ -53,10 +53,11 @@ module.exports = {
     modificarEmpresaAlias: async (req, res, next) =>{
         const {idEmpresa} = req.params;
         var alias = req.body.alias;
-        const empresa = await Empresa.findOne({alias: alias}).populate("locales");
-        if(empresa){
+        var empresaAlias = await Empresa.findOne({alias: alias}).populate("locales");
+        if(empresaAlias){
             return res.sendStatus(400);
         }else{
+            var empresa = await Empresa.findById(idEmpresa);
             empresa.alias = alias;
             empresa.save();
             return res.send(empresa);
