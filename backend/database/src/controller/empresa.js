@@ -50,9 +50,22 @@ module.exports = {
         });
     },
 
+    modificarEmpresaAlias: async (req, res, next) =>{
+        const {idEmpresa} = req.params;
+        var alias = req.body.alias;
+        const empresa = await Empresa.findOne({alias: alias}).populate("locales");
+        if(empresa){
+            return res.sendStatus(400);
+        }else{
+            empresa.alias = alias;
+            empresa.save();
+            return res.send(empresa);
+        }
+    },
+
     getEmpresaAlias: async (req, res, next) =>{
         const {aliasEmpresa} = req.params;
-        const empresa = await Empresa.findOne({alias: aliasEmpresa}).populate("locales");;
+        const empresa = await Empresa.findOne({alias: aliasEmpresa}).populate("locales");
         return res.send(empresa);
     }
 };

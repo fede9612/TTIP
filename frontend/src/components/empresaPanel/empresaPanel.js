@@ -14,6 +14,7 @@ import PlanesDePagos from './planes/planesDePagos';
 import CargandoInformacion from '../cargandoInfo';
 import { ListGroupItem } from 'reactstrap';
 import SucursalesProductos from './productos/sucursalesProductos';
+import ConfigurarPagina from './configurarPagina';
 
 class EmpresaPanel extends Component{
 
@@ -131,7 +132,11 @@ class EmpresaHabilitada extends Component{
                                             <button className="btn hover:bg-gray-400 w-full text-lg">Productos</button>
                                         </Link>
                                         <br/><div className="flex justify-center -mt-1 mb-2"><hr className="w-9/12" color="#00BFA6"></hr></div>
-                                        <Link to={"/empresa/"+this.props.empresa._id}>
+                                        <Link to={"/empresaPanel/pagina"}>
+                                            <button className="btn hover:bg-gray-400 w-full text-lg">Página web</button>
+                                        </Link>
+                                        <br/><div className="flex justify-center -mt-1 mb-2"><hr className="w-9/12" color="#00BFA6"></hr></div>
+                                        <Link to={"/empresa/"+this.props.empresa.alias}>
                                             <button className="btn hover:bg-gray-400 w-full text-lg">Ver página</button>
                                         </Link>
                                         <br/><div className="flex justify-center -mt-1 mb-2"><hr className="w-9/12" color="#00BFA6"></hr></div>
@@ -178,7 +183,8 @@ class EmpresaHabilitada extends Component{
                             <Route path="/empresaPanel/categorias" render={(props) => <Categorias {...props} empresa={this.props.empresa}/>}/>
                             {/* estes ejemplo pierde los props pero busco la empresa por id */}
                             <Route path="/empresaPanel/sucursales/:id" render={(props) => <Sucursales {...props} empresa={this.props.empresa}/>}/>
-                            <Route path="/empresa/:id" component={EmpresaPage}/>
+                            <Route path="/empresaPanel/pagina" render={(props) => <ConfigurarPagina {...props} empresa={this.props.empresa}/>}/>
+                            <Route path="/empresa/:alias" component={EmpresaPage}/>
                             <Route path="/empresaPanel/planes" render={(props) => <PlanesDePagos usuario={this.props.usuario} consultarEmpresa={this.props.consultarEmpresa} diasPendientes={this.props.diasDeSuscripcion}/>}/>
                         </Switch>
                     </div>
