@@ -123,27 +123,50 @@ class EmpresaHabilitada extends Component{
                                         <Link to={"/empresaPanel/sucursales/"+this.props.empresa._id}>
                                             <button className="btn hover:bg-gray-400 w-full text-lg">Sucursales</button>
                                         </Link>
-                                        <br/><div className="flex justify-center -mt-1 mb-2"><hr className="w-9/12" color="#00BFA6"></hr></div>
+                                        <br/>
+                                        <div className="flex justify-center -mt-1 mb-2">
+                                            <hr className="w-9/12" color="#00BFA6"></hr>
+                                        </div>
+                                        
                                         <Link to={"/empresaPanel/categorias"}>
                                             <button className="btn hover:bg-gray-400 w-full text-lg">Categorizar productos</button>
                                         </Link>
-                                        <br/><div className="flex justify-center -mt-1 mb-2"><hr className="w-9/12" color="#00BFA6"></hr></div>
+                                        <br/>
+                                        <div className="flex justify-center -mt-1 mb-2">
+                                            <hr className="w-9/12" color="#00BFA6"></hr>
+                                        </div>
+                                        
                                         <Link to={"/empresaPanel/sucursalProductos"}>
                                             <button className="btn hover:bg-gray-400 w-full text-lg">Productos</button>
                                         </Link>
-                                        <br/><div className="flex justify-center -mt-1 mb-2"><hr className="w-9/12" color="#00BFA6"></hr></div>
+                                        <br/>
+                                        <div className="flex justify-center -mt-1 mb-2">
+                                            <hr className="w-9/12" color="#00BFA6"></hr>
+                                        </div>
+                                        
                                         <Link to={"/empresaPanel/pagina"}>
                                             <button className="btn hover:bg-gray-400 w-full text-lg">Página web</button>
                                         </Link>
-                                        <br/><div className="flex justify-center -mt-1 mb-2"><hr className="w-9/12" color="#00BFA6"></hr></div>
-                                        <Link to={"/empresa/"+this.props.empresa.alias}>
-                                            <button className="btn hover:bg-gray-400 w-full text-lg">Ver página</button>
-                                        </Link>
-                                        <br/><div className="flex justify-center -mt-1 mb-2"><hr className="w-9/12" color="#00BFA6"></hr></div>
+                                        <br/>
+                                        <div className="flex justify-center -mt-1 mb-2">
+                                            <hr className="w-9/12" color="#00BFA6"></hr>
+                                        </div>
+                                        
+                                        {this.props.empresa.alias=="" ? ""  : <div><Link to={"/empresa/"+this.props.empresa.alias}>
+                                                <button className="btn hover:bg-gray-400 w-full text-lg">Ver página</button>
+                                            </Link>
+                                            <br/>
+                                            <div className="flex justify-center -mt-1 mb-2">
+                                                <hr className="w-9/12" color="#00BFA6"></hr>
+                                            </div>
+                                        </div>}
+                                        
                                         <Link to={"/empresaPanel/mercadopago"}>
                                             <button className="btn hover:bg-gray-400 w-full text-lg">Mercadopago</button>
                                         </Link>
-                                        <div className="flex justify-center"><hr className="w-9/12" color="#00BFA6"></hr></div>
+                                        <div className="flex justify-center">
+                                            <hr className="w-9/12" color="#00BFA6"></hr>
+                                        </div>
                                     </ListGroupItem>
                                 </div>
                                 <ListGroupItem className="mt-2 mb-2" color={this.props.diasDeSuscripcion <= 7 ? "danger" : "warning"}>
