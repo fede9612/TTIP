@@ -116,7 +116,7 @@ class EmpresaHabilitada extends Component{
             empresaModal = <EmpresaModal handlerClick={this.handlerEmpresaModal} consultarEmpresa={this.props.consultarEmpresa} usuario={this.props.usuario}/>     
         }
         let infoEmpresa = (
-                            <div className="w-4/5">
+                            <div className="w-full sm:w-4/5 md:w-11/12">
                                 <p>{ this.props.empresa.nombre }</p>
                                 <div className="mt-1">
                                     <ListGroupItem>
