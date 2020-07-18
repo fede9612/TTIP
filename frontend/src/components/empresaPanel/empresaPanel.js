@@ -104,7 +104,7 @@ class EmpresaHabilitada extends Component{
         if(this.props.diasDeSuscripcion <= 7){
             mensajeDiasDeSuscripcion = (<div>
                                             <p>
-                                                Usted cuento con {this.props.diasDeSuscripcion} días de suscripción, 
+                                                Usted cuenta con {this.props.diasDeSuscripcion} días de suscripción, 
                                                 renueva su suscripción <strong className="text-black"><Link to="/empresaPanel/planes">aquí</Link></strong>. 
                                             </p>
                                             <span>
