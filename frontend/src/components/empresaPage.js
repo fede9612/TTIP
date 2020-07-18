@@ -207,7 +207,7 @@ function Productos(props){
     productos = props.elements.map(producto => <ProductoRowEmpresaPage producto={producto} empresa={props.empresa}/>)
     return(
         <div>
-            <h1 class="my-4 text-center">{props.empresa.nombre}</h1>
+            <h1 class="my-5 text-5xl text-center font-nombre-empresa">{props.empresa.nombre}</h1>
             <Row>
                 {paginationElement}
             </Row>
