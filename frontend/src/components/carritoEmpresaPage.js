@@ -95,7 +95,7 @@ class CarritoEmpresaPage extends Component{
                                     render={(props) => <Pedidos {...props} pedidos={this.state.pedidosPendientes} titulo="pendientes"/>}
                             />
                             <Route  path="/empresa/:id/carrito/listos" 
-                                    render={(props) => <Pedidos {...props} pedidos={this.state.pedidosListos} id={this.props.id} titulo="listos"/>}
+                                    render={(props) => <Pedidos {...props} pedidos={this.state.pedidosListos} titulo="listos"/>}
                             />
                             <Route  path="/empresa/:id/carrito" 
                                     render={(props) => <CarritoDeCompra {...props} pedidos={this.state.pedidos} id={this.props.id} consultarPedidosSinConfirmar={this.consultarPedidosSinConfirmar}/>}

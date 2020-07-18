@@ -12,7 +12,7 @@ class ProductosCategorizados extends Component{
     constructor(props){
         super(props);
         this.state = {
-            idEmpresa: props.match.params.id,
+            aliasEmpresa: props.match.params.alias,
             categoria: props.match.params.categoria,
             empresa: false,
             productos: [],
@@ -33,7 +33,7 @@ class ProductosCategorizados extends Component{
     }
 
     getProductos(){
-        axios.get(process.env.REACT_APP_URLDATABASE+'/empresa/' + this.state.idEmpresa)
+        axios.get(process.env.REACT_APP_URLDATABASE+'/empresa/alias/' + this.state.aliasEmpresa)
         .then((res) => {
             this.setState({empresa: res.data});
             this.setState({categorias: res.data.categoriasDeProductos});
@@ -102,8 +102,7 @@ class ProductosCategorizados extends Component{
         return(
             <div className="container">
                 <Row className="mt-16">
-                    <div class="col-lg-3">
-                        <h1 class="my-4">{this.state.empresa.nombre}</h1>
+                    <div class="col-lg-3 mt-4">
                         <div id="accordion">
                             <div class="card">
                                 <div class="card-header" id="headingOne">
@@ -128,32 +127,7 @@ class ProductosCategorizados extends Component{
                     </div>
                     <div class="col-lg-9">
                         <div className="w-full">
-                            <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
-                                        <ol class="carousel-indicators">
-                                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                                        </ol>
-                                        <div class="carousel-inner" role="listbox">
-                                            <div class="carousel-item active">
-                                            <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="First slide"></img>
-                                            </div>
-                                            <div class="carousel-item">
-                                            <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Second slide"></img>
-                                            </div>
-                                            <div class="carousel-item">
-                                            <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Third slide"></img>
-                                            </div>
-                                        </div>
-                                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                            <span class="sr-only">Previous</span>
-                                        </a>
-                                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                            <span class="sr-only">Next</span>
-                                        </a>
-                            </div>
+                            <h1 class="my-5 text-5xl text-center font-nombre-empresa">{this.state.empresa.nombre}</h1>
                             <Row>
                                 {paginationElement}
                             </Row>

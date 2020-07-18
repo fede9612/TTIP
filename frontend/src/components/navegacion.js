@@ -52,16 +52,22 @@ class Navegacion extends Component {
                         <svg class="fill-current h-5 w-5" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Menu</title><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/></svg>
                         </button>
                     </div>
-                    <div class={this.state.menuModal ? "w-full text-left block flex-grow lg:flex lg:w-auto mt-1 ml-2" : "hidden w-full flex-grow lg:flex lg:w-auto mt-1 ml-2"}>
-                        <div class="text-sm lg:flex-grow">
+                    <div class={this.state.menuModal ? "w-full block flex-grow lg:flex lg:w-auto mt-1 ml-2" : "hidden lg:text-left w-full flex-grow lg:flex lg:w-auto mt-1 ml-2"}>
+                        <div class="text-sm lg:flex-grow mt-1">
                         <Link to="/buscarproductos" onClick={this.toggleMenu.bind(this)} class="block text-xl lg:text-lg lg:inline-block lg:mt-0 text-teal-100 hover:text-white mr-3">
-                            ~ Buscar productos
+                            <button>
+                                Buscar productos
+                            </button>
                         </Link>
                         <Link to="/empresaPanel" onClick={this.toggleMenu.bind(this)} class="block text-xl lg:text-lg lg:inline-block lg:mt-0 text-teal-100 hover:text-white mr-3">
-                            ~ Empresa
+                            <button>
+                                Empresa
+                            </button>
                         </Link>
                         <Link to="/carritos" class="block text-xl lg:text-lg lg:inline-block lg:mt-0 text-teal-100 hover:text-white">
-                            ~ Carrito
+                            <button>
+                                Carrito
+                            </button>
                         </Link>
                         </div>
                         <div>

@@ -46,7 +46,7 @@ class EmpresaPage extends Component{
     }
 
     getEmpresa(){
-        axios.get(process.env.REACT_APP_URLDATABASE+'/empresa/' + this.state.id)
+        axios.get(process.env.REACT_APP_URLDATABASE+'/empresa/alias/' + this.props.match.params.alias)
         .then((res) => {
             this.setState({empresa: res.data});
             this.setState({categorias: res.data.categoriasDeProductos});
@@ -86,9 +86,7 @@ class EmpresaPage extends Component{
             <div class="container mt-16">
 
                 <div class="row">
-
-                <div class="col-lg-3">
-                    <h1 class="my-4">{this.state.empresa.nombre}</h1>
+                <div class="col-lg-3 mt-4">
                     <div id="accordion">
                     <div class="card">
                         <div class="card-header" id="headingOne">
@@ -117,7 +115,7 @@ class EmpresaPage extends Component{
                 <div class="col-lg-9">
                     <div class="row">
                         <Switch>
-                            <Route path="/empresa/:idEmpresa/:idProducto" component={ProductoPage}/>
+                            <Route path="/empresa/:aliasEmpresa/:idProducto" component={ProductoPage}/>
                             <Route path="/empresa/:id" render={(props) => <Productos {...props} empresa={this.state.empresa} pageCount={this.state.pageCount} handlePageClick={this.handlePageClick} currentPage={this.state.currentPage} elements={this.state.elements}/>}/>
                         </Switch>
                     </div>
@@ -147,28 +145,28 @@ class EmpresaPage extends Component{
       <Row className="mt-1">
           <Col className="text-center" sm="12" md={{ size: 6, offset: 3 }}>
                 <WhatsappShareButton 
-                    url={`${process.env.REACT_APP_URL}`+'empresa/' + this.state.empresa._id} 
+                    url={`${process.env.REACT_APP_URL}`+'empresa/' + this.state.empresa.alias} 
                     title={"Visita la página web de " + this.state.empresa.nombre + ", ingresando a esta URL: "}
                 >
                     <WhatsappIcon size={32} round={true}/>
                 </WhatsappShareButton>
                 &nbsp;
                 <FacebookShareButton 
-                    url={`${process.env.REACT_APP_URL}`+'empresa/' + this.state.empresa._id} 
+                    url={`${process.env.REACT_APP_URL}`+'empresa/' + this.state.empresa.alias} 
                     title={"Visita la página web de " + this.state.empresa.nombre + ", ingresando a esta URL: "}
                 >
                     <FacebookIcon size={32} round={true}/>
                 </FacebookShareButton>
                 &nbsp;
                 <TwitterShareButton 
-                    url={`${process.env.REACT_APP_URL}`+'empresa/' + this.state.empresa._id} 
+                    url={`${process.env.REACT_APP_URL}`+'empresa/' + this.state.empresa.alias} 
                     title={"Visita la página web de " + this.state.empresa.nombre + ", ingresando a esta URL: "}
                 >
                     <TwitterIcon size={32} round={true}/>
                 </TwitterShareButton>
                 &nbsp;
                 <TelegramShareButton 
-                    url={`${process.env.REACT_APP_URL}`+'empresa/' + this.state.empresa._id} 
+                    url={`${process.env.REACT_APP_URL}`+'empresa/' + this.state.empresa.alias} 
                     title={"Visita la página web de " + this.state.empresa.nombre + ", ingresando a esta URL: "}
                 >
                     <TelegramIcon size={32} round={true}/>
@@ -209,32 +207,7 @@ function Productos(props){
     productos = props.elements.map(producto => <ProductoRowEmpresaPage producto={producto} empresa={props.empresa}/>)
     return(
         <div>
-            <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
-                        <ol class="carousel-indicators">
-                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                        </ol>
-                        <div class="carousel-inner" role="listbox">
-                            <div class="carousel-item active">
-                            <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="First slide"></img>
-                            </div>
-                            <div class="carousel-item">
-                            <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Second slide"></img>
-                            </div>
-                            <div class="carousel-item">
-                            <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Third slide"></img>
-                            </div>
-                        </div>
-                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
-            </div>
+            <h1 class="my-5 text-5xl text-center font-nombre-empresa">{props.empresa.nombre}</h1>
             <Row>
                 {paginationElement}
             </Row>

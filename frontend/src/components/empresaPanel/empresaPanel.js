@@ -14,6 +14,7 @@ import PlanesDePagos from './planes/planesDePagos';
 import CargandoInformacion from '../cargandoInfo';
 import { ListGroupItem } from 'reactstrap';
 import SucursalesProductos from './productos/sucursalesProductos';
+import ConfigurarPagina from './configurarPagina';
 
 class EmpresaPanel extends Component{
 
@@ -103,7 +104,7 @@ class EmpresaHabilitada extends Component{
         if(this.props.diasDeSuscripcion <= 7){
             mensajeDiasDeSuscripcion = (<div>
                                             <p>
-                                                Usted cuento con {this.props.diasDeSuscripcion} días de suscripción, 
+                                                Usted cuenta con {this.props.diasDeSuscripcion} días de suscripción, 
                                                 renueva su suscripción <strong className="text-black"><Link to="/empresaPanel/planes">aquí</Link></strong>. 
                                             </p>
                                             <span>
@@ -122,23 +123,50 @@ class EmpresaHabilitada extends Component{
                                         <Link to={"/empresaPanel/sucursales/"+this.props.empresa._id}>
                                             <button className="btn hover:bg-gray-400 w-full text-lg">Sucursales</button>
                                         </Link>
-                                        <br/><div className="flex justify-center -mt-1 mb-2"><hr className="w-9/12" color="#00BFA6"></hr></div>
+                                        <br/>
+                                        <div className="flex justify-center -mt-1 mb-2">
+                                            <hr className="w-9/12" color="#00BFA6"></hr>
+                                        </div>
+                                        
                                         <Link to={"/empresaPanel/categorias"}>
                                             <button className="btn hover:bg-gray-400 w-full text-lg">Categorizar productos</button>
                                         </Link>
-                                        <br/><div className="flex justify-center -mt-1 mb-2"><hr className="w-9/12" color="#00BFA6"></hr></div>
+                                        <br/>
+                                        <div className="flex justify-center -mt-1 mb-2">
+                                            <hr className="w-9/12" color="#00BFA6"></hr>
+                                        </div>
+                                        
                                         <Link to={"/empresaPanel/sucursalProductos"}>
                                             <button className="btn hover:bg-gray-400 w-full text-lg">Productos</button>
                                         </Link>
-                                        <br/><div className="flex justify-center -mt-1 mb-2"><hr className="w-9/12" color="#00BFA6"></hr></div>
-                                        <Link to={"/empresa/"+this.props.empresa._id}>
-                                            <button className="btn hover:bg-gray-400 w-full text-lg">Ver página</button>
+                                        <br/>
+                                        <div className="flex justify-center -mt-1 mb-2">
+                                            <hr className="w-9/12" color="#00BFA6"></hr>
+                                        </div>
+                                        
+                                        <Link to={"/empresaPanel/pagina"}>
+                                            <button className="btn hover:bg-gray-400 w-full text-lg">Página web</button>
                                         </Link>
-                                        <br/><div className="flex justify-center -mt-1 mb-2"><hr className="w-9/12" color="#00BFA6"></hr></div>
+                                        <br/>
+                                        <div className="flex justify-center -mt-1 mb-2">
+                                            <hr className="w-9/12" color="#00BFA6"></hr>
+                                        </div>
+                                        
+                                        {this.props.empresa.alias=="" ? ""  : <div><Link to={"/empresa/"+this.props.empresa.alias}>
+                                                <button className="btn hover:bg-gray-400 w-full text-lg">Ver página</button>
+                                            </Link>
+                                            <br/>
+                                            <div className="flex justify-center -mt-1 mb-2">
+                                                <hr className="w-9/12" color="#00BFA6"></hr>
+                                            </div>
+                                        </div>}
+                                        
                                         <Link to={"/empresaPanel/mercadopago"}>
                                             <button className="btn hover:bg-gray-400 w-full text-lg">Mercadopago</button>
                                         </Link>
-                                        <div className="flex justify-center"><hr className="w-9/12" color="#00BFA6"></hr></div>
+                                        <div className="flex justify-center">
+                                            <hr className="w-9/12" color="#00BFA6"></hr>
+                                        </div>
                                     </ListGroupItem>
                                 </div>
                                 <ListGroupItem className="mt-2 mb-2" color={this.props.diasDeSuscripcion <= 7 ? "danger" : "warning"}>
@@ -178,7 +206,8 @@ class EmpresaHabilitada extends Component{
                             <Route path="/empresaPanel/categorias" render={(props) => <Categorias {...props} empresa={this.props.empresa}/>}/>
                             {/* estes ejemplo pierde los props pero busco la empresa por id */}
                             <Route path="/empresaPanel/sucursales/:id" render={(props) => <Sucursales {...props} empresa={this.props.empresa}/>}/>
-                            <Route path="/empresa/:id" component={EmpresaPage}/>
+                            <Route path="/empresaPanel/pagina" render={(props) => <ConfigurarPagina {...props} empresa={this.props.empresa} consultarEmpresa={this.props.consultarEmpresa}/>}/>
+                            <Route path="/empresa/:alias" component={EmpresaPage}/>
                             <Route path="/empresaPanel/planes" render={(props) => <PlanesDePagos usuario={this.props.usuario} consultarEmpresa={this.props.consultarEmpresa} diasPendientes={this.props.diasDeSuscripcion}/>}/>
                         </Switch>
                     </div>
