@@ -2,9 +2,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Syncopate&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Gayathri&display=swap');
 
 .font-nombre-empresa{
     font-family: 'Syncopate' , sans-serif ;
+}
+
+.font-home-page{
+    font-family: 'Gayathri' , sans-serif ;
 }
 
 h2 {
