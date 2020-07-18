@@ -12,7 +12,7 @@ class ProductosCategorizados extends Component{
     constructor(props){
         super(props);
         this.state = {
-            idEmpresa: props.match.params.id,
+            aliasEmpresa: props.match.params.alias,
             categoria: props.match.params.categoria,
             empresa: false,
             productos: [],
@@ -33,7 +33,7 @@ class ProductosCategorizados extends Component{
     }
 
     getProductos(){
-        axios.get(process.env.REACT_APP_URLDATABASE+'/empresa/' + this.state.idEmpresa)
+        axios.get(process.env.REACT_APP_URLDATABASE+'/empresa/alias/' + this.state.aliasEmpresa)
         .then((res) => {
             this.setState({empresa: res.data});
             this.setState({categorias: res.data.categoriasDeProductos});
