@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios';
 import auth0Client from '../Auth';
-import { Row, Col, Container } from 'reactstrap';
+import { Row, Col, Container, ListGroupItem } from 'reactstrap';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import CarritoDeCompra from './empresaPage/carritoDeCompra';
 import Pedidos from './empresaPage/pedidos';
@@ -88,11 +88,29 @@ class CarritoUsuarioPanel extends Component{
                         <hr/>
                         <div id="collapseOne" className="collapse show mt-2" aria-labelledby="headingOne" data-parent="#accordion">
                             <div class="card-body">
-                                <div class="list-group">
-                                    <Link to={"/pedidos/carritos"} class="list-group-item">Carrito de compra</Link>
-                                    <Link to={"/pedidos/pedidosPendientes"} class="list-group-item">Pedidos pendientes</Link>
-                                    <Link to={"/pedidos/pedidosListos"} class="list-group-item">Pedidos listos</Link>    
-                                </div>
+                                <ListGroupItem>
+                                    <Link to={"/pedidos/carritos"}>
+                                        <button className="btn hover:bg-gray-400 w-full text-lg">Carrito de compra</button>
+                                    </Link>
+                                    <div className="flex justify-center -mt-1 mb-2">
+                                        <hr className="w-9/12" color="#00BFA6"></hr>
+                                    </div>
+
+                                    <Link to={"/pedidos/pedidosPendientes"}>
+                                        <button className="btn hover:bg-gray-400 w-full text-lg">Pedidos pendientes</button>
+                                    </Link>
+                                    <div className="flex justify-center -mt-1 mb-2">
+                                        <hr className="w-9/12" color="#00BFA6"></hr>
+                                    </div>
+
+                                    <Link to={"/pedidos/pedidosListos"}>
+                                        <button className="btn hover:bg-gray-400 w-full text-lg">Pedidos listos</button>
+                                    </Link>
+                                    <div className="flex justify-center -mt-1 mb-2">
+                                        <hr className="w-9/12" color="#00BFA6"></hr>
+                                    </div>
+
+                                </ListGroupItem>
                             </div>
                         </div>
                     </Col>  
