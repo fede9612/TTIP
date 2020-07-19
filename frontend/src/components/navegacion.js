@@ -7,6 +7,7 @@ import PrivateRoute from './privateRoute';
 import CarritoUsuarioPanel from './carritoUsuarioPanel';
 import AuthMercadopago from './mercadopago/authMercadopago';
 import ConfirmacionCompraPlan from './empresaPanel/planes/confirmacionCompraPlan';
+import HomePage from './empresaPage/homePage';
 
 class Navegacion extends Component {
     constructor(props){
@@ -54,6 +55,11 @@ class Navegacion extends Component {
                     </div>
                     <div class={this.state.menuModal ? "w-full block flex-grow lg:flex lg:w-auto mt-1 ml-2" : "hidden lg:text-left w-full flex-grow lg:flex lg:w-auto mt-1 ml-2"}>
                         <div class="text-sm lg:flex-grow mt-1">
+                        <Link to="/" onClick={this.toggleMenu.bind(this)} class="block text-xl lg:text-lg lg:inline-block lg:mt-0 text-teal-100 hover:text-white mr-3">
+                            <button>
+                                Home
+                            </button>
+                        </Link>
                         <Link to="/buscarproductos" onClick={this.toggleMenu.bind(this)} class="block text-xl lg:text-lg lg:inline-block lg:mt-0 text-teal-100 hover:text-white mr-3">
                             <button>
                                 Buscar productos
@@ -83,6 +89,7 @@ class Navegacion extends Component {
                         <PrivateRoute urlRedirect={`${process.env.REACT_APP_URL}`} path="/carritos" component={CarritoUsuarioPanel}/>
                         <Route path="/autorizado" component={AuthMercadopago}/>
                         <Route path="/confirmacionPlan" component={ConfirmacionCompraPlan}/>
+                        <Route path="/" component={HomePage}/>
                     </Switch>
                 </div>
             </Router>
