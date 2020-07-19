@@ -15,7 +15,7 @@ class HomePage extends Component {
                     </Row>
                     <Row>
                         <Col className="text-center">
-                            <span className="text-5xl">Beneficios</span>
+                            <span className="text-5xl">Servicios</span>
                             <div className="flex justify-center -mt-1 mb-2">
                                 <hr className="w-8/12 bg-green-400"></hr>
                             </div>
