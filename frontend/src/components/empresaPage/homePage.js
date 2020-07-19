@@ -14,7 +14,7 @@ class HomePage extends Component {
                         </Col>
                     </Row>
                     <Row>
-                        <Col className="text-center">
+                        <div className="col-sm text-center" xs={{size:12}} sm={{size:6}}>
                             <span className="text-5xl">Servicios</span>
                             <div className="flex justify-center -mt-1 mb-2">
                                 <hr className="w-8/12 bg-green-400"></hr>
@@ -78,13 +78,13 @@ class HomePage extends Component {
                                     <Link to="/empresaPanel"><Button className="w-full text-2xl" color="success">Prueba gratis 30 días</Button></Link>
                                 </CardText>
                             </CardBody>
-                        </Col>
-                        <Col className="d-flex align-items-center">
+                        </div>
+                        <div className="d-flex align-items-center col-sm">
                             <div className="text-center">
                                 <span className="text-3xl font-home-page">Haz crecer tus ventas regionales localizando tu local en el mapa</span><br></br>
                                 <span className="text-2xl font-home-page">al buscar productos las personas encontraran los locales cercanos a su zona</span>    
                             </div>
-                        </Col>
+                        </div>
                     </Row>
                     <Row className="mt-10 mb-8">
                         <Col className="text-center bg-gray-200 rounded-l rounded-r p-5">
