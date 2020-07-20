@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Modal, ModalHeader, ModalBody, ModalFooter, Input, Label, Row, Col } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Input, Label, Row, Col, Alert } from 'reactstrap';
 import axios from 'axios';
 import Map from "./local/map";
 
@@ -18,11 +18,13 @@ class LocalModal extends Component{
                 longitud: ""
             },
             empresa: props.empresa,
-            modal: true
+            modal: true,
+            errorInput: false
         };
         this.toggle = this.toggle.bind(this);
         this.agregarLocal = this.agregarLocal.bind(this);
         this.cargarLatYLong = this.cargarLatYLong.bind(this);
+        this.lanzarErrorInput = this.lanzarErrorInput.bind(this);
     }
 
     toggle(){
@@ -33,23 +35,28 @@ class LocalModal extends Component{
 
     agregarLocal(){
         axios.post(process.env.REACT_APP_URLDATABASE+'/empresa/'+ this.state.empresa._id +'/local', this.state.local)
-        .then((res) => {this.props.agregar(res.data)})
+        .then((res) => {
+            this.props.agregar(res.data);
+            this.props.consultarLocales();
+        })
         .then(this.toggle());
     }
 
     cargarLatYLong(lat, long){
-        // var {local} = this.state;
-        // local.latitud = lat;
-        // local.longitud = long;
-        // this.setState({local: local});
         this.state.local.latitud = lat;
-        this.state.local.longitud = long;
-        console.log("Latitud: ", this.state.local.latitud);
-        console.log("Longitud: ", this.state.local.longitud);
-        
+        this.state.local.longitud = long; 
+    }
+
+    lanzarErrorInput(){
+        console.log("entro")
+        this.setState({errorInput: true});
     }
 
     render(){
+        var errorInput;
+        if(this.state.errorInput){
+          errorInput = <Alert color="danger">Seleccione una opción de la lista, no necesita presionar enter</Alert>
+        }
         return(
             <div>
                 <Modal isOpen={this.state.modal}>
@@ -67,13 +74,9 @@ class LocalModal extends Component{
                             local.direccion = event.target.value;
                             this.setState({local})
                         }}/>
-                        <Label for="Nombre">Mail: </Label>
-                        <Input id="nombre" value={this.state.local.mail} onChange={(event) =>  {
-                            let { local } = this.state;
-                            local.mail = event.target.value;
-                            this.setState({local})
-                        }}/>
-                        <Row className="mt-3 mb-24">
+                        <Label className="mt-3" for="Mapa">Busque una dirección y arrastre el puntero hasta la localización de su local </Label>
+                        {errorInput}
+                        <Row className="mt-2 mb-24">
                             <Col>
                                 <Map
                                     google={this.props.google}
@@ -81,6 +84,7 @@ class LocalModal extends Component{
                                     height='300px'
                                     zoom={13}
                                     cargarLatYLong={this.cargarLatYLong}
+                                    lanzarErrorInput={this.lanzarErrorInput}
                                 />
                             </Col>
                         </Row>

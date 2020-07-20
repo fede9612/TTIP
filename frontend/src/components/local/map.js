@@ -8,18 +8,19 @@ class Map extends React.Component{
 constructor( props ){
   super( props );
   this.state = {
-   address: '',
-   city: '',
-   area: '',
-   state: '',
-   mapPosition: {
+    address: '',
+    city: '',
+    area: '',
+    state: '',
+    mapPosition: {
     lat: this.props.center.lat,
     lng: this.props.center.lng
-   },
-   markerPosition: {
+    },
+    markerPosition: {
     lat: this.props.center.lat,
     lng: this.props.center.lng
-}
+    },
+    errorInput: false
   }
  }
 /**
@@ -76,11 +77,14 @@ constructor( props ){
   */
  getCity = ( addressArray ) => {
   let city = '';
-  for( let i = 0; i < addressArray.length; i++ ) {
-   if ( addressArray[ i ].types[0] && 'administrative_area_level_2' === addressArray[ i ].types[0] ) {
-    city = addressArray[ i ].long_name;
-    return city;
-   }
+  console.log(addressArray)
+  if(Array.isArray(addressArray) && addressArray.length){
+    for( let i = 0; i < addressArray.length; i++ ) {
+      if ( addressArray[ i ].types[0] && 'administrative_area_level_2' === addressArray[ i ].types[0] ) {
+        city = addressArray[ i ].long_name;
+        return city;
+      }
+    }
   }
  };
 /**
@@ -91,15 +95,17 @@ constructor( props ){
   */
  getArea = ( addressArray ) => {
   let area = '';
-  for( let i = 0; i < addressArray.length; i++ ) {
-   if ( addressArray[ i ].types[0]  ) {
-    for ( let j = 0; j < addressArray[ i ].types.length; j++ ) {
-     if ( 'sublocality_level_1' === addressArray[ i ].types[j] || 'locality' === addressArray[ i ].types[j] ) {
-      area = addressArray[ i ].long_name;
-      return area;
-     }
+  if(Array.isArray(addressArray) && addressArray.length){
+    for( let i = 0; i < addressArray.length; i++ ) {
+      if ( addressArray[ i ].types[0]  ) {
+        for ( let j = 0; j < addressArray[ i ].types.length; j++ ) {
+          if ( 'sublocality_level_1' === addressArray[ i ].types[j] || 'locality' === addressArray[ i ].types[j] ) {
+            area = addressArray[ i ].long_name;
+            return area;
+          }
+        }
+      }
     }
-   }
   }
  };
 /**
@@ -110,14 +116,16 @@ constructor( props ){
   */
  getState = ( addressArray ) => {
   let state = '';
+  if(Array.isArray(addressArray) && addressArray.length){
   for( let i = 0; i < addressArray.length; i++ ) {
-   for( let i = 0; i < addressArray.length; i++ ) {
-    if ( addressArray[ i ].types[0] && 'administrative_area_level_1' === addressArray[ i ].types[0] ) {
-     state = addressArray[ i ].long_name;
-     return state;
+    for( let i = 0; i < addressArray.length; i++ ) {
+      if ( addressArray[ i ].types[0] && 'administrative_area_level_2' === addressArray[ i ].types[0] ) {
+        state = addressArray[ i ].long_name;
+        return state;
+      }
     }
-   }
   }
+}
  };
 /**
   * And function for city,state and address input
@@ -138,30 +146,35 @@ constructor( props ){
   * @param place
   */
  onPlaceSelected = ( place ) => {
-const address = place.formatted_address,
-   addressArray =  place.address_components,
-   city = this.getCity( addressArray ),
-   area = this.getArea( addressArray ),
-   state = this.getState( addressArray ),
-   latValue = place.geometry.location.lat(),
-   lngValue = place.geometry.location.lng();
-//    console.log("Lat: " + latValue)
-//    this.props.cargarLatYLong(latValue, lngValue);
-// Set these values in the state.
-  this.setState({
-   address: ( address ) ? address : '',
-   area: ( area ) ? area : '',
-   city: ( city ) ? city : '',
-   state: ( state ) ? state : '',
-   markerPosition: {
-    lat: latValue,
-    lng: lngValue
-   },
-   mapPosition: {
-    lat: latValue,
-    lng: lngValue
-   },
-  })
+   if(place.name){
+     this.props.lanzarErrorInput();
+   }else{
+     const address = place.formatted_address,
+        addressArray =  place.address_components,
+        city = this.getCity( addressArray ),
+        area = this.getArea( addressArray ),
+        state = this.getState( addressArray ),
+        latValue = place.geometry.location.lat(),
+        lngValue = place.geometry.location.lng();
+     //    console.log("Lat: " + latValue)
+     //    this.props.cargarLatYLong(latValue, lngValue);
+     // Set these values in the state.
+       this.setState({
+        address: ( address ) ? address : '',
+        area: ( area ) ? area : '',
+        city: ( city ) ? city : '',
+        state: ( state ) ? state : '',
+        markerPosition: {
+         lat: latValue,
+         lng: lngValue
+        },
+        mapPosition: {
+         lat: latValue,
+         lng: lngValue
+        },
+       })
+
+   }
  };
 /**
   * When the marker is dragged you get the lat and long using the functions available from event object.
@@ -175,8 +188,6 @@ const address = place.formatted_address,
   let newLat = event.latLng.lat(),
    newLng = event.latLng.lng(),
    addressArray = [];
-//    console.log("Latitud: " + newLat)
-//    console.log("Longitud: " + newLng)
    this.props.cargarLatYLong(newLat, newLng);
 Geocode.fromLatLng( newLat , newLng ).then(
    response => {
