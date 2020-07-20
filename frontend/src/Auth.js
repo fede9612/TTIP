@@ -4,10 +4,10 @@ class Auth {
   constructor() {
     this.auth0 = new auth0.WebAuth({
       // the following three lines MUST be updated
-      domain: 'dev-q25jqk3m.auth0.com',
-      audience: 'https://dev-q25jqk3m.auth0.com/userinfo',
-      clientID: '0s0yk2IfgsM3kJeIXbAucTyGh2Nax0yO',
-      redirectUri: 'http://localhost:3000/',
+      domain: `${process.env.REACT_APP_DOMAIN_AUTH0}`,
+      audience: 'https://'+`${process.env.REACT_APP_DOMAIN_AUTH0}`+'/userinfo',
+      clientID: `${process.env.REACT_APP_CLIENTID_AUTH0}`,
+      redirectUri: `${process.env.REACT_APP_URL}`,
       responseType: 'id_token',
       scope: 'openid profile'
     });
@@ -59,8 +59,8 @@ class Auth {
 
   signOut() {
     this.auth0.logout({
-      returnTo: 'http://localhost:3000',
-      clientID: '0s0yk2IfgsM3kJeIXbAucTyGh2Nax0yO',
+      returnTo: `${process.env.REACT_APP_URL}`,
+      clientID: `${process.env.REACT_APP_CLIENTID_AUTH0}`,
     });
   }
 

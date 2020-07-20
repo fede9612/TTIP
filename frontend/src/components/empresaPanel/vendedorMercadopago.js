@@ -56,17 +56,16 @@ class VendedorMercadopago extends Component{
                             </p>    
                             <ListGroupItem color="warning" className="mt-1">
                                 <p>    
-                                    Al permitir nos dará acceso a que podamos depositar sus ingresos, recibirá el 100% del valor de sus ventas. 
-                                    No nos quedaremos con ningún porcentaje, <span className="text-red-600">toda la ganancia es suya. </span>
-                                     Para más información de los terminos y condiciones haga click 
-                                     <Link onClick={this.setRedirectTerminos}> aquí.</Link>
+                                    Al permitir nos dará acceso a que podamos depositar sus ingresos, para más información de los terminos y condiciones haga click 
+                                     <Link onClick={this.setRedirectTerminos}> aquí.</Link> No le cobraremos niguna comisión, <span className="text-red-600">toda la ganancia es suya. </span>
+                                     Solo se le restará el porcentaje que Mercadopago cobra de comisión de un 4,45% de cada pago acreditado (+ IVA). 
                                      {this.redirectTerminosMercadopago("https://www.mercadopago.com.ar/ayuda/terminos-y-condiciones_299")} 
                                 </p>
                             </ListGroupItem>
                             <Row className="mt-3">
                                 <Col sm="12" md={{ size: 6, offset: 4 }}>
                                     <Button className="bg-green-600 hover:bg-green-800" size="lg" onClick={this.setRedirect}>Configurar mercadopago</Button>
-                                    {this.redirectAuthMercadopago("https://auth.mercadopago.com.ar/authorization?client_id=4521684348779774&response_type=code&platform_id=mp&redirect_uri=http://localhost:3000/autorizado")}  
+                                    {this.redirectAuthMercadopago("https://auth.mercadopago.com.ar/authorization?client_id="+ `${process.env.REACT_APP_MARKETPLACE_APP_ID}` +"&response_type=code&platform_id=mp&redirect_uri=" + `${process.env.REACT_APP_URL}` + "autorizado")}  
                                 </Col>
                             </Row>
                         </ListGroupItem>

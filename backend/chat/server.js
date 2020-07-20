@@ -5,15 +5,20 @@ const cors = require('cors');
 const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
 const router = require('./router');
+require('dotenv').config();
 const Sala = require('./src/models/sala').Sala;
 const Mensaje = require('./src/models/mensaje').Mensaje;
 const { addUser, removeUser, getUser, getUsersInRoom } = require('./users');
 
 mongoose.set("useNewUrlParser", true);
 mongoose.set("useUnifiedTopology", true);
-
-mongoose.connect("mongodb://localhost/anydirec",()=>{
-    console.log("Base de datos conectada");
+console.log(process.env.CONNECTIONMONGODB)
+mongoose.connect(process.env.CONNECTIONMONGODB,(err, res)=>{
+  if (err) {
+    console.log ('ERROR al conectar:', err);
+    } else {
+    console.log ('Succeeded connected to:' ,process.env.CONNECTIONMONGODB);
+    }
 });
 
 

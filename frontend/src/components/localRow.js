@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import '../index.css';
 import axios from 'axios';
 
 
@@ -29,7 +30,7 @@ class LocalRow extends Component{
     }
 
     consultarPedidos(){
-      axios.get('http://localhost:8080/local/' + this.state.local._id + '/pedidos')
+      axios.get(process.env.REACT_APP_URLDATABASE+'/local/' + this.state.local._id + '/pedidos')
       .then((res) => {
         this.setState({pedidos : res.data});
       });
@@ -40,20 +41,29 @@ class LocalRow extends Component{
             <div className="mt-2 w-full lg:w-4/5">
                 <div className="border-r border-b border-l border-t border-gray-500 rounded-t rounded-b p-2 flex flex-col justify-between leading-normal">
                   <div>
-                    <div className="text-gray-900 font-bold text-xl mb-2">{this.state.local.nombre}</div>
+                    <div className="text-gray-900 font-bold text-xl">{this.state.local.nombre}</div>
+                    <hr className="bg-gray-500 mb-2"/>
                   </div>
-                    <spam className="mb-1"> 
+                  <div className="mb-2">
+                    <spam> 
                       <Link to={"/pedidos/"+this.state.local._id}>
-                        <spam class={this.calcularPendientes() == 0 ? "bg-green-600 text-white p-2 rounded-full" : "bg-red-600 text-white p-2 rounded-full" }>
-                          Pedidos: {this.calcularPendientes()}
-                        </spam>
+                        <button className="text-lg">Pedidos</button>
+                        <button class={this.calcularPendientes() == 0 ? "bg-green-600 text-white p-2 radius-18" : "bg-red-600 text-white p-2 radius-18" }>
+                          {this.calcularPendientes()}
+                        </button>
                       </Link>
                     </spam> 
-                    <spam className="ml-1 text-gray-700 text-base">Productos en stock: <spam>{Array.isArray(this.state.local.productos) ? this.state.local.productos.length : 0 } </spam><Link to={"/productos/"+this.state.local._id}>Ver</Link></spam>
+                    <spam className="ml-3 text-lg">
+                      Productos: 
+                        <spam>{Array.isArray(this.state.local.productos) ? this.state.local.productos.length : 0 } </spam>
+                        <Link className="bg-blue-700 text-white p-2 border-solid rounded" to={"/productos/"+this.state.local._id}>
+                          <button>Administar</button>
+                        </Link>
+                    </spam>
+                  </div>
                   <div className="flex items-center">
-                    
                     <div className="text-xs">
-                    <spam className="text-gray-600">Dirección: {this.state.local.direccion} </spam>                 
+                      <spam className="text-gray-600">Dirección: {this.state.local.direccion}</spam>                 
                     </div>
                   </div>
                 </div>

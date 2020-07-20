@@ -36,7 +36,7 @@ class BuscarProductos extends Component{
     }
 
    buscarProductoSubmit(){
-        axios.get('http://localhost:8080/producto/' + this.state.nombreProducto)
+        axios.get(process.env.REACT_APP_URLDATABASE+'/producto/' + this.state.nombreProducto)
         .then((res) => {
           this.setState({productosBuscado : res.data, nombreProducto:'', productos: []})
         });
@@ -46,7 +46,7 @@ class BuscarProductos extends Component{
         this.setState({
             nombreProducto: nombreDelProducto
         })
-        axios.get('http://localhost:8080/producto/' + this.state.nombreProducto)
+        axios.get(process.env.REACT_APP_URLDATABASE+'/producto/' + this.state.nombreProducto)
         .then((res) => {
           this.setState({productos : res.data})
         })     

@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios';
 import LocalRow from '../localRow';
 import LocalModal from '../localModal';
+import CargandoInformacion from '../cargandoInfo';
 
 
 class Sucursales extends Component{
@@ -11,22 +12,25 @@ class Sucursales extends Component{
         super(props);
         this.state = { 
             locales: [],
-            localModal: false
+            localModal: false,
+            panel: false
         };
         this.handlerLocalModal = this.handlerLocalModal.bind(this);
         this.agregarLocal = this.agregarLocal.bind(this);
+        this.cargando = this.cargando.bind(this);
+        this.cargarPanel = this.cargarPanel.bind(this);
     }
 
     componentDidMount(){
-        console.log(this.props.empresa)
+        this.cargando();
         this.consultarLocales();
     }
 
     consultarLocales(){
         //En vez de pasar los locales por props lo hago por acá porque si recargan la página se pierden los props y no aparecen los locales
-        axios.get('http://localhost:8080/empresa/' + this.props.location.pathname.split('/empresaPanel/sucursales/').join(''))
+        axios.get(process.env.REACT_APP_URLDATABASE+'/empresa/' + this.props.location.pathname.split('/empresaPanel/sucursales/').join(''))
         .then((res) => {
-            this.setState({locales: res.data.locales});
+            this.setState({locales: res.data.locales}, this.cargarPanel);
         })
     }
 
@@ -40,21 +44,33 @@ class Sucursales extends Component{
         console.log(local);
         this.setState({locales: locales})
     }
-    
-    render(){
-        let localesList = <p>No tiene locales registrados aún</p>
+
+    cargando(){
+        var panel = (
+           <CargandoInformacion/>
+        )
+        this.setState({panel: panel});
+    }
+
+    cargarPanel(){
+        let localesList; 
         if(Array.isArray(this.state.locales) && this.state.locales.length){
             localesList = this.state.locales.map((local) => {
                             return(
                                 <LocalRow local={local} empresa={this.props.empresa}/>
                             );
                         });
+        }else{
+            localesList = <p>No tiene locales registrados aún</p>
         }
+        this.setState({panel: localesList});
+    }
+    
+    render(){
         let localModal;
         if(this.state.localModal){
-             localModal = <LocalModal handlerClick={this.handlerLocalModal} agregar={this.agregarLocal} empresa={this.props.empresa}/>     
+                localModal = <LocalModal handlerClick={this.handlerLocalModal} agregar={this.agregarLocal} empresa={this.props.empresa}/>     
         }
-
         return(
               <div>
                   {localModal}
@@ -67,7 +83,7 @@ class Sucursales extends Component{
                     </button>
                 </div>
                 <hr className="w-4/5 mt-1"></hr>
-                  {localesList}
+                  {this.state.panel}
               </div>
         )
     }

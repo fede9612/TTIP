@@ -20,7 +20,7 @@ class CarritoEmpresaPage extends Component{
             productoModal: false,
             redirect: false,
             idPreference: "",
-            mostrarLinksPedido: false,
+            mostrarLinksPedido: true,
         };
         this.mostrarLinksPedido = this.mostrarLinksPedido.bind(this);
         this.consultarPedidosSinConfirmar = this.consultarPedidosSinConfirmar.bind(this);
@@ -33,21 +33,21 @@ class CarritoEmpresaPage extends Component{
     }
 
     consultarPedidosSinConfirmar(){
-        axios.get('http://localhost:8080/usuario/' + auth0Client.getProfile().nickname + '/pedido/' + this.props.id)
+        axios.get(process.env.REACT_APP_URLDATABASE+'/usuario/' + auth0Client.getProfile().nickname + '/pedido/' + this.props.id)
         .then((res) => {
           this.setState({pedidos : res.data});
         });
     }
     
     consultarPendientes(){
-        axios.get('http://localhost:8080/usuario/' + auth0Client.getProfile().nickname + '/pedidosPendiente/' + this.props.id)
+        axios.get(process.env.REACT_APP_URLDATABASE+'/usuario/' + auth0Client.getProfile().nickname + '/pedidosPendiente/' + this.props.id)
         .then((res) => {
           this.setState({pedidosPendientes : res.data});
         });
     }
 
     consultarListos(){
-        axios.get('http://localhost:8080/usuario/' + auth0Client.getProfile().nickname + '/pedidosListo/' + this.props.id)
+        axios.get(process.env.REACT_APP_URLDATABASE+'/usuario/' + auth0Client.getProfile().nickname + '/pedidosListo/' + this.props.id)
         .then((res) => {
           this.setState({pedidosListos : res.data});
         });
@@ -92,10 +92,10 @@ class CarritoEmpresaPage extends Component{
                        
                         <Switch>
                             <Route  path="/empresa/:id/carrito/pendientes" 
-                                    render={(props) => <Pedidos {...props} pedidos={this.state.pedidosPendientes} id={this.props.id} titulo="pendientes"/>}
+                                    render={(props) => <Pedidos {...props} pedidos={this.state.pedidosPendientes} titulo="pendientes"/>}
                             />
                             <Route  path="/empresa/:id/carrito/listos" 
-                                    render={(props) => <Pedidos {...props} pedidos={this.state.pedidosListos} id={this.props.id} titulo="listos"/>}
+                                    render={(props) => <Pedidos {...props} pedidos={this.state.pedidosListos} titulo="listos"/>}
                             />
                             <Route  path="/empresa/:id/carrito" 
                                     render={(props) => <CarritoDeCompra {...props} pedidos={this.state.pedidos} id={this.props.id} consultarPedidosSinConfirmar={this.consultarPedidosSinConfirmar}/>}

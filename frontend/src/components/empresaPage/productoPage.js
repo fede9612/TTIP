@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios';
-import { Col, Row, Button } from "reactstrap";
+import { Col, Row, Button, ListGroupItem, ListGroup } from "reactstrap";
 import auth0Client from "../../Auth";
 import TarjetaDeCredito from "./tarjetaDeCredito";
 import { Link } from "react-router-dom";
 import { WhatsappShareButton, WhatsappIcon, FacebookShareButton, FacebookIcon, TwitterShareButton, TwitterIcon, TelegramShareButton, TelegramIcon } from "react-share";
+import ProductoRowEmpresaPage from "../productoRowEmpresaPage";
 
 
 class ProductoPage extends Component{
@@ -13,10 +14,11 @@ class ProductoPage extends Component{
     constructor(props){
         super(props);
         this.state = {
-            idEmpresa: props.match.params.idEmpresa,
+            aliasEmpresa: props.match.params.aliasEmpresa,
             idProducto: props.match.params.idProducto,
             empresa: false,
             producto: false,
+            productos: [],
             mediosDePago: [],
             redirectMediosDePago: false
         }
@@ -30,11 +32,22 @@ class ProductoPage extends Component{
     }
 
     consultarEmpresaProducto(){
-        axios.get('http://localhost:8080/empresa/'+this.state.idEmpresa)
+        axios.get(process.env.REACT_APP_URLDATABASE+'/empresa/alias/'+this.state.aliasEmpresa)
         .then((res) => {
            this.setState({empresa: res.data});
-           axios.get('http://localhost:8080/producto/id/'+this.state.idProducto).then((res) => this.setState({producto: res.data})); 
+           axios.get(process.env.REACT_APP_URLDATABASE+'/producto/id/'+this.state.idProducto)
+           .then((res) => {
+               this.setState({producto: res.data})
+               this.consultarProductos();
+            }); 
         });
+    }
+
+    consultarProductos(){
+        this.state.empresa.locales.map((local) => {
+            axios.get(process.env.REACT_APP_URLDATABASE+'/local/' + local._id + '/productos/visibles')
+            .then((res) => this.setState({productos: this.state.productos.concat(res.data)}));
+        })
     }
 
     getMedioDePagosMercadolibre(){
@@ -44,7 +57,7 @@ class ProductoPage extends Component{
 
     agregarProductoAlCarrito(){
         if(auth0Client.getProfile() == undefined){
-            auth0Client.signIn("http://localhost:3000/empresa/" + this.state.empresa._id);
+            auth0Client.signIn(`${process.env.REACT_APP_URL}`+"empresa/" + this.state.empresa._id);
         }else{
             axios.post('http://localhost:8080/usuario/' + this.state.producto.local + '/' + auth0Client.getProfile().nickname + '/pedido', this.state.producto);
         }
@@ -71,7 +84,7 @@ class ProductoPage extends Component{
                 <Row>
                     <Col>
                     <div class="card h-100 bg-gray-100">
-                        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></img></a>
+                        <img class="card-img-top" src={this.state.producto.imgUrl ? this.state.producto.imgUrl : "http://placehold.it/700x400"} alt=""></img>
                         <div class="card-body">
                             <h4 class="card-title">
                                 {this.state.producto.nombre}
@@ -106,28 +119,28 @@ class ProductoPage extends Component{
                                 <Col className="text-center" sm="12" md={{ size: 6, offset: 3 }}>
                                         <p className="text-xl mb-1">Comparte este producto</p>
                                         <WhatsappShareButton 
-                                            url={'http://localhost:3000/empresa/' + this.state.empresa._id + "/" + this.state.producto._id} 
+                                            url={`${process.env.REACT_APP_URL}`+'empresa/' + this.state.empresa._id + "/" + this.state.producto._id} 
                                             title={this.state.producto.nombre + " en la página de " + this.state.empresa.nombre}
                                         >
                                             <WhatsappIcon size={32} round={true}/>
                                         </WhatsappShareButton>
                                         &nbsp;
                                         <FacebookShareButton 
-                                            url={'http://localhost:3000/empresa/' + this.state.empresa._id + "/" + this.state.producto._id} 
+                                            url={`${process.env.REACT_APP_URL}`+'empresa/' + this.state.empresa._id + "/" + this.state.producto._id} 
                                             title={this.state.producto.nombre + " en la página de " + this.state.empresa.nombre}
                                         >
                                             <FacebookIcon size={32} round={true}/>
                                         </FacebookShareButton>
                                         &nbsp;
                                         <TwitterShareButton 
-                                            url={'http://localhost:3000/empresa/' + this.state.empresa._id + "/" + this.state.producto._id} 
+                                            url={`${process.env.REACT_APP_URL}`+'empresa/' + this.state.empresa._id + "/" + this.state.producto._id} 
                                             title={this.state.producto.nombre + " en la página de " + this.state.empresa.nombre}
                                         >
                                             <TwitterIcon size={32} round={true}/>
                                         </TwitterShareButton>
                                         &nbsp;
                                         <TelegramShareButton 
-                                            url={'http://localhost:3000/empresa/' + this.state.empresa._id + "/" + this.state.producto._id} 
+                                            url={`${process.env.REACT_APP_URL}`+'empresa/' + this.state.empresa._id + "/" + this.state.producto._id} 
                                             title={this.state.producto.nombre + " en la página de " + this.state.empresa.nombre}
                                         >
                                             <TelegramIcon size={32} round={true}/>
@@ -138,9 +151,38 @@ class ProductoPage extends Component{
                     </div>
                     </Col>
                 </Row>
+                <Row className="mt-4 mb-3">
+                    <Col>
+                        <ListGroup>
+                            <ListGroupItem className="bg-dark text-white text-lg">Productos Relacionados</ListGroupItem> 
+                            <ListGroupItem>
+                                <ProductosRelacionados 
+                                    productos={this.state.productos.filter((prod) => prod._id != this.state.producto._id)} 
+                                    categoria={this.state.producto.categoria} empresa={this.state.empresa}/>
+                            </ListGroupItem>
+                        </ListGroup>
+                    </Col>
+                </Row>
             </div>
         )
     }
+}
+
+function ProductosRelacionados(props){
+    const productosRelacionados = props.productos.filter((prod) => prod.categoria == props.categoria).slice(0, 6);
+    let productos;
+    productos = productosRelacionados.map((producto) =>{
+                    return (
+                        <ProductoRowEmpresaPage producto={producto} empresa={props.empresa}/>
+                    )
+                })
+    return(
+        <div className="w-full">
+            <Row>
+                {productos}
+            </Row>
+        </div>
+    );
 }
 
 export default ProductoPage;

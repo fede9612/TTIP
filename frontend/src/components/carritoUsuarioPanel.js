@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios';
 import auth0Client from '../Auth';
-import CarritoUsuarioRow from '../components/carritoUsuarioRow';
+import { Row, Col, Container, ListGroupItem } from 'reactstrap';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import CarritoDeCompra from './empresaPage/carritoDeCompra';
+import Pedidos from './empresaPage/pedidos';
 
 class CarritoUsuarioPanel extends Component{
 
@@ -11,89 +14,121 @@ class CarritoUsuarioPanel extends Component{
         this.state = { 
             local: false,
             pedidos: [],
-            productoModal: false
+            productoModal: false,
+            pedidosSinConfirmar: [],
+            pedidosPendientes: []
         };
-        this.actualizarPedidos = this.actualizarPedidos.bind(this);
-        
+        this.consultarCarritos = this.consultarCarritos.bind(this);
+        this.empresasVendedoras = this.empresasVendedoras.bind(this);
+        this.consultarPedidosListos = this.consultarPedidosListos.bind(this);
     }
 
     componentDidMount(){
         this.consultarCarritos(); 
+        this.consultarPedidosPendientes();
+        this.consultarPedidosListos();
+    }
+
+    empresasVendedoras(res){
+        this.setState({pedidos : res.data});
+        var empresas = [];
+        res.data.map((pedido) =>{
+            empresas.push(pedido.local.empresa)
+        });
+        var empresasSinRepetidos = empresas.filter((el, index) => empresas.indexOf(el) === index);
+        return empresasSinRepetidos;
     }
 
     consultarCarritos(){
-        axios.get('http://localhost:8080/usuario/' + auth0Client.getProfile().nickname + '/pedidos')
+        this.setState({pedidosSinConfirmar: []});
+        axios.get(process.env.REACT_APP_URLDATABASE+'/usuario/' + auth0Client.getProfile().nickname + '/pedidos')
         .then((res) => {
-          this.setState({pedidos : res.data});
+          this.empresasVendedoras(res).map((idEmpresa) => {
+              axios.get(process.env.REACT_APP_URLDATABASE+'/usuario/' + auth0Client.getProfile().nickname + '/pedido/' + idEmpresa)
+              .then((res) => {
+                    this.setState({pedidosSinConfirmar: this.state.pedidosSinConfirmar.concat(res.data)});
+                });
+          })
         });
     }
 
-    actualizarPedidos(pedido){
-        let {pedidos} = this.state;
-        let pedidosActualizados = [];
-        pedidos.map((pedid) => {
-            if(pedid._id != pedido._id){
-                pedidosActualizados.push(pedid);
-            }else{
-                pedidosActualizados.push(pedido);
-            }
+    consultarPedidosPendientes(){
+        this.setState({pedidosPendientes: []});
+        axios.get(process.env.REACT_APP_URLDATABASE+'/usuario/' + auth0Client.getProfile().nickname + '/pedidos')
+        .then((res) => {
+          this.empresasVendedoras(res).map((idEmpresa) => {
+              axios.get(process.env.REACT_APP_URLDATABASE+'/usuario/' + auth0Client.getProfile().nickname + '/pedidosPendiente/' + idEmpresa)
+              .then((res) => {
+                    this.setState({pedidosPendientes: this.state.pedidosPendientes.concat(res.data)});
+                });
+          })
         });
-        this.setState({pedidos: pedidosActualizados});
+    }
+
+    consultarPedidosListos(){
+        this.setState({pedidosListos: []});
+        axios.get(process.env.REACT_APP_URLDATABASE+'/usuario/' + auth0Client.getProfile().nickname + '/pedidos')
+        .then((res) => {
+          this.empresasVendedoras(res).map((idEmpresa) => {
+              axios.get(process.env.REACT_APP_URLDATABASE+'/usuario/' + auth0Client.getProfile().nickname + '/pedidosListo/' + idEmpresa)
+              .then((res) => {
+                    this.setState({pedidosListos: this.state.pedidosListos.concat(res.data)});
+                });
+          })
+        });
     }
 
     render(){
-        let pedidosList;
-        if(Array.isArray(this.state.pedidos) && this.state.pedidos.length){
-            pedidosList = this.state.pedidos.map((pedido) => {
-                return(<CarritoUsuarioRow pedido={pedido} actualizarPedidos={this.actualizarPedidos}/>);
-            });
-        }else{
-            pedidosList = (
-                <div>
-                    <p>No hay pedidos aún</p>
-                </div>
-            )
-        }
-
         return(
-            <div className="container mt-2">
-                <div class="flex flex-wrap">
-                    <div class="w-full lg:w-1/6">
-                        {/* <h4>Local</h4>
-                        <hr className="w-4/5 mt-2"></hr>
-                        <p>{ this.state.local.nombre }</p> */}
-                    </div>
-                    <div class="w-full lg:w-3/4">
-                        <div className="flex">
-                            <h4>Carritos</h4>
+            <Router>
+            <Container>
+                <Row>
+                    <Col className="col-lg-3">
+                        <h1>Menú</h1>
+                        <hr/>
+                        <div id="collapseOne" className="collapse show mt-2" aria-labelledby="headingOne" data-parent="#accordion">
+                            <div class="card-body">
+                                <ListGroupItem>
+                                    <Link to={"/pedidos/carritos"}>
+                                        <button className="btn hover:bg-gray-400 w-full text-lg">Carrito de compra</button>
+                                    </Link>
+                                    <div className="flex justify-center -mt-1 mb-2">
+                                        <hr className="w-9/12" color="#00BFA6"></hr>
+                                    </div>
+
+                                    <Link to={"/pedidos/pedidosPendientes"}>
+                                        <button className="btn hover:bg-gray-400 w-full text-lg">Pedidos pendientes</button>
+                                    </Link>
+                                    <div className="flex justify-center -mt-1 mb-2">
+                                        <hr className="w-9/12" color="#00BFA6"></hr>
+                                    </div>
+
+                                    <Link to={"/pedidos/pedidosListos"}>
+                                        <button className="btn hover:bg-gray-400 w-full text-lg">Pedidos listos</button>
+                                    </Link>
+                                    <div className="flex justify-center -mt-1 mb-2">
+                                        <hr className="w-9/12" color="#00BFA6"></hr>
+                                    </div>
+
+                                </ListGroupItem>
+                            </div>
                         </div>
-                        <hr className="mt-1"></hr>
-                        <div className="w-full border-b-2 border-l-2 border-r-2 rounded-t rounded-b mt-2">
-                        <table class="table ">
-                            <thead>
-                                <tr>
-                                <th scope="col">Sucursal</th>
-                                <th scope="col">Productos</th>
-                                <th scope="col">Total</th>
-                                <th scope="col">Estado</th>
-                                <th scope="col">Compra</th>
-                                <th scope="col">
-                                <svg className="bi bi-chat-dots w-6" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                   <path fill-rule="evenodd" d="M2.678 11.894a1 1 0 0 1 .287.801 10.97 10.97 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8.06 8.06 0 0 0 8 14c3.996 0 7-2.807 7-6 0-3.192-3.004-6-7-6S1 4.808 1 8c0 1.468.617 2.83 1.678 3.894zm-.493 3.905a21.682 21.682 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a9.68 9.68 0 0 0 .244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105z"/>
-                                    <path d="M5 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-                                </svg>
-                                </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {pedidosList}
-                            </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>    
-             
-            </div>        
+                    </Col>  
+                    <Switch>
+                        <Route  path="/pedidos/pedidosPendientes" 
+                                render={(props) => <Pedidos {...props} pedidos={this.state.pedidosPendientes} titulo="pendientes"/>}
+                        />
+                        <Route  path="/pedidos/pedidosListos" 
+                                render={(props) => <Pedidos {...props} pedidos={this.state.pedidosListos} titulo="listos"/>}
+                        />
+                        {console.log(this.state.empresas)}
+                        <Route  path="/pedidos/carritos" 
+                                render={(props) => <CarritoDeCompra {...props} pedidos={this.state.pedidosSinConfirmar} consultarPedidosSinConfirmar={this.consultarCarritos}/>}
+                        />
+                    </Switch>
+                </Row>
+            </Container>
+            </Router>
         )
     }
 }

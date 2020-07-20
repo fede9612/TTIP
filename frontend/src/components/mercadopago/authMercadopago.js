@@ -26,16 +26,16 @@ class AuthMercadopago extends Component{
             }
         }
         const body = {
-            client_id: '4521684348779774',
-            client_secret: 'Md4pT0rvpCYjQnplJmzYqssaTae6Hdxs',
+            client_id: `${process.env.REACT_APP_MARKETPLACE_APP_ID}`,
+            client_secret: `${process.env.REACT_APP_MARKETPLACE_SECRET_KEY}`,
             grant_type: 'authorization_code',
             code: this.props.location.search.split('?code=').join(''),
-            redirect_uri: 'http://localhost:3000/autorizado'
+            redirect_uri: `${process.env.REACT_APP_URL}`+'autorizado'
         }
         axios.post('https://api.mercadopago.com/oauth/token', qs.stringify(body), config)
         .then(async (res) => {
             await auth0Client.silentAuth();
-            axios.post('http://localhost:8080/mercadopago/vendedor/' + auth0Client.getProfile().nickname, res.data).then(this.setRedirect());
+            axios.post(process.env.REACT_APP_URLDATABASE+'/mercadopago/vendedor/' + auth0Client.getProfile().nickname, res.data).then(this.setRedirect());
         });
     }
 
@@ -48,7 +48,7 @@ class AuthMercadopago extends Component{
     redirectEmpresaPanel(){
         if(this.state.redirect){
             return <Link component={() => { 
-                    window.location.href = 'http://localhost:3000/empresaPanel'; 
+                    window.location.href = `${process.env.REACT_APP_URL}`+'empresaPanel'; 
                     return null;
                 }}/>
         }

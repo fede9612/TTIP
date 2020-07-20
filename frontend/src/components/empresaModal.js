@@ -25,7 +25,7 @@ class EmpresaModal extends Component{
     }
 
     agregarEmpresa(){
-        axios.post('http://localhost:8080/usuario/'+ this.state.usuario._id +'/empresa', this.state.empresa)
+        axios.post(process.env.REACT_APP_URLDATABASE+'/usuario/'+ this.state.usuario._id +'/empresa', this.state.empresa)
         .then(this.props.consultarEmpresa())
         .then(this.toggle());
     }

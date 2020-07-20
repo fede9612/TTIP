@@ -48,5 +48,25 @@ module.exports = {
             if (err) return next(err);
             return res.send(empresa.categoriasDeProductos);
         });
+    },
+
+    modificarEmpresaAlias: async (req, res, next) =>{
+        const {idEmpresa} = req.params;
+        var alias = req.body.alias;
+        var empresaAlias = await Empresa.findOne({alias: alias}).populate("locales");
+        if(empresaAlias){
+            return res.sendStatus(400);
+        }else{
+            var empresa = await Empresa.findById(idEmpresa);
+            empresa.alias = alias;
+            empresa.save();
+            return res.send(empresa);
+        }
+    },
+
+    getEmpresaAlias: async (req, res, next) =>{
+        const {aliasEmpresa} = req.params;
+        const empresa = await Empresa.findOne({alias: aliasEmpresa}).populate("locales");
+        return res.send(empresa);
     }
 };

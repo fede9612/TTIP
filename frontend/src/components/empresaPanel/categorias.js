@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios';
 import CategoriaModal from './categoriaModal';
-import { Modal, ModalBody, Label, Input, ModalFooter } from 'reactstrap';
+import EliminarModal from './eliminarModal';
 
 class Categorias extends Component{
 
     constructor(props){
         super(props);
         this.state = { 
-            categorias: this.props.empresa.categoriasDeProductos,
+            categorias: props.empresa.categoriasDeProductos,
             categoriaModal: false,
             eliminarCategoriaModal: false
         };
@@ -20,7 +20,7 @@ class Categorias extends Component{
     }
 
     eliminarCategoria(categoria){
-        axios.put('http://localhost:8080/empresa/' + this.props.empresa._id + '/categoria', {categoria: categoria})
+        axios.put(process.env.REACT_APP_URLDATABASE+'/empresa/' + this.props.empresa._id + '/categoria', {categoria: categoria})
         .then((res) => {
             this.props.empresa.categoriasDeProductos = res.data;
             this.setState({categorias: this.props.empresa.categoriasDeProductos, eliminarCategoriaModal: !this.state.eliminarCategoriaModal});
@@ -59,15 +59,12 @@ class Categorias extends Component{
             categoriasList = this.state.categorias.map((categoria) => {
                 if(this.state.eliminarCategoriaModal){
                     eliminarCategoriaModal = (
-                        <Modal isOpen={true}>
-                            <ModalBody className="bg-teal-500 content-center">
-                                <h5>¿Eliminar la categoría {categoria}?</h5>
-                            </ModalBody>   
-                            <ModalFooter className="bg-teal-500">
-                                <button className="bg-red-600 hover:bg-red-800 text-white font-bold py-2 px-4 rounded-full" onClick={() => this.eliminarCategoria(categoria)}>Eliminar</button>
-                                <button className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full" onClick={this.handlerEliminarCategoriaModal}>Cancel</button>
-                            </ModalFooter>
-                        </Modal>
+                        <EliminarModal 
+                            pregunta={`¿Eliminar la categoría ${categoria}?`} 
+                            changeModal={this.handlerEliminarCategoriaModal} 
+                            eliminarMethod={this.eliminarCategoria}
+                            eliminarElement={categoria}
+                        />
                     )    
         }                    
                 return(

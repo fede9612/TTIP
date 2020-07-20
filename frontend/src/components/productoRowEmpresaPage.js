@@ -9,16 +9,29 @@ class ProductoRowEmpresaPage extends Component{
         super(props);
         this.state = {
             producto: props.producto,
-            empresa: props.empresa
+            empresa: props.empresa,
+            redirect: false
         };
         this.agregarProductoAlCarrito = this.agregarProductoAlCarrito.bind(this);
+        this.setRedirect = this.setRedirect.bind(this);
+        this.redirectSelf = this.redirectSelf.bind(this);
     }
 
     agregarProductoAlCarrito(){
         if(auth0Client.getProfile() == undefined){
-            auth0Client.signIn("http://localhost:3000/empresa/" + this.state.empresa._id);
+            auth0Client.signIn(`${process.env.REACT_APP_URL}`+"empresa/" + this.state.empresa._id);
         }else{
-            axios.post('http://localhost:8080/usuario/' + this.state.producto.local + '/' + auth0Client.getProfile().nickname + '/pedido', this.state.producto);
+            axios.post(process.env.REACT_APP_URLDATABASE+'/usuario/' + this.state.producto.local + '/' + auth0Client.getProfile().nickname + '/pedido', this.state.producto);
+        }
+    }
+
+    setRedirect(){
+        this.setState({redirect: !this.state.redirect});
+    }
+
+    redirectSelf(url){
+        if(this.state.redirect){
+            return <Link component={() => {window.location.href = url; return null;}}/>
         }
     }
 
@@ -26,13 +39,17 @@ class ProductoRowEmpresaPage extends Component{
         return(
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card h-100">
-                <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></img></a>
+                <img class="card-img-top" src={this.props.producto.imgUrl ? this.props.producto.imgUrl : "http://placehold.it/700x400"} alt=""></img>
                 <div class="card-body">
                     <h4 class="card-title">
-                    <Link to={"/empresa/"+this.state.empresa._id+"/"+this.props.producto._id}>{this.props.producto.nombre}</Link>
+                    <Link 
+                        to={"/empresa/"+this.state.empresa.alias+"/"+this.props.producto._id} 
+                        onClick={this.setRedirect}>{this.props.producto.nombre}
+                    </Link>
+                    {this.redirectSelf("/empresa/"+this.state.empresa.alias+"/"+this.props.producto._id)}
                     </h4>
                     <h5>${this.props.producto.precio}</h5>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
+                    <p class="card-text">{this.props.producto.detalle ? this.props.producto.detalle : "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!" }</p>
                 </div>
                 <div class="card-footer d-flex justify-content-center">
                     <button  type="button" class="btn btn-dark" onClick={this.agregarProductoAlCarrito}><span className="flex ml-4 mr-4">Agregar al carrito&nbsp;
