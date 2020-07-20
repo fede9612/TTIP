@@ -57,7 +57,7 @@ const ChatPedido = (props) => {
   return (
     <Modal isOpen={true} className="w-4/5">
         <ModalHeader className="bg-black">
-          <Link to={props.urlRedirect} className="text-white font-bold">Cancel</Link>
+          <Link to={props.urlRedirect} className="text-white font-bold">Salir</Link>
         </ModalHeader>
         <ModalBody className="bg-black">
           <div className="outerContainer">
@@ -69,12 +69,12 @@ const ChatPedido = (props) => {
                   <input
                   className="inputChat"
                   type="text"
-                  placeholder="Type a message..."
+                  placeholder="Escriba un mensaje"
                   value={message}
                   onChange={({ target: { value } }) => setMessage(value)}
                   onKeyPress={event => event.key === 'Enter' ? sendMessage(event) : null}
                   />
-                  <button className="sendButtonChat" onClick={e => sendMessage(e)}>Send</button>
+                  <button className="sendButtonChat" onClick={e => sendMessage(e)}>Enviar</button>
               </form>
             </div>
           
