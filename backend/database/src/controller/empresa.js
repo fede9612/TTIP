@@ -19,7 +19,7 @@ module.exports = {
         await empresa.save(function (err) {
             if (err) return next(err);
         });
-        return res.send(nuevoLocal);
+        return res.sendStatus(200);
     },
 
     nuevaCategoriaEmpresa: async (req, res, next) =>{
