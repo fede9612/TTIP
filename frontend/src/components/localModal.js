@@ -36,7 +36,6 @@ class LocalModal extends Component{
     agregarLocal(){
         axios.post(process.env.REACT_APP_URLDATABASE+'/empresa/'+ this.state.empresa._id +'/local', this.state.local)
         .then((res) => {
-            this.props.agregar(res.data);
             this.props.consultarLocales();
         })
         .then(this.toggle());
