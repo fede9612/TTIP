@@ -143,7 +143,7 @@ class ProductosCategorizados extends Component{
                     </div>
                 </Row>
             </div>
-            <footer class="py-5 bg-dark">
+            <footer class="mt-10 py-5 bg-dark">
                 <div className="container">
                     <Row>
                     <Col sm="12" md={{ size: 6, offset: 3 }}>

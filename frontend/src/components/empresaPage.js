@@ -129,7 +129,7 @@ class EmpresaPage extends Component{
 
             </div>
            
-  <footer class="py-5 bg-dark">
+  <footer class="mt-10 py-5 bg-dark">
     <div class="container">
         <Row>
           <Col sm="12" md={{ size: 6, offset: 3 }}>
