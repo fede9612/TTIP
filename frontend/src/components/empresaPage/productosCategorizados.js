@@ -3,9 +3,10 @@ import 'bootstrap/dist/css/bootstrap.css';
 import '../../styles/pagination.css'
 import axios from 'axios';
 import ReactPaginate from 'react-paginate';
-import { Row } from "reactstrap";
+import { Row, Col } from "reactstrap";
 import ProductoRowEmpresaPage from "../productoRowEmpresaPage";
 import Categoria from "./categoria";
+import { WhatsappShareButton, WhatsappIcon, FacebookShareButton, FacebookIcon, TwitterShareButton, TwitterIcon, TelegramShareButton, TelegramIcon } from "react-share";
 
 class ProductosCategorizados extends Component{
 
@@ -100,6 +101,7 @@ class ProductosCategorizados extends Component{
             );
         }
         return(
+            <div>
             <div className="container">
                 <Row className="mt-16">
                     <div class="col-lg-3 mt-4">
@@ -141,6 +143,54 @@ class ProductosCategorizados extends Component{
                     </div>
                 </Row>
             </div>
+            <footer class="py-5 bg-dark">
+                <div className="container">
+                    <Row>
+                    <Col sm="12" md={{ size: 6, offset: 3 }}>
+                    <p class="text-center text-white">Copyright &copy; {this.state.empresa.nombre} 2020</p>
+                    </Col>
+                </Row>
+                
+                <Row>
+                    <Col sm="12" md={{ size: 6, offset: 3 }}>
+                        <p className="text-center text-white">Comparte esta página</p>
+                    </Col>
+                </Row>
+                <Row className="mt-1">
+                    <Col className="text-center" sm="12" md={{ size: 6, offset: 3 }}>
+                            <WhatsappShareButton 
+                                url={`${process.env.REACT_APP_URL}`+'empresa/' + this.state.empresa.alias} 
+                                title={"Visita la página web de " + this.state.empresa.nombre + ", ingresando a esta URL: "}
+                            >
+                                <WhatsappIcon size={32} round={true}/>
+                            </WhatsappShareButton>
+                            &nbsp;
+                            <FacebookShareButton 
+                                url={`${process.env.REACT_APP_URL}`+'empresa/' + this.state.empresa.alias} 
+                                title={"Visita la página web de " + this.state.empresa.nombre + ", ingresando a esta URL: "}
+                            >
+                                <FacebookIcon size={32} round={true}/>
+                            </FacebookShareButton>
+                            &nbsp;
+                            <TwitterShareButton 
+                                url={`${process.env.REACT_APP_URL}`+'empresa/' + this.state.empresa.alias} 
+                                title={"Visita la página web de " + this.state.empresa.nombre + ", ingresando a esta URL: "}
+                            >
+                                <TwitterIcon size={32} round={true}/>
+                            </TwitterShareButton>
+                            &nbsp;
+                            <TelegramShareButton 
+                                url={`${process.env.REACT_APP_URL}`+'empresa/' + this.state.empresa.alias} 
+                                title={"Visita la página web de " + this.state.empresa.nombre + ", ingresando a esta URL: "}
+                            >
+                                <TelegramIcon size={32} round={true}/>
+                            </TelegramShareButton>
+                    </Col>
+                </Row>
+                </div>
+                {/* <!-- /.container --> */}
+            </footer>
+        </div>
         );
     }
 }
