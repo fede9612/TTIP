@@ -43,7 +43,7 @@ class EmpresaModal extends Component{
                             this.setState({empresa})
                         }}/>
                         <Label for="Nombre">CUIT: </Label>
-                        <Input id="nombre" value={this.state.empresa.cuit} onChange={(event) =>  {
+                        <Input id="nombre" type="number" value={this.state.empresa.cuit} onChange={(event) =>  {
                             let { empresa } = this.state;
                             empresa.cuit = event.target.value;
                             this.setState({empresa})
