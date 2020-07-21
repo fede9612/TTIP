@@ -8,12 +8,12 @@ module.exports = {
     getEstadoDelPlan: async (req, res, next) =>{
         const {idUsuario} = req.params;
         const usuario = await Usuario.findById(idUsuario).populate('pagos');
-        const diasRestantes = moment(Date.now()).diff(moment(usuario.getUltimoPago().fecha), 'days'); 
-        console.log(diasRestantes)
         //Si no tiene pago devuelve uno para que en fontend pueda agregar la prueba de 30 días
         if(usuario.getUltimoPago() == undefined){
             res.send(new Pago());
         }else{
+            const diasRestantes = moment(Date.now()).diff(moment(usuario.getUltimoPago().fecha), 'days'); 
+            console.log(diasRestantes)
             if((diasRestantes) == 30){
                 usuario.habilitado = false;
                 usuario.save(function (err){
