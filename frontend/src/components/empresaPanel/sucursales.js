@@ -19,6 +19,7 @@ class Sucursales extends Component{
         this.agregarLocal = this.agregarLocal.bind(this);
         this.cargando = this.cargando.bind(this);
         this.cargarPanel = this.cargarPanel.bind(this);
+        this.consultarLocales = this.consultarLocales.bind(this);
     }
 
     componentDidMount(){
@@ -69,7 +70,7 @@ class Sucursales extends Component{
     render(){
         let localModal;
         if(this.state.localModal){
-                localModal = <LocalModal handlerClick={this.handlerLocalModal} agregar={this.agregarLocal} empresa={this.props.empresa}/>     
+                localModal = <LocalModal handlerClick={this.handlerLocalModal} agregar={this.agregarLocal} empresa={this.props.empresa} consultarLocales={this.consultarLocales}/>     
         }
         return(
               <div>
