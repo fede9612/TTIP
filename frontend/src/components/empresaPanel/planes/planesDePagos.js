@@ -74,7 +74,7 @@ class PlanesDePagos extends Component{
                   {this.redirectEmpresaPanel(`${process.env.REACT_APP_URL}`+'empresaPanel')}
                   <Row>
                         <Col className="text-center">
-                            <span className="text-6xl">Precios</span>
+                            <span className="text-6xl">Precio</span>
                         </Col>
                   </Row>
                   <Row className="mt-6">
