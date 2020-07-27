@@ -178,7 +178,7 @@ class EmpresaHabilitada extends Component{
             infoEmpresa = (
                 <div>
                     {console.log(this.props)}
-                    <p>Antes de crear una sucuarsal cree una empresa</p>
+                    <p>Antes de crear una sucursales cree una empresa</p>
                     <button className="bg-green-500 hover:bg-green-700 text-white font-bold px-2 ml-2 h-7 border-b-4 border-l-4 border-t-4 border-r-4 rounded-full"
                         onClick={this.handlerEmpresaModal}>
                         Agregar                

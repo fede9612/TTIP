@@ -14,12 +14,12 @@ module.exports = {
         }else{
             const diasRestantes = moment(Date.now()).diff(moment(usuario.getUltimoPago().fecha), 'days'); 
             console.log(diasRestantes)
-            if((diasRestantes) == 30){
+            if((diasRestantes) >= 30){
                 usuario.habilitado = false;
                 usuario.save(function (err){
                     if (err) return next(err)
-                    res.sendStatus(200);
-                })
+                });
+                return res.json(diasRestantes);
             }else{
                 return res.json(diasRestantes);
             }
