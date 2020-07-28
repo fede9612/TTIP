@@ -8,6 +8,7 @@ const router = require('./router');
 require('dotenv').config();
 const Sala = require('./src/models/sala').Sala;
 const Mensaje = require('./src/models/mensaje').Mensaje;
+const Notificacion = require('./src/models/notificacion').Notificacion;
 const { addUser, removeUser, getUser, getUsersInRoom } = require('./users');
 
 mongoose.set("useNewUrlParser", true);
@@ -30,6 +31,11 @@ app.use(cors());
 app.use(router);
 
 io.on('connect', (socket) => {
+
+  socket.on('connectionNotification', async (nickname) => {
+    const notificaciones = await Notificacion.find({nickname: nickname});
+    socket.emit('notification',{notificaciones: notificaciones});
+  });
 
   socket.on('join', async ({ name, room }, callback) => {
     console.log(name);

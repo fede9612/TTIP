@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link, withRouter} from 'react-router-dom';
+import io from "socket.io-client";
 import BuscarProductos from './buscarproductos';
 import EmpresaPanel from './empresaPanel/empresaPanel';
 import auth0Client from '../Auth';
@@ -23,13 +24,16 @@ class Navegacion extends Component {
     }
 
     async componentDidMount() {
+        const socket = io(process.env.REACT_APP_URL_CHAT);
         if (this.props.location.pathname === '/empresaPanel') {
-          this.setState({checkingSession:false});
-          return;
+            this.setState({checkingSession:false});
+            return;
         }
         try {
-          await auth0Client.silentAuth();
-          this.forceUpdate();
+            await auth0Client.silentAuth();
+            this.forceUpdate();
+            socket.emit('connectionNotification', auth0Client.getProfile().nickname);
+            socket.on('notification', data => {console.log(data)});
         } catch (err) {
           if (err.error !== 'login_required') console.log(err.error);
         }
@@ -44,7 +48,7 @@ class Navegacion extends Component {
                     <nav class="flex items-center justify-between flex-wrap bg-teal-500 p-1">
                     <div class="flex items-center flex-shrink-0 text-white m-2">
                         <svg class="fill-current h-8 w-8 mr-2" viewBox="0 0 54 54" xmlns="http://www.w3.org/2000/svg"><path d="M13.5 22.1c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05zM0 38.3c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05z"/></svg>
-                        <span class="font-semibold text-xl tracking-tight">Anydirec</span>
+                        <span class="font-semibold text-xl tracking-tight">WebLocales</span>
                     </div>
                     <div class="block lg:hidden">
                         <button class="flex items-center px-3 py-2 border rounded text-teal-200 border-teal-400 hover:text-white hover:border-white"
