@@ -34,7 +34,7 @@ io.on('connect', (socket) => {
 
   socket.on('connectionNotification', async (nickname) => {
     const notificaciones = await Notificacion.find({nickname: nickname});
-    socket.emit('notification',{notificaciones: notificaciones});
+    socket.emit('notification',notificaciones);
   });
 
   socket.on('join', async ({ name, room }, callback) => {

@@ -9,18 +9,26 @@ import CarritoUsuarioPanel from './carritoUsuarioPanel';
 import AuthMercadopago from './mercadopago/authMercadopago';
 import ConfirmacionCompraPlan from './empresaPanel/planes/confirmacionCompraPlan';
 import HomePage from './empresaPage/homePage';
+import { Dropdown, DropdownMenu, DropdownItem, DropdownToggle } from 'reactstrap';
 
 class Navegacion extends Component {
     constructor(props){
         super(props);
         this.state = {
             menuModal : false,
-            checkingSession: true
+            notificacionToggle: false,
+            checkingSession: true,
+            notificaciones: []
         }
+        this.toggleNotificacion = this.toggleNotificacion.bind(this);
     }
 
     toggleMenu(){
         this.setState({menuModal: !this.state.menuModal});
+    }
+
+    toggleNotificacion(){
+        this.setState({notificacionToggle: !this.state.notificacionToggle});
     }
 
     async componentDidMount() {
@@ -33,7 +41,10 @@ class Navegacion extends Component {
             await auth0Client.silentAuth();
             this.forceUpdate();
             socket.emit('connectionNotification', auth0Client.getProfile().nickname);
-            socket.on('notification', data => {console.log(data)});
+            socket.on('notification', data => {
+                this.setState({notificaciones: data})
+                console.log(data)
+            });
         } catch (err) {
           if (err.error !== 'login_required') console.log(err.error);
         }
@@ -81,7 +92,11 @@ class Navegacion extends Component {
                         </Link>
                         </div>
                         <div>
-                         <Login />
+                            <Login 
+                                notificaciones={this.state.notificaciones}
+                                notificacionToggle={this.state.notificacionToggle}
+                                toggleNotificacion={this.toggleNotificacion}
+                            />
                         </div>
                     </div>
                     </nav>
@@ -107,7 +122,24 @@ function Login(props) {
         auth0Client.signOut();
         props.history.replace('/');
       };
-    
+    var notificacionesList;
+    props.notificaciones.map((notificacion) => {
+        notificacionesList = <DropdownItem>{notificacion.contenido}</DropdownItem>
+    });
+    const notificaciones = <div className="mr-1">
+        <Dropdown isOpen={props.notificacionToggle} toggle={props.toggleNotificacion}>
+        <DropdownToggle color="green" caret className="flex rounded-t border-white">
+            <svg width="1em" height="1em" color="white" viewBox="0 0 16 16" class="bi bi-bell" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2z"/>
+                <path fill-rule="evenodd" d="M8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z"/>
+            </svg>
+        </DropdownToggle>
+        <DropdownMenu className="overflow-auto">
+            {notificacionesList}
+        </DropdownMenu>
+        </Dropdown>    
+    </div>
+
     return (
       <div>
        {!auth0Client.isAuthenticated() && (
@@ -117,13 +149,14 @@ function Login(props) {
             </button>
         )}
         {auth0Client.isAuthenticated() && 
-                            <div>
-                            <span className="mr-1 text-white text-xl">{auth0Client.getProfile().given_name} 
-                            </span>
-                            <img src={auth0Client.getProfile().picture} className="inline-block h-8 rounded-full mr-2" />
-                            <button className="inline-block text-base px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-green-400 lg:mt-0" 
-                            onClick={() => {signOut()}}>Desconectar</button>
-                            </div>  
+            <div className="flex">
+                {notificaciones}
+                <span className="mr-1 text-white text-xl">{auth0Client.getProfile().given_name} 
+                </span>
+                <img src={auth0Client.getProfile().picture} className="inline-block h-8 rounded-full mr-2" />
+                <button className="inline-block text-base px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-green-400 lg:mt-0" 
+                onClick={() => {signOut()}}>Desconectar</button>
+            </div>  
         }
       </div>
     );
