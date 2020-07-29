@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link, withRouter} from 'react-router-dom';
 import io from "socket.io-client";
+import axios from 'axios';
 import BuscarProductos from './buscarproductos';
 import EmpresaPanel from './empresaPanel/empresaPanel';
 import auth0Client from '../Auth';
@@ -21,6 +22,7 @@ class Navegacion extends Component {
             notificaciones: []
         }
         this.toggleNotificacion = this.toggleNotificacion.bind(this);
+        this.eliminarNotificacion = this.eliminarNotificacion.bind(this);
     }
 
     toggleMenu(){
@@ -29,6 +31,15 @@ class Navegacion extends Component {
 
     toggleNotificacion(){
         this.setState({notificacionToggle: !this.state.notificacionToggle});
+    }
+
+    eliminarNotificacion(notificacion){
+        axios.delete(process.env.REACT_APP_URL_CHAT+'/notificacion/'+notificacion._id)
+        .then((res) => {
+            const socket = io(process.env.REACT_APP_URL_CHAT);
+            socket.emit('connectionNotification', auth0Client.getProfile().nickname);
+            socket.on('notification', data => {this.setState({notificaciones: data})});
+        });
     }
 
     async componentDidMount() {
@@ -96,6 +107,7 @@ class Navegacion extends Component {
                                 notificaciones={this.state.notificaciones}
                                 notificacionToggle={this.state.notificacionToggle}
                                 toggleNotificacion={this.toggleNotificacion}
+                                eliminarNotificacion={this.eliminarNotificacion}
                             />
                         </div>
                     </div>
@@ -122,17 +134,36 @@ function Login(props) {
         auth0Client.signOut();
         props.history.replace('/');
       };
+    
     var notificacionesList;
-    props.notificaciones.map((notificacion) => {
-        notificacionesList = <DropdownItem>{notificacion.contenido}</DropdownItem>
+    notificacionesList = props.notificaciones.map((notificacion) => {
+        return <div className="hover:bg-gray-200">
+                <button className="-mb-2 float-right" onClick={() => props.eliminarNotificacion(notificacion)}>
+                    <svg width="2em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                    </svg>
+                </button>
+                <span className="dropdown-item">{notificacion.contenido}</span>
+            </div>
     });
+
+    var iconNotificacion;
+    if(props.notificaciones.length){
+        iconNotificacion = <svg width="1em" height="1em" color="red" viewBox="0 0 16 16" class="bi bi-bell-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z"/>
+                            </svg>
+    }else{
+        iconNotificacion = <svg width="1em" height="1em" color="white" viewBox="0 0 16 16" class="bi bi-bell" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2z"/>
+                                <path fill-rule="evenodd" d="M8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z"/>
+                            </svg> 
+    }
+
     const notificaciones = <div className="mr-1">
         <Dropdown isOpen={props.notificacionToggle} toggle={props.toggleNotificacion}>
-        <DropdownToggle color="green" caret className="flex rounded-t border-white">
-            <svg width="1em" height="1em" color="white" viewBox="0 0 16 16" class="bi bi-bell" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2z"/>
-                <path fill-rule="evenodd" d="M8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z"/>
-            </svg>
+        <DropdownToggle color="red" caret className="flex rounded-t border-white">
+            {iconNotificacion}
         </DropdownToggle>
         <DropdownMenu className="overflow-auto">
             {notificacionesList}
