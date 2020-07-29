@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link, withRouter} from 'react-router-dom';
 import io from "socket.io-client";
+import {socket} from './notificacion/notificacion';
 import axios from 'axios';
 import BuscarProductos from './buscarproductos';
 import EmpresaPanel from './empresaPanel/empresaPanel';
@@ -36,32 +37,39 @@ class Navegacion extends Component {
     eliminarNotificacion(notificacion){
         axios.delete(process.env.REACT_APP_URL_CHAT+'/notificacion/'+notificacion._id)
         .then((res) => {
-            const socket = io(process.env.REACT_APP_URL_CHAT);
-            socket.emit('connectionNotification', auth0Client.getProfile().nickname);
+            socket.emit('connectionNotification', {nickname: auth0Client.getProfile().nickname});
             socket.on('notification', data => {this.setState({notificaciones: data})});
         });
     }
 
     async componentDidMount() {
-        const socket = io(process.env.REACT_APP_URL_CHAT);
-        if (this.props.location.pathname === '/empresaPanel') {
-            this.setState({checkingSession:false});
-            return;
-        }
-        try {
-            await auth0Client.silentAuth();
-            this.forceUpdate();
-            socket.emit('connectionNotification', auth0Client.getProfile().nickname);
-            socket.on('notification', data => {
-                this.setState({notificaciones: data})
-                console.log(data)
-            });
-        } catch (err) {
-          if (err.error !== 'login_required') console.log(err.error);
-        }
+    if (this.props.location.pathname === '/empresaPanel') {
         this.setState({checkingSession:false});
-      }
-    
+        return;
+    }
+    try {
+        await auth0Client.silentAuth();
+        this.forceUpdate();
+        socket.emit('connectionNotification', {nickname: auth0Client.getProfile().nickname});
+        socket.on('notification', data => {
+            this.leerNotificacionSiEsParaElUsuario(data, auth0Client.getProfile().nickname);
+        });
+    } catch (err) {
+        if (err.error !== 'login_required') console.log(err.error);
+    }
+    this.setState({checkingSession:false});
+    }
+
+    leerNotificacionSiEsParaElUsuario(data, usuario){
+        data.map((notificacion) => {
+            if(notificacion.nickname == usuario){
+                var {notificaciones} = this.state;
+                notificaciones.push(notificacion)
+                this.setState({notificaciones: notificaciones});
+            }
+
+        })
+    }
 
     render(){
         return(
