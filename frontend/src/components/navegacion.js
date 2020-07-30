@@ -176,7 +176,7 @@ function Login(props) {
         <DropdownToggle color="red" caret className="flex">
             {iconNotificacion}
         </DropdownToggle>
-        <DropdownMenu className="overflow-auto">
+        <DropdownMenu right className="overflow-auto">
             {notificacionesList}
         </DropdownMenu>
         </Dropdown>    
