@@ -9,10 +9,11 @@ module.exports = {
         const {idUsuario} = req.params;
         const usuario = await Usuario.findById(idUsuario).populate('pagos');
         //Si no tiene pago devuelve uno para que en fontend pueda agregar la prueba de 30 días
-        if(usuario.getUltimoPago() == undefined){
+        var ultimoPago = usuario.getUltimoPago(); 
+        if(ultimoPago == undefined){
             res.send(new Pago());
         }else{
-            const diasRestantes = moment(Date.now()).diff(moment(usuario.getUltimoPago().fecha), 'days'); 
+            const diasRestantes = moment(Date.now()).diff(moment(ultimoPago.fecha), 'days'); 
             console.log(diasRestantes)
             if((diasRestantes) >= 30){
                 usuario.habilitado = false;
