@@ -24,7 +24,8 @@ class EmpresaPanel extends Component{
             empresa: false,
             usuario: false,
             panel: false,
-            diasDeSuscripcion: 0
+            diasDeSuscripcion: 0,
+            vendedorMercadopagoSuscripto: false
         };
         this.consultarEmpresa = this.consultarEmpresa.bind(this);
     }
@@ -32,6 +33,7 @@ class EmpresaPanel extends Component{
     componentDidMount(){
         this.cargando();
         this.consultarEmpresa();
+        this.verificarVendedor();
     }
 
     handlerLocalModal(){
@@ -56,6 +58,20 @@ class EmpresaPanel extends Component{
         });
     }
     
+    verificarVendedor(){
+        axios.get(process.env.REACT_APP_URLDATABASE+'/mercadopago/'+auth0Client.getProfile().nickname)
+        .then((res) => {
+            if(res.status == 200){
+                this.setState({vendedorMercadopagoSuscripto: true});
+            }
+        })
+        .catch((error) => {
+            if(error.response.status==400){
+                this.setState({vendedorMercadopagoSuscripto: false});
+            }
+        });
+    }
+
     cargando(){
         var panel = (
            <CargandoInformacion/>
@@ -68,7 +84,8 @@ class EmpresaPanel extends Component{
         if(this.state.usuario.habilitado){
             panel = <EmpresaHabilitada 
                         consultarEmpresa={this.consultarEmpresa} usuario={this.state.usuario} 
-                        empresa={this.state.empresa} diasDeSuscripcion={this.state.diasDeSuscripcion}   
+                        empresa={this.state.empresa} diasDeSuscripcion={this.state.diasDeSuscripcion}
+                        paginaHabilitada={this.state.vendedorMercadopagoSuscripto}
                     />
         }else{
             panel = <PlanesDePagos usuario={this.state.usuario} consultarEmpresa={this.consultarEmpresa} diasPendientes={this.state.diasDeSuscripcion}/>
@@ -152,21 +169,21 @@ class EmpresaHabilitada extends Component{
                                             <hr className="w-9/12" color="#00BFA6"></hr>
                                         </div>
                                         
-                                        {this.props.empresa.alias=="" ? ""  : <div><Link to={"/empresa/"+this.props.empresa.alias}>
+                                        <Link to={"/empresaPanel/mercadopago"}>
+                                            <button className="btn hover:bg-gray-400 w-full text-lg">Mercadopago</button>
+                                        </Link>
+                                        <div className="flex justify-center -mt-1 mb-2">
+                                            <hr className="w-9/12" color="#00BFA6"></hr>
+                                        </div>
+                                        
+                                        {(!(this.props.empresa.alias=="") && this.props.paginaHabilitada) ? <div><Link to={"/empresa/"+this.props.empresa.alias}>
                                                 <button className="btn hover:bg-gray-400 w-full text-lg">Ver página</button>
                                             </Link>
                                             <br/>
                                             <div className="flex justify-center -mt-1 mb-2">
                                                 <hr className="w-9/12" color="#00BFA6"></hr>
                                             </div>
-                                        </div>}
-                                        
-                                        <Link to={"/empresaPanel/mercadopago"}>
-                                            <button className="btn hover:bg-gray-400 w-full text-lg">Mercadopago</button>
-                                        </Link>
-                                        <div className="flex justify-center">
-                                            <hr className="w-9/12" color="#00BFA6"></hr>
-                                        </div>
+                                        </div> : ""}
                                     </ListGroupItem>
                                 </div>
                                 <ListGroupItem className="mt-2 mb-2" color={this.props.diasDeSuscripcion <= 7 ? "danger" : "warning"}>
