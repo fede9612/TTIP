@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from 'axios';
+import {socket} from './notificacion/notificacion';
 import ChatPedido from "./chatPedido";
 import { BrowserRouter as Router, Link, Switch, Route } from "react-router-dom";
 import {pedidoListo} from "./mails/pedidoMail";
@@ -27,7 +28,17 @@ class CarritoEmpresaRow extends Component{
         pedido.pendiente = !pedido.pendiente;
         this.setState({pedido: pedido});
         const mail = renderEmail(pedidoListo());
-        axios.put(process.env.REACT_APP_URLDATABASE+'/carrito/'+ pedido._id +'/local', {pedido: pedido, messageHtml: mail}).then(this.props.actualizarPedidos(pedido));
+        axios.put(process.env.REACT_APP_URLDATABASE+'/carrito/'+ pedido._id +'/local', {pedido: pedido, messageHtml: mail})
+        .then(() => {
+            this.props.actualizarPedidos(pedido)
+            if(!pedido.pendiente){
+                axios.get(process.env.REACT_APP_URLDATABASE+'/local/'+pedido.local)
+                .then((res) => {
+                    var notificacion = {nickname:pedido.usuarioDelPedido.mail, contenido: `Su pedido en ${res.data.empresa.nombre} está listo`}
+                    socket.emit('connectionNotification', notificacion);
+                })
+            }
+        });
     }
     
     render(){ 

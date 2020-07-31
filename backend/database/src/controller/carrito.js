@@ -3,6 +3,7 @@ const Producto = require('../models/producto').Producto;
 const Usuario = require('../models/usuario').Usuario;
 const mails = require('../../src/mails');
 const Local = require('../models/local');
+const io = require('socket.io-client');
 
 module.exports = {
     
@@ -28,6 +29,9 @@ module.exports = {
             })
             console.log(req.body.messageHtml);
             const vendedor = await Usuario.findById(req.body.idVendedor);
+            const socket = io(process.env.URLNOTIFICACIONES);
+            var notificacion = {nickname:vendedor.mail, contenido: `Tiene un nuevo pedido ${pedido.usuarioDelPedido.mail}`}
+            socket.emit('connectionNotification', notificacion);
             mails.nuevoPedido(vendedor.mail+'@gmail.com').catch(console.error + 'envio al local');
         } 
         return res.json(pedido);
