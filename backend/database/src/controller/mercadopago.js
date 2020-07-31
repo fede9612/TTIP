@@ -8,6 +8,17 @@ const Carrito = require('../models/carrito').Carrito;
 
 module.exports = {
 
+    chequearSiExiste: async (req, res, next) => {
+        const {nickname} = req.params;
+        const usuario = await Usuario.findOne({"mail": nickname});
+        const vendedor = await VendedorMercadopago.findOne({"vendedor": usuario._id});
+        if(vendedor){
+            return res.sendStatus(200);
+        }else{
+            return res.sendStatus(400);
+        }
+    },
+
     nuevoVendedor: async (req, res, next) => {
         const {nickname} = req.params;
         const usuario = await Usuario.findOne({"mail": nickname});
