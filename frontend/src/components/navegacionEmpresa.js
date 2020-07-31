@@ -91,7 +91,7 @@ class NavegacionEmpresa extends Component {
                     </nav>
                     <Switch>
                         <PrivateRoute urlRedirect={`${process.env.REACT_APP_URL}`+'empresa/' + this.state.empresa.alias} path="/empresa/:id/carrito" component={CarritoEmpresaPage} prop={this.state.empresa._id}/>
-                        <Route path="/empresa/:id/aprovado" component={CompraAprovada}/>
+                        <Route path="/empresa/:alias/aprovado" component={CompraAprovada}/>
                         <Route path={"/empresa/:alias/categoria/:categoria"} component={ProductosCategorizados}/>
                         <Route path="/empresa/:alias" component={EmpresaPage}/>
                     </Switch>
