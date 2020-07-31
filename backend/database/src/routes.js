@@ -57,6 +57,7 @@ router.route('/empresa/:idEmpresa/alias').put(Empresa.modificarEmpresaAlias);
 
 //consultas de mercadopago
 router.route('/mercadopago').post(Mercadopago.getIdPreference);
+router.route('/mercadopago/:nickname').get(Mercadopago.chequearSiExiste);
 router.route('/mercadopago/notificaciones').post(Mercadopago.notificaciones);
 router.route('/mercadopago/:idVendedor').post(Mercadopago.getIdPreference);
 router.route('/mercadopago/vendedor/:nickname').post(Mercadopago.nuevoVendedor);
