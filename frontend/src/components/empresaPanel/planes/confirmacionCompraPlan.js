@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
+import imgThanks from '../../../styles/img/thanks.svg'
 import { Row, Col, Container, } from 'reactstrap';
 
 class ConfirmacionCompraPlan extends Component{
@@ -20,11 +21,8 @@ class ConfirmacionCompraPlan extends Component{
                         </Col>
                   </Row>
                   <Row className="mt-6">
-                        <Col lg={{size: 3, offset:3}}>
-                       
-                        </Col>
-                        <Col lg={{size: 3}}>
-                            
+                        <Col className="text-center">
+                            <span><img className="h-64 inline" src={imgThanks}></img></span>
                         </Col>
                   </Row>
               </Container>
