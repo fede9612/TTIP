@@ -2,8 +2,10 @@ const express = require('express');
 var cors = require('cors');
 const app = express();
 const path = require('path');
+var sslRedirect = require ('heroku-ssl-redirect');
 const port = process.env.PORT || 3001
 
+app.use(sslRedirect());
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
