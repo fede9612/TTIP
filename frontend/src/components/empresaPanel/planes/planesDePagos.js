@@ -25,7 +25,7 @@ class PlanesDePagos extends Component{
     suscripcionAPlanBasico(){
         var productos = [{
             nombre: 'Servicio plan básico',
-            precio: 1,
+            precio: 500,
             cantidad: 1
         }]
         var reference = `{_id: ${this.props.usuario._id}, diasPendientes: ${this.props.diasPendientes}, plan: true, compra: false}`
