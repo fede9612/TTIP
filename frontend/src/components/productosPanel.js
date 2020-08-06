@@ -45,19 +45,11 @@ class ProductosPanel extends Component{
     agregarProducto(producto){
         let {productos} = this.state;
         productos.push(producto);
-        console.log(productos);
         this.setState({productos: productos})
     }
 
-    eliminarProducto(producto){
-        let {productos} = this.state;
-        let productosActualizados = [];
-        productos.map((prod) => {
-            if(prod._id != producto._id){
-                productosActualizados.push(prod);
-            }
-        });
-        this.setState({productos: productosActualizados});
+    eliminarProducto(_productos){
+        this.setState({productos: []}, this.consultarLocal());
     }
 
     render(){
