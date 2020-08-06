@@ -4,6 +4,7 @@ import axios from 'axios';
 import ProductoRow from './productoRow';
 import ProductoModal from './productoModal';
 import { Col, Row } from 'reactstrap';
+import CargandoInformacion from './cargandoInfo';
 
 class ProductosPanel extends Component{
 
@@ -13,7 +14,8 @@ class ProductosPanel extends Component{
             id: props.match.params.id,
             local: false,
             productos: [],
-            productoModal: false
+            productoModal: false,
+            panel: false
         };
         this.handlerProductoModal = this.handlerProductoModal.bind(this);
         this.agregarProducto = this.agregarProducto.bind(this);
@@ -21,7 +23,17 @@ class ProductosPanel extends Component{
     }
 
     componentDidMount(){
+        this.cargando();
         this.consultarLocal(); 
+    }
+
+    cargando(){
+        var panel = (
+            <div>
+                <CargandoInformacion/>
+            </div>
+        )
+        this.setState({panel: panel});
     }
     
     consultarLocal(){
@@ -35,6 +47,7 @@ class ProductosPanel extends Component{
         axios.get(process.env.REACT_APP_URLDATABASE+'/local/' + this.state.id + '/productos')
         .then((res) => {
           this.setState({productos : res.data});
+          this.panelProductos();
         });
     }
 
@@ -52,7 +65,7 @@ class ProductosPanel extends Component{
         this.setState({productos: []}, this.consultarLocal());
     }
 
-    render(){
+    panelProductos(){
         let productosList;
         if(Array.isArray(this.state.productos) && this.state.productos.length){
             productosList = this.state.productos.map((producto) => {
@@ -69,6 +82,10 @@ class ProductosPanel extends Component{
                 </div>
             )
         }
+        this.setState({panel: productosList});
+    }
+
+    render(){
         let productoModal;
         if(this.state.productoModal){
              productoModal = <ProductoModal handlerClick={this.handlerProductoModal} agregarProducto={this.agregarProducto} local={this.state.local}/> 
@@ -88,7 +105,7 @@ class ProductosPanel extends Component{
                         </div>
                         <hr className="mt-1"></hr>
                         <Row className="justify-center lg:justify-start">
-                            {productosList}
+                            {this.state.panel}
                         </Row>
                     </div>
                    
