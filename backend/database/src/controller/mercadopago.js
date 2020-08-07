@@ -57,9 +57,9 @@ module.exports = {
             items: items,
             external_reference: `${req.body.reference}`,
             back_urls: {
-                "success": req.body.redirect,
-                "failure": "http://localhost:3000/",
-                "pending": "http://localhost:3000/"
+                "success": req.body.redirect
+                // "failure": "http://localhost:3000/",
+                // "pending": "http://localhost:3000/"
             },
             //Esto me retorna automáticamente cuando el pago fue success
             auto_return: "approved"
