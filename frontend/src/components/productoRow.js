@@ -41,7 +41,7 @@ class ProductoRow extends Component{
 
     eliminarProducto(){
         axios.delete(process.env.REACT_APP_URLDATABASE+'/local/'+ this.props.local._id + '/' + this.state.producto._id)
-        .then(this.props.eliminarProducto(this.state.producto));
+        .then(res => this.props.eliminarProducto(res.data));
     }
 
     setProducto(producto){

@@ -6,11 +6,17 @@ class EliminarModal extends Component {
         super(props);
         this.state = {modal: true}
         this.toggle = this.toggle.bind(this);
+        this.eliminarProducto = this.eliminarProducto.bind(this);
     }
 
     toggle(){
         this.setState({modal: !this.state.modal});
         this.props.changeModal();
+    }
+
+    eliminarProducto(){
+        this.props.eliminarMethod(this.props.eliminarElement);
+        this.toggle();
     }
 
     render() {
@@ -22,7 +28,7 @@ class EliminarModal extends Component {
                 <ModalFooter className="bg-teal-500">
                     <button 
                         className="bg-red-600 hover:bg-red-800 text-white font-bold py-2 px-4 rounded-full" 
-                        onClick={() => this.props.eliminarMethod(this.props.eliminarElement)}
+                        onClick={() => this.eliminarProducto()}
                     >Eliminar</button>
                     <button 
                         className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full" 

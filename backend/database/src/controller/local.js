@@ -62,7 +62,7 @@ module.exports = {
         await local.save();
         await Producto.findByIdAndDelete(idProducto, function (err, producto) {
             if (err) return next(err);
-            return res.sendStatus(201);
+            return res.send(local.productos);
         }).exec();
     },
 
