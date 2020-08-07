@@ -47,7 +47,7 @@ class ProductosPanel extends Component{
         axios.get(process.env.REACT_APP_URLDATABASE+'/local/' + this.state.id + '/productos')
         .then((res) => {
           this.setState({productos : res.data});
-          this.panelProductos();
+          this.panelProductosVacio();
         });
     }
 
@@ -65,27 +65,26 @@ class ProductosPanel extends Component{
         this.setState({productos: []}, this.consultarLocal());
     }
 
-    panelProductos(){
-        let productosList;
-        if(Array.isArray(this.state.productos) && this.state.productos.length){
-            productosList = this.state.productos.map((producto) => {
-                return(
-                    
-                        <ProductoRow producto={producto} local={this.state.local} eliminarProducto={this.eliminarProducto}/>
-                    
-                );
-            });
-        }else{
-            productosList = (
-                <div>
-                    <p>No hay productos cargados aún</p>
-                </div>
-            )
-        }
+    panelProductosVacio(){
+        var productosList = <div>
+                            <p>No hay productos cargados aún</p>
+                        </div>
         this.setState({panel: productosList});
     }
 
     render(){
+        let productosList;
+        if(Array.isArray(this.state.productos) && this.state.productos.length){
+            productosList = this.state.productos.map((producto) => {
+                return(
+                    <ProductoRow producto={producto} local={this.state.local} eliminarProducto={this.eliminarProducto}/>
+                );
+            });
+        }else{
+            productosList = (
+                this.state.panel
+            )
+        }
         let productoModal;
         if(this.state.productoModal){
              productoModal = <ProductoModal handlerClick={this.handlerProductoModal} agregarProducto={this.agregarProducto} local={this.state.local}/> 
@@ -105,7 +104,7 @@ class ProductosPanel extends Component{
                         </div>
                         <hr className="mt-1"></hr>
                         <Row className="justify-center lg:justify-start">
-                            {this.state.panel}
+                            {productosList}
                         </Row>
                     </div>
                    
