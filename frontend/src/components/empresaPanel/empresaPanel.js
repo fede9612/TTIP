@@ -137,7 +137,10 @@ class EmpresaHabilitada extends Component{
                                         </div>)
         }
         if(this.state.empresaModal){
-            empresaModal = <EmpresaModal handlerClick={this.handlerEmpresaModal} consultarEmpresa={this.props.consultarEmpresa}/>     
+            empresaModal = <EmpresaModal 
+                                handlerClick={this.handlerEmpresaModal} consultarEmpresa={this.props.consultarEmpresa} 
+                                usuario={this.props.usuario}
+                            />     
         }
         let editarEmpresaModal;
         if(this.state.editarEmpresaModal){
@@ -214,7 +217,7 @@ class EmpresaHabilitada extends Component{
         if(this.props.empresa == false){
             infoEmpresa = (
                 <div>
-                    {console.log(this.props)}
+                    {/* {console.log(this.props)} */}
                     <p>Antes de crear una sucursales cree una empresa</p>
                     <button className="bg-green-500 hover:bg-green-700 text-white font-bold px-2 ml-2 h-7 border-b-4 border-l-4 border-t-4 border-r-4 rounded-full"
                         onClick={this.handlerEmpresaModal}>

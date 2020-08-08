@@ -37,13 +37,13 @@ class EmpresaModal extends Component{
                     <ModalHeader className="bg-teal-500">Nueva empresa</ModalHeader>
                     <ModalBody className="bg-teal-500">
                         <Label for="Nombre">Nombre: </Label>
-                        <Input id="nombre" value={this.state.empresa.nombre} onChange={(event) =>  {
+                        <Input id="nombre" autoComplete="off" value={this.state.empresa.nombre} onChange={(event) =>  {
                             let { empresa } = this.state;
                             empresa.nombre = event.target.value;
                             this.setState({empresa})
                         }}/>
-                        <Label for="Nombre">CUIT: </Label>
-                        <Input id="nombre" type="number" value={this.state.empresa.cuit} onChange={(event) =>  {
+                        <Label for="Cuit">CUIT: </Label>
+                        <Input id="cuit" autoComplete="off" type="number" value={this.state.empresa.cuit} onChange={(event) =>  {
                             let { empresa } = this.state;
                             empresa.cuit = event.target.value;
                             this.setState({empresa})
