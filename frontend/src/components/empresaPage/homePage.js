@@ -68,12 +68,6 @@ class HomePage extends Component {
                                     </svg>
                                     <span className="text-xl">Elije el dominio para tu empresa</span>
                                 </CardText>
-                                <CardText>
-                                    <svg class="bi bi-caret-right-fill inline-block" color="green" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M12.14 8.753l-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
-                                    </svg>
-                                    <span className="text-xl">Soporte vía Whatsapp</span>
-                                </CardText>
                                 <CardText className="mt-2 text-center">
                                     <Link to="/empresaPanel"><Button className="w-full text-2xl" color="success">Prueba gratis 30 días</Button></Link>
                                 </CardText>
