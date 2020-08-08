@@ -53,6 +53,7 @@ router.route('/empresa/:idEmpresa/categoria').put(Empresa.eliminarCategoriaEmpre
 router.route('/empresa/:idEmpresa').get(Empresa.getEmpresa);
 router.route('/empresa/alias/:aliasEmpresa').get(Empresa.getEmpresaAlias);
 router.route('/empresa/:idEmpresa/alias').put(Empresa.modificarEmpresaAlias);
+router.route('/empresa/:idEmpresa').put(Empresa.modificar);
 
 
 //consultas de mercadopago

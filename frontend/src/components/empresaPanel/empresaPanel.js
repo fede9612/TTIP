@@ -15,6 +15,7 @@ import CargandoInformacion from '../cargandoInfo';
 import { ListGroupItem } from 'reactstrap';
 import SucursalesProductos from './productos/sucursalesProductos';
 import ConfigurarPagina from './configurarPagina';
+import EditarEmpresaModal from './editarEmpresaModal';
 
 class EmpresaPanel extends Component{
 
@@ -25,7 +26,8 @@ class EmpresaPanel extends Component{
             usuario: false,
             panel: false,
             diasDeSuscripcion: 0,
-            vendedorMercadopagoSuscripto: false
+            vendedorMercadopagoSuscripto: false,
+            editarEmpresaModal: false
         };
         this.consultarEmpresa = this.consultarEmpresa.bind(this);
     }
@@ -37,7 +39,7 @@ class EmpresaPanel extends Component{
     }
 
     handlerLocalModal(){
-        this.setState({localModal: !this.state.localModal})
+        this.setState({localModal: !this.state.localModal});
     }
 
     consultarEmpresa(){
@@ -107,12 +109,17 @@ class EmpresaHabilitada extends Component{
     
     constructor(props){
         super(props);
-        this.state = {empresaModal: false}
+        this.state = {empresaModal: false, editarEmpresaModal: false}
         this.handlerEmpresaModal = this.handlerEmpresaModal.bind(this);
+        this.handlerEditarEmpresaModal = this.handlerEditarEmpresaModal.bind(this);
     }
 
     handlerEmpresaModal(){
         this.setState({empresaModal: !this.state.empresaModal})
+    }
+
+    handlerEditarEmpresaModal(){
+        this.setState({editarEmpresaModal: !this.state.editarEmpresaModal});
     }
 
     render(){
@@ -130,11 +137,24 @@ class EmpresaHabilitada extends Component{
                                         </div>)
         }
         if(this.state.empresaModal){
-            empresaModal = <EmpresaModal handlerClick={this.handlerEmpresaModal} consultarEmpresa={this.props.consultarEmpresa} usuario={this.props.usuario}/>     
+            empresaModal = <EmpresaModal handlerClick={this.handlerEmpresaModal} consultarEmpresa={this.props.consultarEmpresa}/>     
+        }
+        let editarEmpresaModal;
+        if(this.state.editarEmpresaModal){
+                editarEmpresaModal = <EditarEmpresaModal handlerClick={this.handlerEditarEmpresaModal} empresa={this.props.empresa} consultarEmpresa={this.props.consultarEmpresa}/>     
         }
         let infoEmpresa = (
                             <div className="w-full sm:w-4/5 md:w-11/12">
-                                <p>{ this.props.empresa.nombre }</p>
+                                <div className="flex">
+                                    <p className="text-lg mr-1">{ this.props.empresa.nombre }</p>
+                                    <button onClick={this.handlerEditarEmpresaModal}>
+                                        <svg viewBox="0 0 16 16" class="bi bi-pencil-square h-8 w-8 lg:h-5 lg:w-5" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                        </svg>
+                                    </button>
+                                    {editarEmpresaModal}
+                                </div>
                                 <div className="mt-1">
                                     <ListGroupItem>
                                         <Link to={"/empresaPanel/sucursales/"+this.props.empresa._id}>
