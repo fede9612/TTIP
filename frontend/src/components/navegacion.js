@@ -12,6 +12,7 @@ import AuthMercadopago from './mercadopago/authMercadopago';
 import ConfirmacionCompraPlan from './empresaPanel/planes/confirmacionCompraPlan';
 import HomePage from './empresaPage/homePage';
 import { Dropdown, DropdownMenu, DropdownItem, DropdownToggle } from 'reactstrap';
+import Guia from './empresaPanel/guia';
 
 class Navegacion extends Component {
     constructor(props){
@@ -104,9 +105,14 @@ class Navegacion extends Component {
                                 Empresa
                             </button>
                         </Link>
-                        <Link to="/carritos" class="block text-xl lg:text-lg lg:inline-block lg:mt-0 text-teal-100 hover:text-white">
+                        <Link to="/carritos" class="block text-xl lg:text-lg lg:inline-block lg:mt-0 text-teal-100 hover:text-white mr-3">
                             <button>
                                 Carrito
+                            </button>
+                        </Link>
+                        <Link to="/guia" class="block text-xl lg:text-lg lg:inline-block lg:mt-0 text-teal-100 hover:text-white">
+                            <button>
+                                Guía
                             </button>
                         </Link>
                         </div>
@@ -128,6 +134,7 @@ class Navegacion extends Component {
                         <PrivateRoute urlRedirect={`${process.env.REACT_APP_URL}`} path="/carritos" component={CarritoUsuarioPanel}/>
                         <Route path="/autorizado" component={AuthMercadopago}/>
                         <Route path="/confirmacionPlan" component={ConfirmacionCompraPlan}/>
+                        <Route path="/guia" component={Guia}/>
                         <Route path="/" component={HomePage}/>
                     </Switch>
                 </div>
