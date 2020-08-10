@@ -33,7 +33,7 @@ class CategoriaModal extends Component{
                     <ModalHeader className="bg-teal-500">Nueva categoría</ModalHeader>
                     <ModalBody className="bg-teal-500">
                         <Label for="Nombre">Nombre de categoría: </Label>
-                        <Input id="nombre" value={this.state.categoria} onChange={(event) =>  {
+                        <Input id="nombre" autoComplete="off" value={this.state.categoria} onChange={(event) =>  {
                             this.setState({categoria: event.target.value})
                         }}/>
                     </ModalBody>

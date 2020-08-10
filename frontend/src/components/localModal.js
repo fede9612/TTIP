@@ -62,13 +62,13 @@ class LocalModal extends Component{
                     <ModalHeader className="bg-teal-500">Nueva sucursal</ModalHeader>
                     <ModalBody className="bg-teal-500">
                         <Label for="Nombre">Nombre: </Label>
-                        <Input id="nombre" value={this.state.local.nombre} onChange={(event) =>  {
+                        <Input id="nombre" autoComplete="off" value={this.state.local.nombre} onChange={(event) =>  {
                             let { local } = this.state;
                             local.nombre = event.target.value;
                             this.setState({local})
                         }}/>
                         <Label for="Nombre">Dirección: </Label>
-                        <Input id="nombre" value={this.state.local.direccion} onChange={(event) =>  {
+                        <Input id="nombre" autoComplete="off" value={this.state.local.direccion} onChange={(event) =>  {
                             let { local } = this.state;
                             local.direccion = event.target.value;
                             this.setState({local})

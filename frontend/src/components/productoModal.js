@@ -60,7 +60,7 @@ class ProductoModal extends Component{
                     <ModalHeader className="bg-teal-500">Nuevo Producto</ModalHeader>
                     <ModalBody className="bg-teal-500">
                         <Label for="Nombre">Nombre: </Label>
-                        <Input id="nombre" value={this.state.producto.nombre} onChange={(event) =>  {
+                        <Input id="nombre" autoComplete="off" value={this.state.producto.nombre} onChange={(event) =>  {
                             let { producto } = this.state;
                             producto.nombre = event.target.value;
                             this.setState({producto})
