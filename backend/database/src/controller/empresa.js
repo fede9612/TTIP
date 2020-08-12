@@ -1,5 +1,6 @@
 const Local = require('../models/local');
 const Empresa = require('../models/empresa').Empresa;
+const mail = require('../mails');
 
 module.exports = { 
 
@@ -60,6 +61,7 @@ module.exports = {
             var empresa = await Empresa.findById(idEmpresa);
             empresa.alias = alias;
             empresa.save();
+            mail.nuevoAlias(alias);
             return res.send(empresa);
         }
     },
